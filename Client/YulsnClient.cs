@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Net.Http;
 
-namespace YulsnApiClient
+namespace YulsnApiClient.Client
 {
     public partial class YulsnClient
     {

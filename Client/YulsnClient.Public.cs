@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using YulsnApiClient.Models;
 
-namespace YulsnApiClient
+namespace YulsnApiClient.Client
 {
     partial class YulsnClient
     {
