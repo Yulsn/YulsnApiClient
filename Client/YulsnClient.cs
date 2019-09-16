@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net.Http;
+using Microsoft.Extensions.Configuration;
 
 namespace YulsnApiClient.Client
 {
@@ -7,16 +8,26 @@ namespace YulsnApiClient.Client
     {
         private readonly HttpClient httpClient;
 
-        public YulsnClient(HttpClient httpClient)
+        public YulsnClient(HttpClient httpClient, IConfiguration config)
         {
-            string apiKey = "";
+            string apiKey = config["yulsn-api-key"];
+            string apiHost = config["yulsn-api-host"];
+            this.httpClient = setupClient(httpClient, apiKey, apiHost);
+        }
 
-            httpClient.BaseAddress = new Uri("https://api.loyaltii.com/");
+        public YulsnClient(HttpClient httpClient, string apiKey, string apiHost)
+        {
+            this.httpClient = setupClient(httpClient, apiKey, apiHost);
+        }
+
+        HttpClient setupClient(HttpClient httpClient, string apiKey, string apiHost)
+        {
+            httpClient.BaseAddress = new Uri($"https://{apiHost}/");
 
             httpClient.DefaultRequestHeaders.Add("Accept", "application/json");
             httpClient.DefaultRequestHeaders.Add("X-ApiKey", apiKey);
 
-            this.httpClient = httpClient;
-        }        
+            return httpClient;
+        }
     }
 }
