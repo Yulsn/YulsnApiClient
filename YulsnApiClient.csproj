@@ -4,12 +4,13 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Version>0.0.1</Version>
-    <Authors>Michael Fjeldsted</Authors>
+    <Authors>Juhlsen A/S</Authors>
     <Company>Juhlsen A/S</Company>
-    <Product>Api Client for Loyaltii</Product>
+    <Product>Api Client for Yulsn</Product>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
-    <RepositoryUrl>https://github.com/Juhlsen/YulsnApiClient</RepositoryUrl>
-    <PackageProjectUrl>https://github.com/Juhlsen/YulsnApiClient</PackageProjectUrl>
+    <Description>.Net Client for Yulsn Api.</Description>
+    <RepositoryUrl>https://github.com/Yulsn/YulsnApiClient</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/Yulsn/YulsnApiClient</PackageProjectUrl>
   </PropertyGroup>
 
   <ItemGroup>
