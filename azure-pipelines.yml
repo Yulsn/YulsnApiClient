@@ -15,5 +15,5 @@ variables:
 steps:
 - script: dotnet build --configuration $(buildConfiguration)
   displayName: 'dotnet build $(buildConfiguration)'
-- publish: '$(System.DefaultWorkingDirectory)/bin/Release/YulsnApiClient.**.nupkg'
+- publish: '$(System.DefaultWorkingDirectory)/bin'
   artifact: package
