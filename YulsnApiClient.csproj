@@ -3,14 +3,14 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>0.1.*</Version>
+    <Version>0.1.0</Version>
     <Authors>Juhlsen A/S</Authors>
     <Company>Juhlsen A/S</Company>
     <Product>Api Client for Yulsn</Product>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
-    <Description>.Net Client for Yulsn Api.</Description>
+    <Description>.net client for Yulsn api</Description>
     <RepositoryUrl>https://github.com/Yulsn/YulsnApiClient</RepositoryUrl>
-    <PackageProjectUrl>https://github.com/Yulsn/YulsnApiClient</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/Yulsn/YulsnApiClient</PackageProjectUrl>    
   </PropertyGroup>
 
   <ItemGroup>
