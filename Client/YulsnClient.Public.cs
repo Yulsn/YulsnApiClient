@@ -37,6 +37,7 @@ namespace YulsnApiClient.Client
         public async Task<List<int>> GetContactIds(int segmentId)
         {
             string url = "/api/v1/Contacts?segmentId=" + segmentId;
+            url = $"/api/v1/Segments/{segmentId}/GetContactIds";
 
             using (var response = await httpClient.GetAsync(url))
             {
