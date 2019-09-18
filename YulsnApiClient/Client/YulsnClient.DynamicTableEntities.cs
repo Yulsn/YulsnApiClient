@@ -30,7 +30,9 @@ namespace YulsnApiClient.Client
                     result = JsonConvert.DeserializeObject<List<YulsnDynamicTableEntity>>(await response.Content.ReadAsStringAsync());
 
                     retVal.AddRange(result.Select(o => o.ExternalId));
-                    lastId = result.Max(o => o.Id);
+
+                    if (result.Count > 0)
+                        lastId = result.Max(o => o.Id);
                 }
             } while (result.Count == take);
 

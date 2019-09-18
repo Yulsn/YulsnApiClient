@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 
-namespace YulsnApiClient.Helpers
+namespace YulsnApiClient.Client
 {
     public static class HttpClientHelper
     {

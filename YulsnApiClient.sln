@@ -7,9 +7,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YulsnApiClient", "YulsnApiC
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{40533511-30AC-463A-8EC9-BCBA3BD44C26}"
 	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
 		azure-pipelines.yml = azure-pipelines.yml
 		README.md = README.md
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YulsnApiClient.Test", "YulsnApiClient.Test\YulsnApiClient.Test.csproj", "{8C35984C-E6CA-4FAC-9770-4DD7FBA2D99B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +24,10 @@ Global
 		{6593CCDF-E290-4676-8792-4425CC0462D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6593CCDF-E290-4676-8792-4425CC0462D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6593CCDF-E290-4676-8792-4425CC0462D4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8C35984C-E6CA-4FAC-9770-4DD7FBA2D99B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8C35984C-E6CA-4FAC-9770-4DD7FBA2D99B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8C35984C-E6CA-4FAC-9770-4DD7FBA2D99B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8C35984C-E6CA-4FAC-9770-4DD7FBA2D99B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
