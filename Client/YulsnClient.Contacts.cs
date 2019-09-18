@@ -32,19 +32,6 @@ namespace YulsnApiClient.Client
             string url = "/api/v1/Contacts/" + contactId;
 
             await httpClient.DeleteAsync(url);
-        }
-
-        public async Task<List<int>> GetContactIds(int segmentId)
-        {
-            string url = "/api/v1/Contacts?segmentId=" + segmentId;
-            url = $"/api/v1/Segments/{segmentId}/GetContactIds";
-
-            using (var response = await httpClient.GetAsync(url))
-            {
-                response.EnsureSuccessStatusCode();
-
-                return JsonConvert.DeserializeObject<List<int>>(await response.Content.ReadAsStringAsync());
-            }
-        }
+        }        
     }
 }
