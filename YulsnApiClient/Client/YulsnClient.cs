@@ -22,6 +22,9 @@ namespace YulsnApiClient.Client
                 if (config["yulsn-api-host"] != null)
                     httpClient.SetYulsnApiHost(config["yulsn-api-host"]);
             }
-        }        
+        }
+
+        public void SetYulsnApiKey(string apiKey) => httpClient.SetYulsnApiKey(apiKey);
+        public void SetYulsnApiHost(string apiHost) => httpClient.SetYulsnApiHost(apiHost);
     }
 }
