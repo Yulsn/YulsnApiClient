@@ -1,6 +1,10 @@
 ﻿using System;
+using System.Net;
 using System.Net.Http;
+using System.Text;
+using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 
 namespace YulsnApiClient.Client
 {
@@ -26,5 +30,24 @@ namespace YulsnApiClient.Client
 
         public void SetYulsnApiKey(string apiKey) => httpClient.SetYulsnApiKey(apiKey);
         public void SetYulsnApiHost(string apiHost) => httpClient.SetYulsnApiHost(apiHost);
+
+        private Task<T> sendAsync<T>(string url) => sendAsync<T>(new HttpRequestMessage(HttpMethod.Get, url));
+        private Task<T> sendAsync<T>(HttpMethod method, string url) => sendAsync<T>(new HttpRequestMessage(method, url));
+        private async Task<T> sendAsync<T>(HttpRequestMessage request)
+        {
+            using (var response = await httpClient.SendAsync(request))
+            {
+                if (response.StatusCode == HttpStatusCode.NotFound)
+                {
+                    return default(T);
+                }
+
+                response.EnsureSuccessStatusCode();
+
+                return JsonConvert.DeserializeObject<T>(await response.Content.ReadAsStringAsync());
+            }
+        }
+
+        private HttpContent json<T>(T model) => new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json");
     }
 }

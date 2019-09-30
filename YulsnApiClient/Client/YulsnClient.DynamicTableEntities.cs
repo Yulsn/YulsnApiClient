@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using YulsnApiClient.Models;
 using System.Linq;
+using System.Net.Http;
 
 namespace YulsnApiClient.Client
 {
@@ -17,23 +18,19 @@ namespace YulsnApiClient.Client
             int take = 1000;
 
             List<string> retVal = new List<string>();
-            List<YulsnDynamicTableEntity> result = new List<YulsnDynamicTableEntity>();
+            List<YulsnDynamicTableEntity> result = null;
 
             do
             {
                 string url = $"api/v1/table/{tableName}?lastId={lastId}&take={take}";
 
-                using (var response = await httpClient.GetAsync(url))
-                {
-                    response.EnsureSuccessStatusCode();
+                result = await sendAsync<List<YulsnDynamicTableEntity>>(new HttpRequestMessage(HttpMethod.Get, url));
 
-                    result = JsonConvert.DeserializeObject<List<YulsnDynamicTableEntity>>(await response.Content.ReadAsStringAsync());
+                retVal.AddRange(result.Select(o => o.ExternalId));
 
-                    retVal.AddRange(result.Select(o => o.ExternalId));
+                if (result.Count > 0)
+                    lastId = result.Max(o => o.Id);
 
-                    if (result.Count > 0)
-                        lastId = result.Max(o => o.Id);
-                }
             } while (result.Count == take);
 
             return retVal;
