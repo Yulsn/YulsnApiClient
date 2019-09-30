@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>0.1.6</Version>
+    <Version>0.1.7</Version>
     <Authors>Juhlsen A/S</Authors>
     <Company>Juhlsen A/S</Company>
     <Product>Api Client for Yulsn</Product>

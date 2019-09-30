@@ -11,12 +11,20 @@ namespace YulsnApiClient.Client
 {
     partial class YulsnClient
     {
-        public Task<YulsnContact> GetContact(string secret)
-        {
-            string url = "/api/v1/Contacts?secret=" + secret;
+        /// <summary>
+        /// Will return contact by its secret or null if the contact was not found.
+        /// </summary>
+        /// <param name="secret">Contact secret</param>
+        /// <param name="ip">If provided - it will be used for brute force protection</param>
+        /// <returns></returns>
+        public Task<T> GetContactBySecret<T>(string secret, string ip = null) where T : YulsnContact =>
+            sendAsync<T>($"/api/v1/Contacts?secret={secret + (ip != null ? $"&ip={ip}" : "")}");
 
-            return sendAsync<YulsnContact>(url);
-        }
+        public Task<T> GetContactByEmail<T>(string email) where T : YulsnContact =>
+            sendAsync<T>($"/api/v1/Contacts?email={email}");
+
+        public Task<T> GetContactByPhone<T>(string phone) where T : YulsnContact =>
+            sendAsync<T>($"/api/v1/Contacts?phone={phone}");
 
         public Task DeleteContact(int contactId)
         {
