@@ -26,7 +26,7 @@ namespace YulsnApiClient.Test
         [Fact]
         public async Task CreatePoint()
         {
-            YulsnCreatePointDto model = new YulsnCreatePointDto()
+            YulsnCreatePointDto model = new YulsnCreatePointDto
             {
                 Amount = 10,
                 ContactId = 1,
@@ -37,10 +37,10 @@ namespace YulsnApiClient.Test
             var pointGet = await yulsnClient.GetPoint(point.Id);
 
 
-            Assert.True(point.Id == pointGet.Id);
-            Assert.True(point.Amount == pointGet.Amount);
-            Assert.True(point.Type == pointGet.Type);
-            Assert.True(point.ContactId == pointGet.ContactId);
+            Assert.Equal(point.Id, pointGet.Id);
+            Assert.Equal(point.Amount, pointGet.Amount);
+            Assert.Equal(point.Type, pointGet.Type);
+            Assert.Equal(point.ContactId, pointGet.ContactId);
             Assert.True(!point.CancellerPointId.HasValue);
             Assert.True(!pointGet.CancellerPointId.HasValue);
 
