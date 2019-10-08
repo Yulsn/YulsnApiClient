@@ -67,7 +67,7 @@ namespace YulsnApiClient.Client
 
             do
             {
-                result = await GetDynamicTableEntitiesByLastId<YulsnReadDynamicTableEntity>(tableName, lastId, take);
+                result = await GetDynamicTableEntitiesByLastId<YulsnReadDynamicTableEntity>(tableName, lastId, take).ConfigureAwait(false);
 
                 retVal.AddRange(result.Select(o => o.ExternalId));
 

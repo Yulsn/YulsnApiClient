@@ -35,7 +35,7 @@ namespace YulsnApiClient.Client
         public Task<T> SendAsync<T>(HttpMethod method, string url) => SendAsync<T>(new HttpRequestMessage(method, url));
         public async Task<T> SendAsync<T>(HttpRequestMessage request)
         {
-            using (var response = await httpClient.SendAsync(request))
+            using (var response = await httpClient.SendAsync(request).ConfigureAwait(false))
             {
                 if (response.StatusCode == HttpStatusCode.NotFound)
                 {
@@ -44,7 +44,7 @@ namespace YulsnApiClient.Client
 
                 response.EnsureSuccessStatusCode();
 
-                return JsonConvert.DeserializeObject<T>(await response.Content.ReadAsStringAsync());
+                return JsonConvert.DeserializeObject<T>(await response.Content.ReadAsStringAsync().ConfigureAwait(false));
             }
         }
 
