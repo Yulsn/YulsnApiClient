@@ -17,7 +17,7 @@ namespace YulsnApiClient.Client
 
             request.Content = json(yulsnCreateEmailDispatchDto);
 
-            return sendAsync<YulsnReadEmailDispatchDto>(request);
+            return SendAsync<YulsnReadEmailDispatchDto>(request);
         }
     }
 }

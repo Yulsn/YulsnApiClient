@@ -31,9 +31,9 @@ namespace YulsnApiClient.Client
         public void SetYulsnApiKey(string apiKey) => httpClient.SetYulsnApiKey(apiKey);
         public void SetYulsnApiHost(string apiHost) => httpClient.SetYulsnApiHost(apiHost);
 
-        private Task<T> sendAsync<T>(string url) => sendAsync<T>(new HttpRequestMessage(HttpMethod.Get, url));
-        private Task<T> sendAsync<T>(HttpMethod method, string url) => sendAsync<T>(new HttpRequestMessage(method, url));
-        private async Task<T> sendAsync<T>(HttpRequestMessage request)
+        public Task<T> SendAsync<T>(string url) => SendAsync<T>(new HttpRequestMessage(HttpMethod.Get, url));
+        public Task<T> SendAsync<T>(HttpMethod method, string url) => SendAsync<T>(new HttpRequestMessage(method, url));
+        public async Task<T> SendAsync<T>(HttpRequestMessage request)
         {
             using (var response = await httpClient.SendAsync(request))
             {

@@ -12,6 +12,6 @@ namespace YulsnApiClient.Client
     partial class YulsnClient
     {
         public Task<List<int>> GetContactIds(int segmentId) =>
-            sendAsync<List<int>>($"/api/v1/Segments/{segmentId}/GetContactIds");        
+            SendAsync<List<int>>($"/api/v1/Segments/{segmentId}/GetContactIds");        
     }
 }

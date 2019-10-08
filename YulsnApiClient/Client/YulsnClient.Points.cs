@@ -12,13 +12,13 @@ namespace YulsnApiClient.Client
     partial class YulsnClient
     {
         public Task<YulsnReadPointDto> GetPoint(int pointId) => 
-            sendAsync<YulsnReadPointDto>($"/api/v1/Points/{pointId}");
+            SendAsync<YulsnReadPointDto>($"/api/v1/Points/{pointId}");
 
         public Task<List<YulsnReadPointSumDto>> GetPointSums(int contactId, string type = null) =>
-            sendAsync<List<YulsnReadPointSumDto>>($"api/v1/Points/Sums?contactId={contactId + (type != null ? $"&type={type}" : "")}");
+            SendAsync<List<YulsnReadPointSumDto>>($"api/v1/Points/Sums?contactId={contactId + (type != null ? $"&type={type}" : "")}");
 
         public Task CancelPoint(int pointId) =>
-            sendAsync<object>(HttpMethod.Post, $"api/v1/Points/{pointId}/Cancel");
+            SendAsync<object>(HttpMethod.Post, $"api/v1/Points/{pointId}/Cancel");
 
         public Task<YulsnReadPointDto> CreatePoint<T>(T yulsnCreatePointDto) where T : YulsnCreatePointDto
         {
@@ -26,7 +26,7 @@ namespace YulsnApiClient.Client
 
             request.Content = json(yulsnCreatePointDto);
 
-            return sendAsync<YulsnReadPointDto>(request);
+            return SendAsync<YulsnReadPointDto>(request);
         }
     }
 }
