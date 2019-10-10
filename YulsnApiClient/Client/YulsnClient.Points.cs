@@ -24,7 +24,7 @@ namespace YulsnApiClient.Client
         {
             var request = new HttpRequestMessage(HttpMethod.Post, "api/v1/Points");
 
-            request.Content = json(yulsnCreatePointDto);
+            request.Content = JsonContent(yulsnCreatePointDto);
 
             return SendAsync<YulsnReadPointDto>(request);
         }

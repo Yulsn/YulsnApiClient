@@ -15,7 +15,7 @@ namespace YulsnApiClient.Client
         {
             var request = new HttpRequestMessage(HttpMethod.Post, "api/v1/EmailDispatches");
 
-            request.Content = json(yulsnCreateEmailDispatchDto);
+            request.Content = JsonContent(yulsnCreateEmailDispatchDto);
 
             return SendAsync<YulsnReadEmailDispatchDto>(request);
         }

@@ -48,6 +48,6 @@ namespace YulsnApiClient.Client
             }
         }
 
-        private HttpContent json<T>(T model) => new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json");
+        public HttpContent JsonContent<T>(T model) => new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json");
     }
 }

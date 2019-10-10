@@ -90,7 +90,7 @@ namespace YulsnApiClient.Client
         {
             var request = new HttpRequestMessage(new HttpMethod("PATCH"), $"api/v1/table/{tableName}/{id}");
 
-            request.Content = json(updateFields);
+            request.Content = JsonContent(updateFields);
 
             return SendAsync<T>(request);
         }
@@ -105,7 +105,7 @@ namespace YulsnApiClient.Client
         {
             var request = new HttpRequestMessage(HttpMethod.Post, $"api/v1/table/{tableName}");
 
-            request.Content = json(newEntity);
+            request.Content = JsonContent(newEntity);
 
             return SendAsync<T>(request);
         }
@@ -120,7 +120,7 @@ namespace YulsnApiClient.Client
         {
             var request = new HttpRequestMessage(HttpMethod.Post, $"api/v1/table/{tableName}/Bulk");
 
-            request.Content = json(newEntities);
+            request.Content = JsonContent(newEntities);
 
             return SendAsync<object>(request);
         }
