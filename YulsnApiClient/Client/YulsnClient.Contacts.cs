@@ -26,11 +26,10 @@ namespace YulsnApiClient.Client
         public Task<T> GetContactByPhone<T>(string phone) where T : YulsnContact =>
             SendAsync<T>($"/api/v1/Contacts?phone={phone}");
 
-        public Task DeleteContact(int contactId)
-        {
-            string url = "/api/v1/Contacts/" + contactId;
+        public Task<T> UpdateContact<T>(int id, Dictionary<string, object> updateFields) where T : YulsnContact =>
+            SendAsync<T>(new HttpMethod("PATCH"), $"api/v1/Contacts/{id}", updateFields);
 
-            return SendAsync<object>(HttpMethod.Delete, url);
-        }
+        public Task DeleteContact(int id) =>
+            SendAsync<object>(HttpMethod.Delete, $"/api/v1/Contacts/{id}");
     }
 }
