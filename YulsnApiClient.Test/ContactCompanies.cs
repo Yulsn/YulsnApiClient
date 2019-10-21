@@ -48,8 +48,8 @@ namespace YulsnApiClient.Test
         [Fact]
         public async Task AddRemoveContactToCompany()
         {
-            await yulsnClient.ContactCompanyAddContact(1, 1);
-            await yulsnClient.ContactCompanyRemoveContact(1, 1);
+            await yulsnClient.ContactCompanyAddContactAsync(1, 1);
+            await yulsnClient.ContactCompanyRemoveContactAsync(1, 1);
         }
         [Fact]
         public async Task CreateDeleteCompany()
