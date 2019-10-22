@@ -11,6 +11,9 @@ namespace YulsnApiClient.Client
 {
     partial class YulsnClient
     {
+
+        public Task<T> GetContactByIdAsync<T>(int id) where T : YulsnContact =>
+            SendAsync<T>($"/api/v1/Contacts/{id}");
         /// <summary>
         /// Will return contact by its secret or null if the contact was not found.
         /// </summary>
