@@ -28,6 +28,20 @@ namespace YulsnApiClient.Test
             var contact = await yulsnClient.GetContactByIdAsync<YulsnContact>(1);
             Assert.NotNull(contact);
         }
+
+        [Fact]
+        public async Task CreateDeleteContact()
+        {
+            var contact = await yulsnClient.CreateContactAsync<YulsnCreateContact, YulsnContact>(new YulsnCreateContact
+            {
+                Email = "test2@test.invalid",
+                RegistrationDateTime = DateTimeOffset.Now,
+                RegistrationIp = "1.1.1.1",
+                RegistrationSource = "ApiClientTest",
+            });
+            Assert.NotNull(contact);
+            await yulsnClient.DeleteContactAsync(contact.Id);
+        }
     }
 
 

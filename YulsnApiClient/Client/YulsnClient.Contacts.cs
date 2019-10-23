@@ -34,5 +34,7 @@ namespace YulsnApiClient.Client
 
         public Task DeleteContactAsync(int id) =>
             SendAsync<object>(HttpMethod.Delete, $"/api/v1/Contacts/{id}");
+        public Task<R> CreateContactAsync<T,R>(T contact) where T : YulsnCreateContact where R: YulsnContact  =>
+            SendAsync<R>(HttpMethod.Post, $"/api/v1/Contacts", contact);
     }
 }
