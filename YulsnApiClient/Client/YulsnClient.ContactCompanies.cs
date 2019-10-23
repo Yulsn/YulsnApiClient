@@ -23,8 +23,8 @@ namespace YulsnApiClient.Client
         /// <returns></returns>
         public Task<List<T>> GetContactCompanyContactsAsync<T>(int id) where T : YulsnContact =>
             SendAsync<List<T>>($"/api/v1/ContactCompanies/{id}/Contacts");
-        public Task<T> CreateContactCompanyAsync<T>(YulsnCreateContactCompany company) where T : YulsnReadContactCompany =>
-            SendAsync<T>(HttpMethod.Post, $"/api/v1/ContactCompanies", company);
+        public Task<R> CreateContactCompanyAsync<T,R>(T company) where T : YulsnCreateContactCompany where R: YulsnReadContactCompany=>
+            SendAsync<R>(HttpMethod.Post, $"/api/v1/ContactCompanies", company);
         public Task<List<T>> GetContactCompaniesAsync<T>(string primaryContactEmail) where T : YulsnReadContactCompany =>
             SendAsync<List<T>>($"/api/v1/ContactCompanies?primaryContactEmail={Uri.EscapeDataString(primaryContactEmail)}");
         /// <summary>

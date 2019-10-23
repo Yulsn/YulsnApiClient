@@ -54,15 +54,17 @@ namespace YulsnApiClient.Test
         [Fact]
         public async Task CreateDeleteCompany()
         {
-            //var company = await yulsnClient.CreateContactCompanyAsync<YulsnContactCompany>(new YulsnCreateContactCompany { 
-            //   Name="Test",
-            //   PrimaryContactId=1,
-            //   ContactCompanyId=null,
-            //   EmailDomains=null,
-            //   Logo=null,
-            //   Number=null,
-            //});
-            //Assert.NotNull(company);
+            var company = await yulsnClient.CreateContactCompanyAsync<YulsnCreateContactCompany,YulsnReadContactCompany>(new YulsnCreateContactCompany
+            {
+                Name = "Test2",
+                PrimaryContactId = 1,
+                ContactCompanyId = null,
+                EmailDomains = null,
+                Logo = null,
+                Number = null,
+            });
+            Assert.NotNull(company);
+            
         }
     }
 }
