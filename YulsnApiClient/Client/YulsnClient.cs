@@ -42,7 +42,6 @@ namespace YulsnApiClient.Client
                 {
                     return default(T);
                 }
-
                 response.EnsureSuccessStatusCode();
 
                 return JsonConvert.DeserializeObject<T>(await response.Content.ReadAsStringAsync().ConfigureAwait(false));

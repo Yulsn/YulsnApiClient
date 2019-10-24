@@ -70,5 +70,13 @@ namespace YulsnApiClient.Models
         public string LatestPermissionSource { get; set; }
 
     }
-    
+
+    public class YulsnLoginContact
+    {
+        public string Password { get; set; }
+        public string Ip { get; set; }
+        public string Source { get; set; }
+    }
+
+
 }

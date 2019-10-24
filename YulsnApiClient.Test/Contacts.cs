@@ -42,6 +42,31 @@ namespace YulsnApiClient.Test
             Assert.NotNull(contact);
             await yulsnClient.DeleteContactAsync(contact.Id);
         }
+
+
+        [Fact]
+        public async Task SetContactPassword()
+        {
+            await yulsnClient.SetContactPasswordAsync(1, "testpassword");
+        }
+
+
+        [Fact]
+        public async Task LoginContact() {
+            var contact = await yulsnClient.LoginContactAsync<YulsnContact>(1, new YulsnLoginContact { Password = "testpassword", Ip = "1.1.1.1", Source = "UnitTest" });
+            try
+            {
+                var contactWrong = await yulsnClient.LoginContactAsync<YulsnContact>(1, new YulsnLoginContact { Password = "wrongpassword", Ip = "1.1.1.1", Source = "UnitTest" });
+                Assert.NotNull(contact);
+                Assert.Null(contactWrong);
+            }
+            catch (HttpRequestException e)
+            {
+                if(!e.Message.Contains("422"))
+                throw;
+            }
+        }
+
     }
 
 

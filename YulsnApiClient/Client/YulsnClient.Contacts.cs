@@ -36,5 +36,10 @@ namespace YulsnApiClient.Client
             SendAsync<object>(HttpMethod.Delete, $"/api/v1/Contacts/{id}");
         public Task<R> CreateContactAsync<T,R>(T contact) where T : YulsnCreateContact where R: YulsnContact  =>
             SendAsync<R>(HttpMethod.Post, $"/api/v1/Contacts", contact);
+        public Task<T> LoginContactAsync<T>(int id, YulsnLoginContact loginContact) where T : YulsnContact =>
+            SendAsync<T>(HttpMethod.Post, $"/api/v1/Contacts/{id}/login", loginContact);
+        public Task SetContactPasswordAsync(int id,string newPassword) =>
+            SendAsync<object>(HttpMethod.Post, $"/api/v1/Contacts/{id}/SetPassword", new {NewPassword= newPassword });
+
     }
 }
