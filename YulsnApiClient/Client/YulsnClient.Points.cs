@@ -11,7 +11,7 @@ namespace YulsnApiClient.Client
 {
     partial class YulsnClient
     {
-        public Task<YulsnReadPointDto> GetPoint(int pointId) => 
+        public Task<YulsnReadPointDto> GetPoint(int pointId) =>
             SendAsync<YulsnReadPointDto>($"/api/v1/Points/{pointId}");
 
         public Task<List<YulsnReadPointSumDto>> GetPointSums(int contactId, string type = null) =>
@@ -20,13 +20,7 @@ namespace YulsnApiClient.Client
         public Task CancelPoint(int pointId) =>
             SendAsync<object>(HttpMethod.Post, $"api/v1/Points/{pointId}/Cancel");
 
-        public Task<YulsnReadPointDto> CreatePoint<T>(T yulsnCreatePointDto) where T : YulsnCreatePointDto
-        {
-            var request = new HttpRequestMessage(HttpMethod.Post, "api/v1/Points");
-
-            request.Content = JsonContent(yulsnCreatePointDto);
-
-            return SendAsync<YulsnReadPointDto>(request);
-        }
+        public Task<YulsnReadPointDto> CreatePoint<T>(T yulsnCreatePointDto) where T : YulsnCreatePointDto =>
+            SendAsync<YulsnReadPointDto>(HttpMethod.Post, "api/v1/Points", yulsnCreatePointDto);
     }
 }

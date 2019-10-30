@@ -101,7 +101,7 @@ namespace YulsnApiClient.Client
         /// <param name="tableName">Dynamic table name</param>        
         /// <param name="newEntity">Dynamic table entity to be inserted</param>
         /// <returns>The inserted entity added id, secret, created and last modified</returns>
-        public Task<T> CreateDynamicTableEntity<T, U>(string tableName, U newEntity) where T : YulsnReadDynamicTableEntity where U : YulsnCreateDynamicTableEntity =>
+        public Task<T> CreateDynamicTableEntity<T, R>(string tableName, R newEntity) where T : YulsnReadDynamicTableEntity where R : YulsnCreateDynamicTableEntity =>
             SendAsync<T>(HttpMethod.Post, $"api/v1/table/{tableName}", newEntity);
 
 
