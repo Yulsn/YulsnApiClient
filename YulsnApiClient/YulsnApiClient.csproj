@@ -10,7 +10,9 @@
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <Description>.net client for Yulsn api</Description>
     <RepositoryUrl>https://github.com/Yulsn/YulsnApiClient</RepositoryUrl>
-    <PackageProjectUrl>https://github.com/Yulsn/YulsnApiClient</PackageProjectUrl>    
+    <PackageProjectUrl>https://github.com/Yulsn/YulsnApiClient</PackageProjectUrl>
+    <AssemblyVersion>0.1.23.0</AssemblyVersion>
+    <FileVersion>0.1.23.0</FileVersion>    
   </PropertyGroup>
 
   <ItemGroup>
