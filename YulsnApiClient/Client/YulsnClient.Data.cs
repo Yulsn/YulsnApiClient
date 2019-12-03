@@ -11,7 +11,10 @@ namespace YulsnApiClient.Client
 {
     partial class YulsnClient
     {
-        public Task<List<T>> GetObjectByView<T>(string viewName) =>
+        public Task<List<T>> GetObjectByViewAsync<T>(string viewName) =>
             SendAsync<List<T>>($"api/v1/Data/View/{viewName}");
+
+        public Task<List<T>> GetObjectByFunctionAsync<T>(string viewName, params string[] parameters) =>
+            SendAsync<List<T>>(HttpMethod.Post, $"api/v1/Data/Function/{viewName}", parameters);
     }
 }
