@@ -14,6 +14,9 @@ namespace YulsnApiClient.Client
         public Task<YulsnReadPointDto> GetPoint(int pointId) =>
             SendAsync<YulsnReadPointDto>($"/api/v1/Points/{pointId}");
 
+        public Task<List<YulsnReadPointDto>> GetPoints(int contactId, string type = null, DateTimeOffset? dateTimeFrom = null, DateTimeOffset? dateTimeTo = null) =>
+            SendAsync<List<YulsnReadPointDto>>($"api/v1/Points?contactId={contactId + (type != null ? $"&type={type}" : "") + (dateTimeFrom != null ? $"&datetimeFrom={dateTimeFrom}" : "") + (dateTimeTo != null ? $"&dateTimeTo={dateTimeTo}" : "")}");
+
         public Task<List<YulsnReadPointSumDto>> GetPointSums(int contactId, string type = null) =>
             SendAsync<List<YulsnReadPointSumDto>>($"api/v1/Points/Sums?contactId={contactId + (type != null ? $"&type={type}" : "")}");
 
