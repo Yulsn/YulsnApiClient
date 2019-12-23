@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -51,6 +52,81 @@ namespace YulsnApiClient.Test
 
 
             Assert.True(pointGet.CancellerPointId.HasValue);
+        }
+
+
+        [Fact]
+        public async Task GetPoints()
+        {
+
+            DateTimeOffset startTime = DateTimeOffset.UtcNow;
+
+            YulsnCreatePointDto p1 = new YulsnCreatePointDto
+            {
+                Amount = 10,
+                ContactId = 1,
+                Type = "test"
+            };
+
+            YulsnCreatePointDto p2 = new YulsnCreatePointDto
+            {
+                Amount = 10,
+                ContactId = 1,
+                Type = "test2"
+            };
+
+            YulsnCreatePointDto p3 = new YulsnCreatePointDto
+            {
+                Amount = 10,
+                ContactId = 1,
+                Type = "test"
+            };
+
+            var point1= await yulsnClient.CreatePoint(p1);
+            var point2 = await yulsnClient.CreatePoint(p2);
+            var point3 = await yulsnClient.CreatePoint(p3);
+
+            List<YulsnReadPointDto> test1 = await yulsnClient.GetPoints(contactId: 1);
+
+            Assert.True(test1.Count >= 3);
+            Assert.Contains(test1, o => o.Id == point1.Id);
+            Assert.Contains(test1, o => o.Id == point2.Id);
+            Assert.Contains(test1, o => o.Id == point3.Id);
+
+            List<YulsnReadPointDto> test2= await yulsnClient.GetPoints(contactId: 1, type: "test");
+            Assert.Contains(test2, o => o.Id == point1.Id);
+            Assert.Contains(test2, o => o.Id == point3.Id);
+            Assert.DoesNotContain(test2, o => o.Id == point2.Id);
+
+            List<YulsnReadPointDto> test3 = await yulsnClient.GetPoints(contactId: 1, type: "test2");
+            Assert.Contains(test3, o => o.Id == point2.Id);
+            Assert.DoesNotContain(test3, o => o.Id == point1.Id);
+            Assert.DoesNotContain(test3, o => o.Id == point3.Id);
+
+            List<YulsnReadPointDto> test4 = await yulsnClient.GetPoints(contactId: 1, type: "test", dateTimeFrom: startTime.AddSeconds(-10));
+            Assert.Contains(test4, o => o.Id == point1.Id);
+            Assert.Contains(test4, o => o.Id == point3.Id);
+            Assert.DoesNotContain(test4, o => o.Id == point2.Id);
+
+            List<YulsnReadPointDto> test5 = await yulsnClient.GetPoints(contactId: 1, type:null, dateTimeFrom: startTime.AddSeconds(-30));
+            Assert.Contains(test5, o => o.Id == point1.Id);
+            Assert.Contains(test5, o => o.Id == point2.Id);
+            Assert.Contains(test5, o => o.Id == point3.Id);
+
+            List<YulsnReadPointDto> test6 = await yulsnClient.GetPoints(contactId: 1, type: "test", dateTimeFrom: startTime.AddMinutes(-10),  dateTimeTo: startTime.AddMinutes(-1));
+            Assert.DoesNotContain(test6, o => o.Id == point1.Id);
+            Assert.DoesNotContain(test6, o => o.Id == point3.Id);
+            Assert.DoesNotContain(test6, o => o.Id == point2.Id);
+
+            List<YulsnReadPointDto> test7 = await yulsnClient.GetPoints(contactId: 1, type: "test", dateTimeFrom: startTime.AddMinutes(1));
+            Assert.DoesNotContain(test7, o => o.Id == point1.Id);
+            Assert.DoesNotContain(test7, o => o.Id == point3.Id);
+            Assert.DoesNotContain(test7, o => o.Id == point2.Id);
+
+            await yulsnClient.CancelPoint(point1.Id);
+            await yulsnClient.CancelPoint(point2.Id);
+            await yulsnClient.CancelPoint(point3.Id);
+
         }
     }
 }
