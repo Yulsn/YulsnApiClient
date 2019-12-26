@@ -16,6 +16,7 @@ namespace YulsnApiClient.Models
 
     public class YulsnCreateDynamicTableEntity
     {
+        public string Secret { get; set; }
         public string ExternalId { get; set; }
         public string Name { get; set; }
     }
