@@ -16,5 +16,8 @@ namespace YulsnApiClient.Client
 
         public Task<List<T>> GetObjectByFunctionAsync<T>(string viewName, params string[] parameters) =>
             SendAsync<List<T>>(HttpMethod.Post, $"api/v1/Data/Function/{viewName}", parameters);
+
+        public Task<List<T>> GetObjectByStoredProcedureAsync<T>(string procedureName, params string[] parameters) =>
+             SendAsync<List<T>>(HttpMethod.Post, $"api/v1/Data/Procedure/{procedureName}", parameters);
     }
 }
