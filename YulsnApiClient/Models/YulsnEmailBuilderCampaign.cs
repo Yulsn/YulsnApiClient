@@ -38,6 +38,10 @@ namespace YulsnApiClient.Models
         /// The ID of the Email Builder Campaign
         /// </summary>
         public int Id { get; set; }
+        /// <summary>
+        /// Id of the Email Campaign. This is only used for Trigger and Test mails.
+        /// </summary>
+        public int EmailCampaignId { get; set; }
     }
 
     public class YulsnCreateEmailBuilderCampaignBlock
