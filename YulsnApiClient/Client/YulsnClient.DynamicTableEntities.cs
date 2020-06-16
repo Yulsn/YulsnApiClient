@@ -59,6 +59,9 @@ namespace YulsnApiClient.Client
         public Task<List<T>> GetDynamicTableEntitiesByLastId<T>(string tableName, int lastId, int take = 1000) where T : YulsnReadDynamicTableEntity =>
             SendAsync<List<T>>($"api/v1/table/{tableName}?lastId={lastId}&take={take}");
 
+        public Task<List<T>> SearchDynamicTableEntities<T>(string tableName, YulsnSearchDynamicTableEntitiesDto yulsnSearchDynamicTableEntitiesDto) where T : YulsnReadDynamicTableEntity =>
+            SendAsync<List<T>>(new HttpMethod("SEARCH"), $"api/v1/table/{tableName}", yulsnSearchDynamicTableEntitiesDto);  
+
         /// <summary>
         /// Will return all {tableName} entity externalIds
         /// </summary>

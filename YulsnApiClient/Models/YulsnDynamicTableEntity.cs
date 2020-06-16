@@ -20,4 +20,9 @@ namespace YulsnApiClient.Models
         public string ExternalId { get; set; }
         public string Name { get; set; }
     }
+
+    public class YulsnSearchDynamicTableEntitiesDto
+    {
+        public List<YulsnSearchFileldDto> Fields { get; set; }
+    }
 }
