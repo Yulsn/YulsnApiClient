@@ -20,5 +20,11 @@ namespace YulsnApiClient.Client
 
         public Task<T> CreateOrder<T,R>(R order) where T : YulsnReadOrderDto where R : YulsnCreateOrderDto =>
           SendAsync<T>(HttpMethod.Post, $"/api/v1/Orders", order);
+
+        /// <summary>
+        /// Update order - only provided fields will be changed
+        /// </summary>
+        public Task<T> UpdateOrder<T>(int orderId, Dictionary<string, object> updateFields) where T : YulsnReadOrderDto =>
+               SendAsync<T>(new HttpMethod("PATCH"), $"api/v1/Orders/{orderId}", updateFields);
     }
 }
