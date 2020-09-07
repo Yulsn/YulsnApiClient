@@ -35,5 +35,11 @@ namespace YulsnApiClient.Client
 
             return SendAsync<object>(request);
         }
+
+        public Task CancelEmailBuilderCampaign(int emailBuilderCampaignId)
+        {
+            var request = new HttpRequestMessage(HttpMethod.Post, $"api/v1/EmailBuilderCampaigns/{emailBuilderCampaignId}/Cancel");
+            return SendAsync<object>(request);
+        }
     }
 }
