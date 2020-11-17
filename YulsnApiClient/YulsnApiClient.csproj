@@ -3,9 +3,9 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>0.1.38</Version>
-    <Authors>Yulsn A/S</Authors>
-    <Company>Yulsn A/S</Company>
+    <Version>0.1.39</Version>
+    <Authors>Yulsn ApS</Authors>
+    <Company>Yulsn ApS</Company>
     <Product>Api Client for Yulsn</Product>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <Description>.net client for Yulsn api</Description>

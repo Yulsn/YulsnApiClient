@@ -49,6 +49,20 @@ namespace YulsnApiClient.Client
         /// <param name="externalId">Dynamic table entity externalId</param>        
         public Task<T> GetDynamicTableEntityByExternalId<T>(string tableName, string externalId) where T : YulsnReadDynamicTableEntity =>
             SendAsync<T>($"api/v1/table/{tableName}?externalId={externalId}");
+        /// <summary>
+        /// Will return {tableName} entity by external id or null if not exists
+        /// </summary>
+        /// <param name="tableName">Dynamic table name</param>
+        /// <param name="externalId">Dynamic table entity externalId</param>        
+        public Task<Dictionary<string, string>> GetDynamicTableEntityByExternalIdAsDictionary(string tableName, int externalId) =>
+            GetDynamicTableEntityByExternalIdAsDictionary(tableName, externalId.ToString());
+        /// <summary>
+        /// Will return {tableName} entity by external id or null if not exists
+        /// </summary>
+        /// <param name="tableName">Dynamic table name</param>
+        /// <param name="externalId">Dynamic table entity externalId</param>        
+        public Task<Dictionary<string, string>> GetDynamicTableEntityByExternalIdAsDictionary(string tableName, string externalId) =>
+            SendAsync<Dictionary<string, string>>($"api/v1/table/{tableName}?externalId={externalId}");
 
         /// <summary>
         /// Will return {tableName} entities with id higher than provided lastId up to limit (take)
