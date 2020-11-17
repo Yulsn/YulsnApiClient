@@ -28,8 +28,8 @@ namespace YulsnApiClient.Test
         [Fact]
         public async Task GetAllIds()
         {
-            var list = await yulsnClient.GetAllDynamicTableEntityIds(tableName);
-            var list2 = await yulsnClient.GetAllDynamicTableEntityExternalIds(tableName);
+            var list = await yulsnClient.GetAllDynamicTableEntityIdsAsync(tableName);
+            var list2 = await yulsnClient.GetAllDynamicTableEntityExternalIdsAsync(tableName);
 
             Assert.NotNull(list);
             Assert.NotNull(list2);
@@ -41,7 +41,7 @@ namespace YulsnApiClient.Test
         {
             int lastId = 0;
 
-            var list = await yulsnClient.GetDynamicTableEntitiesByLastId<YulsnReadDynamicTableEntity>(tableName, lastId);
+            var list = await yulsnClient.GetDynamicTableEntitiesByLastIdAsync<YulsnReadDynamicTableEntity>(tableName, lastId);
 
             Assert.NotNull(list);
             Assert.True(list.Count > 0, "table with 0 enties not valid for test");
@@ -51,14 +51,14 @@ namespace YulsnApiClient.Test
 
             lastId = list.Min(o => o.Id);
 
-            var list2 = await yulsnClient.GetDynamicTableEntitiesByLastId<YulsnReadDynamicTableEntity>(tableName, lastId);
+            var list2 = await yulsnClient.GetDynamicTableEntitiesByLastIdAsync<YulsnReadDynamicTableEntity>(tableName, lastId);
 
             Assert.NotNull(list2);
             Assert.Equal(list.Count - 1, list2.Count);
 
             lastId = list.Max(o => o.Id);
 
-            var list3 = await yulsnClient.GetDynamicTableEntitiesByLastId<YulsnReadDynamicTableEntity>(tableName, lastId);
+            var list3 = await yulsnClient.GetDynamicTableEntitiesByLastIdAsync<YulsnReadDynamicTableEntity>(tableName, lastId);
 
             Assert.NotNull(list3);
             Assert.Empty(list3);
@@ -72,12 +72,12 @@ namespace YulsnApiClient.Test
         [InlineData(4)]
         public async Task GetEntity(int id)
         {
-            var entityById = await yulsnClient.GetDynamicTableEntityById<YulsnReadDynamicTableEntity>(tableName, id);
+            var entityById = await yulsnClient.GetDynamicTableEntityByIdAsync<YulsnReadDynamicTableEntity>(tableName, id);
 
             Assert.NotNull(entityById);
             Assert.Equal(id, entityById.Id);
 
-            var entityBySecret = await yulsnClient.GetDynamicTableEntityBySecret<YulsnReadDynamicTableEntity>(tableName, entityById.Secret);
+            var entityBySecret = await yulsnClient.GetDynamicTableEntityBySecretAsync<YulsnReadDynamicTableEntity>(tableName, entityById.Secret);
 
             Assert.NotNull(entityBySecret);
             Assert.Equal(entityById.Id, entityBySecret.Id);
@@ -87,7 +87,7 @@ namespace YulsnApiClient.Test
             Assert.Equal(entityById.Created, entityBySecret.Created);
             Assert.Equal(entityById.LastModified, entityBySecret.LastModified);
 
-            var entityByExternalId = await yulsnClient.GetDynamicTableEntityByExternalId<YulsnReadDynamicTableEntity>(tableName, entityBySecret.ExternalId);
+            var entityByExternalId = await yulsnClient.GetDynamicTableEntityByExternalIdAsync<YulsnReadDynamicTableEntity>(tableName, entityBySecret.ExternalId);
 
             Assert.NotNull(entityByExternalId);
             Assert.Equal(entityBySecret.Id, entityByExternalId.Id);
@@ -103,7 +103,7 @@ namespace YulsnApiClient.Test
         {
             string newExternalId = Guid.NewGuid().ToString();
 
-            var entity = await yulsnClient.UpdateDynamicTableEntity<YulsnReadDynamicTableEntity>(tableName, 1, new Dictionary<string, object> { { "ExternalId", newExternalId } });
+            var entity = await yulsnClient.UpdateDynamicTableEntityAsync<YulsnReadDynamicTableEntity>(tableName, 1, new Dictionary<string, object> { { "ExternalId", newExternalId } });
 
             Assert.NotNull(entity);
             Assert.Equal(newExternalId, entity.ExternalId);
@@ -119,33 +119,33 @@ namespace YulsnApiClient.Test
             var newItem4 = new YulsnCreateDynamicTableEntity { Name = "Test item 4", ExternalId = "4444" };
             var newItem5 = new YulsnCreateDynamicTableEntity { Name = "Test item 5", ExternalId = "5555" };
 
-            var createdEntity1 = await yulsnClient.CreateDynamicTableEntity<YulsnReadDynamicTableEntity, YulsnCreateDynamicTableEntity>(tableName, newItem1);
+            var createdEntity1 = await yulsnClient.CreateDynamicTableEntityAsync<YulsnReadDynamicTableEntity, YulsnCreateDynamicTableEntity>(tableName, newItem1);
 
             testCreatedEntity(createdEntity1, newItem1);
 
-            await yulsnClient.CreateDynamicTableEntities(tableName, new List<YulsnCreateDynamicTableEntity> { newItem2, newItem3, newItem4, newItem5 });
+            await yulsnClient.CreateDynamicTableEntitiesAsync(tableName, new List<YulsnCreateDynamicTableEntity> { newItem2, newItem3, newItem4, newItem5 });
 
-            var createdEntity2 = await yulsnClient.GetDynamicTableEntityByExternalId<YulsnReadDynamicTableEntity>(tableName, "testitem2");
-            var createdEntity3 = await yulsnClient.GetDynamicTableEntityByExternalId<YulsnReadDynamicTableEntity>(tableName, "testitem3");
-            var createdEntity4 = await yulsnClient.GetDynamicTableEntityByExternalId<YulsnReadDynamicTableEntity>(tableName, 4444);
-            var createdEntity5 = await yulsnClient.GetDynamicTableEntityByExternalId<YulsnReadDynamicTableEntity>(tableName, 5555);
+            var createdEntity2 = await yulsnClient.GetDynamicTableEntityByExternalIdAsync<YulsnReadDynamicTableEntity>(tableName, "testitem2");
+            var createdEntity3 = await yulsnClient.GetDynamicTableEntityByExternalIdAsync<YulsnReadDynamicTableEntity>(tableName, "testitem3");
+            var createdEntity4 = await yulsnClient.GetDynamicTableEntityByExternalIdAsync<YulsnReadDynamicTableEntity>(tableName, 4444);
+            var createdEntity5 = await yulsnClient.GetDynamicTableEntityByExternalIdAsync<YulsnReadDynamicTableEntity>(tableName, 5555);
 
             testCreatedEntity(createdEntity2, newItem2);
             testCreatedEntity(createdEntity3, newItem3);
             testCreatedEntity(createdEntity4, newItem4);
             testCreatedEntity(createdEntity5, newItem5);
 
-            await yulsnClient.DeleteDynamicTableEntity(tableName, createdEntity1.Id);
-            await yulsnClient.DeleteDynamicTableEntity(tableName, createdEntity2.Id);
-            await yulsnClient.DeleteDynamicTableEntity(tableName, createdEntity3.Id);
-            await yulsnClient.DeleteDynamicTableEntity(tableName, createdEntity4.Id);
-            await yulsnClient.DeleteDynamicTableEntity(tableName, createdEntity5.Id);
+            await yulsnClient.DeleteDynamicTableEntityAsync(tableName, createdEntity1.Id);
+            await yulsnClient.DeleteDynamicTableEntityAsync(tableName, createdEntity2.Id);
+            await yulsnClient.DeleteDynamicTableEntityAsync(tableName, createdEntity3.Id);
+            await yulsnClient.DeleteDynamicTableEntityAsync(tableName, createdEntity4.Id);
+            await yulsnClient.DeleteDynamicTableEntityAsync(tableName, createdEntity5.Id);
 
-            createdEntity1 = await yulsnClient.GetDynamicTableEntityById<YulsnReadDynamicTableEntity>(tableName, createdEntity1.Id);
-            createdEntity2 = await yulsnClient.GetDynamicTableEntityById<YulsnReadDynamicTableEntity>(tableName, createdEntity2.Id);
-            createdEntity3 = await yulsnClient.GetDynamicTableEntityById<YulsnReadDynamicTableEntity>(tableName, createdEntity3.Id);
-            createdEntity4 = await yulsnClient.GetDynamicTableEntityById<YulsnReadDynamicTableEntity>(tableName, createdEntity4.Id);
-            createdEntity5 = await yulsnClient.GetDynamicTableEntityById<YulsnReadDynamicTableEntity>(tableName, createdEntity5.Id);
+            createdEntity1 = await yulsnClient.GetDynamicTableEntityByIdAsync<YulsnReadDynamicTableEntity>(tableName, createdEntity1.Id);
+            createdEntity2 = await yulsnClient.GetDynamicTableEntityByIdAsync<YulsnReadDynamicTableEntity>(tableName, createdEntity2.Id);
+            createdEntity3 = await yulsnClient.GetDynamicTableEntityByIdAsync<YulsnReadDynamicTableEntity>(tableName, createdEntity3.Id);
+            createdEntity4 = await yulsnClient.GetDynamicTableEntityByIdAsync<YulsnReadDynamicTableEntity>(tableName, createdEntity4.Id);
+            createdEntity5 = await yulsnClient.GetDynamicTableEntityByIdAsync<YulsnReadDynamicTableEntity>(tableName, createdEntity5.Id);
 
             Assert.Null(createdEntity1);
             Assert.Null(createdEntity2);

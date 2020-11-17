@@ -16,7 +16,7 @@ namespace YulsnApiClient.Client
         /// Will return all {tableName} entity ids
         /// </summary>
         /// <param name="tableName">Dynamic table name</param>        
-        public Task<List<int>> GetAllDynamicTableEntityIds(string tableName) =>
+        public Task<List<int>> GetAllDynamicTableEntityIdsAsync(string tableName) =>
             SendAsync<List<int>>($"api/v1/table/{tableName}");
 
         /// <summary>
@@ -24,7 +24,7 @@ namespace YulsnApiClient.Client
         /// </summary>
         /// <param name="tableName">Dynamic table name</param>
         /// <param name="id">Dynamic table entity id</param>
-        public Task<T> GetDynamicTableEntityById<T>(string tableName, int id) where T : YulsnReadDynamicTableEntity =>
+        public Task<T> GetDynamicTableEntityByIdAsync<T>(string tableName, int id) where T : YulsnReadDynamicTableEntity =>
             SendAsync<T>($"api/v1/table/{tableName}/{id}");
 
         /// <summary>
@@ -32,7 +32,7 @@ namespace YulsnApiClient.Client
         /// </summary>
         /// <param name="tableName">Dynamic table name</param>
         /// <param name="secret">Dynamic table entity secret</param>
-        public Task<T> GetDynamicTableEntityBySecret<T>(string tableName, string secret) where T : YulsnReadDynamicTableEntity =>
+        public Task<T> GetDynamicTableEntityBySecretAsync<T>(string tableName, string secret) where T : YulsnReadDynamicTableEntity =>
             SendAsync<T>($"api/v1/table/{tableName}?secret={secret}");
 
         /// <summary>
@@ -40,29 +40,29 @@ namespace YulsnApiClient.Client
         /// </summary>
         /// <param name="tableName">Dynamic table name</param>
         /// <param name="externalId">Dynamic table entity externalId</param>        
-        public Task<T> GetDynamicTableEntityByExternalId<T>(string tableName, int externalId) where T : YulsnReadDynamicTableEntity =>
-            GetDynamicTableEntityByExternalId<T>(tableName, externalId.ToString());
+        public Task<T> GetDynamicTableEntityByExternalIdAsync<T>(string tableName, int externalId) where T : YulsnReadDynamicTableEntity =>
+            GetDynamicTableEntityByExternalIdAsync<T>(tableName, externalId.ToString());
         /// <summary>
         /// Will return {tableName} entity by external id or null if not exists
         /// </summary>
         /// <param name="tableName">Dynamic table name</param>
         /// <param name="externalId">Dynamic table entity externalId</param>        
-        public Task<T> GetDynamicTableEntityByExternalId<T>(string tableName, string externalId) where T : YulsnReadDynamicTableEntity =>
+        public Task<T> GetDynamicTableEntityByExternalIdAsync<T>(string tableName, string externalId) where T : YulsnReadDynamicTableEntity =>
             SendAsync<T>($"api/v1/table/{tableName}?externalId={externalId}");
         /// <summary>
         /// Will return {tableName} entity by external id or null if not exists
         /// </summary>
         /// <param name="tableName">Dynamic table name</param>
         /// <param name="externalId">Dynamic table entity externalId</param>        
-        public Task<Dictionary<string, string>> GetDynamicTableEntityByExternalIdAsDictionary(string tableName, int externalId) =>
-            GetDynamicTableEntityByExternalIdAsDictionary(tableName, externalId.ToString());
+        public Task<Dictionary<string, object>> GetDynamicTableEntityByExternalIdAsDictionaryAsync(string tableName, int externalId) =>
+            GetDynamicTableEntityByExternalIdAsDictionaryAsync(tableName, externalId.ToString());
         /// <summary>
         /// Will return {tableName} entity by external id or null if not exists
         /// </summary>
         /// <param name="tableName">Dynamic table name</param>
         /// <param name="externalId">Dynamic table entity externalId</param>        
-        public Task<Dictionary<string, string>> GetDynamicTableEntityByExternalIdAsDictionary(string tableName, string externalId) =>
-            SendAsync<Dictionary<string, string>>($"api/v1/table/{tableName}?externalId={externalId}");
+        public Task<Dictionary<string, object>> GetDynamicTableEntityByExternalIdAsDictionaryAsync(string tableName, string externalId) =>
+            SendAsync<Dictionary<string, object>>($"api/v1/table/{tableName}?externalId={externalId}");
 
         /// <summary>
         /// Will return {tableName} entities with id higher than provided lastId up to limit (take)
@@ -70,17 +70,17 @@ namespace YulsnApiClient.Client
         /// <param name="tableName">Dynamic table name</param>
         /// <param name="lastId">Last {tableName} entity id</param>
         /// <param name="take">Number of dynamic table entities to return. Max is the default value</param>        
-        public Task<List<T>> GetDynamicTableEntitiesByLastId<T>(string tableName, int lastId, int take = 1000) where T : YulsnReadDynamicTableEntity =>
+        public Task<List<T>> GetDynamicTableEntitiesByLastIdAsync<T>(string tableName, int lastId, int take = 1000) where T : YulsnReadDynamicTableEntity =>
             SendAsync<List<T>>($"api/v1/table/{tableName}?lastId={lastId}&take={take}");
 
-        public Task<List<T>> SearchDynamicTableEntities<T>(string tableName, YulsnSearchDynamicTableEntitiesDto yulsnSearchDynamicTableEntitiesDto) where T : YulsnReadDynamicTableEntity =>
+        public Task<List<T>> SearchDynamicTableEntitiesAsync<T>(string tableName, YulsnSearchDynamicTableEntitiesDto yulsnSearchDynamicTableEntitiesDto) where T : YulsnReadDynamicTableEntity =>
             SendAsync<List<T>>(new HttpMethod("SEARCH"), $"api/v1/table/{tableName}", yulsnSearchDynamicTableEntitiesDto);  
 
         /// <summary>
         /// Will return all {tableName} entity externalIds
         /// </summary>
         /// <param name="tableName">Dynamic table name</param>        
-        public async Task<List<string>> GetAllDynamicTableEntityExternalIds(string tableName)
+        public async Task<List<string>> GetAllDynamicTableEntityExternalIdsAsync(string tableName)
         {
             int lastId = 0;
             int take = 1000;
@@ -90,7 +90,7 @@ namespace YulsnApiClient.Client
 
             do
             {
-                result = await GetDynamicTableEntitiesByLastId<YulsnReadDynamicTableEntity>(tableName, lastId, take).ConfigureAwait(false);
+                result = await GetDynamicTableEntitiesByLastIdAsync<YulsnReadDynamicTableEntity>(tableName, lastId, take).ConfigureAwait(false);
 
                 retVal.AddRange(result.Select(o => o.ExternalId));
 
@@ -109,7 +109,7 @@ namespace YulsnApiClient.Client
         /// <param name="id">Dynamic table entity id</param>
         /// <param name="updateFields">Dynamic table entity fields with new values that should be updated.</param>
         /// <returns></returns>
-        public Task<T> UpdateDynamicTableEntity<T>(string tableName, int id, Dictionary<string, object> updateFields) where T : YulsnReadDynamicTableEntity =>
+        public Task<T> UpdateDynamicTableEntityAsync<T>(string tableName, int id, Dictionary<string, object> updateFields) where T : YulsnReadDynamicTableEntity =>
             SendAsync<T>(new HttpMethod("PATCH"), $"api/v1/table/{tableName}/{id}", updateFields);
 
         /// <summary>
@@ -118,7 +118,7 @@ namespace YulsnApiClient.Client
         /// <param name="tableName">Dynamic table name</param>        
         /// <param name="newEntity">Dynamic table entity to be inserted</param>
         /// <returns>The inserted entity added id, secret, created and last modified</returns>
-        public Task<T> CreateDynamicTableEntity<T, R>(string tableName, R newEntity) where T : YulsnReadDynamicTableEntity where R : YulsnCreateDynamicTableEntity =>
+        public Task<T> CreateDynamicTableEntityAsync<T, R>(string tableName, R newEntity) where T : YulsnReadDynamicTableEntity where R : YulsnCreateDynamicTableEntity =>
             SendAsync<T>(HttpMethod.Post, $"api/v1/table/{tableName}", newEntity);
 
 
@@ -128,7 +128,7 @@ namespace YulsnApiClient.Client
         /// <param name="tableName">Dynamic table name</param>        
         /// <param name="newEntities">Dynamic table entites to be inserted</param>
         /// <returns>The inserted entity added id, secret, created and last modified</returns>
-        public Task CreateDynamicTableEntities<T>(string tableName, List<T> newEntities) where T : YulsnCreateDynamicTableEntity =>
+        public Task CreateDynamicTableEntitiesAsync<T>(string tableName, List<T> newEntities) where T : YulsnCreateDynamicTableEntity =>
             SendAsync<object>(HttpMethod.Post, $"api/v1/table/{tableName}/Bulk", newEntities);
 
 
@@ -137,7 +137,7 @@ namespace YulsnApiClient.Client
         /// </summary>
         /// <param name="tableName">Dynamic table name</param>
         /// <param name="id">Dynamic table entity id</param>
-        public Task DeleteDynamicTableEntity(string tableName, int id) =>
+        public Task DeleteDynamicTableEntityAsync(string tableName, int id) =>
             SendAsync<object>(HttpMethod.Delete, $"api/v1/table/{tableName}/{id}");
     }
 }
