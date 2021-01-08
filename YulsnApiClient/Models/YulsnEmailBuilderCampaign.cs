@@ -29,7 +29,7 @@ namespace YulsnApiClient.Models
         /// <summary>
         /// Dynamic dictionary - only for Trigger messages
         /// </summary>
-        public Dictionary<string,object> Dynamic { get; set; }
+        public Dictionary<string, object> Dynamic { get; set; }
     }
 
     public class YulsnReadEmailBuilderCampaign : YulsnCreateEmailBuilderCampaign
@@ -93,6 +93,11 @@ namespace YulsnApiClient.Models
     public class YulsnEmailBuilderCampaignBlockInputValue
     {
         public string Value { get; set; }
+    }
+
+    public class YulsnEmailBuilderCampaignBlockSettings
+    {
+        public YulsnSearchFileldDto Condition { get; set; }
     }
 
     public enum YulsnEmailBuilderCampaignType
