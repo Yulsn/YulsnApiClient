@@ -54,6 +54,8 @@ namespace YulsnApiClient.Models
         /// Input values used by the block
         /// </summary>
         public Dictionary<string, YulsnEmailBuilderCampaignBlockInputValue> InputValues { get; set; }
+
+        public YulsnEmailBuilderCampaignBlockSettings Settings { get; set; }
     }
 
     public class YulsnReadEmailBuilderCampaignBlock : YulsnCreateEmailBuilderCampaignBlock
