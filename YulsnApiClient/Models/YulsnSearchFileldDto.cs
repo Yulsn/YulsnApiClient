@@ -9,6 +9,7 @@ namespace YulsnApiClient.Models
         public string Field { get; set; }
         public YulsnFieldFilterOperator Operator { get; set; }
         public string Value { get; set; }
+        public string[] Values { get; set; }
     }
 
     public enum YulsnFieldFilterOperator
