@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace YulsnApiClient.Models
 {
@@ -8,6 +7,33 @@ namespace YulsnApiClient.Models
     {
         public int Id { get; set; }
     }
+
+    public enum YulsnUpdateContactKeyType
+    {
+        Id = 1,
+        Secret = 2,
+        Email = 3,
+        Phone = 4
+    }
+
+    public class YulsnUpdateContacts
+    {
+        /// <summary>Indicates type of {Keys}</summary>
+        public YulsnUpdateContactKeyType KeyType { get; set; }
+        /// <summary>Indicates contact field values for a PATCH</summary>
+        public List<string> Keys { get; set; }
+        /// <summary>Indicates contact field names and values for a PATCH</summary>
+        public Dictionary<string, object> Fields { get; set; }
+    }
+
+    public class YulsnUpdateContactsResult
+    {
+        /// <summary>Indicates which given {Keys} were found and PATCHed with given {Fields}</summary>
+        public List<string> Updated { get; set; }
+        /// <summary>Indicates which given {Keys} were not found</summary>
+        public List<string> NotFound { get; set; }
+    }
+
     public class YulsnCreateContact
     {
         /// <summary>
@@ -68,7 +94,6 @@ namespace YulsnApiClient.Models
         /// Source that was specified when latest permission was set.
         /// </summary>
         public string LatestPermissionSource { get; set; }
-
     }
 
     public class YulsnLoginContact
@@ -77,6 +102,4 @@ namespace YulsnApiClient.Models
         public string Ip { get; set; }
         public string Source { get; set; }
     }
-
-
 }

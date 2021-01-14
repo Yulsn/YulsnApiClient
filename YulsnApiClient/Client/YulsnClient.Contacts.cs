@@ -11,7 +11,6 @@ namespace YulsnApiClient.Client
 {
     partial class YulsnClient
     {
-
         public Task<T> GetContactByIdAsync<T>(int id) where T : YulsnContact =>
             SendAsync<T>($"/api/v1/Contacts/{id}");
 
@@ -42,14 +41,19 @@ namespace YulsnApiClient.Client
         public Task<T> UpdateContactAsync<T>(int id, Dictionary<string, object> updateFields) where T : YulsnContact =>
             SendAsync<T>(new HttpMethod("PATCH"), $"api/v1/Contacts/{id}", updateFields);
 
+        public Task<YulsnUpdateContactsResult> UpdateContactsAsync<T>(YulsnUpdateContacts updateContacts) where T : YulsnContact =>
+            SendAsync<YulsnUpdateContactsResult>(new HttpMethod("PATCH"), $"api/v1/Contacts", updateContacts);
+
         public Task DeleteContactAsync(int id) =>
             SendAsync<object>(HttpMethod.Delete, $"/api/v1/Contacts/{id}");
+
         public Task<R> CreateContactAsync<T, R>(T contact) where T : YulsnCreateContact where R : YulsnContact =>
             SendAsync<R>(HttpMethod.Post, $"/api/v1/Contacts", contact);
+
         public Task<T> LoginContactAsync<T>(int id, YulsnLoginContact loginContact) where T : YulsnContact =>
             SendAsync<T>(HttpMethod.Post, $"/api/v1/Contacts/{id}/login", loginContact);
+
         public Task SetContactPasswordAsync(int id, string newPassword) =>
             SendAsync<object>(HttpMethod.Post, $"/api/v1/Contacts/{id}/SetPassword", new { NewPassword = newPassword });
-
     }
 }
