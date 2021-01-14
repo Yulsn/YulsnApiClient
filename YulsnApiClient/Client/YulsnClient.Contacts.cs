@@ -41,7 +41,7 @@ namespace YulsnApiClient.Client
         public Task<T> UpdateContactAsync<T>(int id, Dictionary<string, object> updateFields) where T : YulsnContact =>
             SendAsync<T>(new HttpMethod("PATCH"), $"api/v1/Contacts/{id}", updateFields);
 
-        public Task<YulsnUpdateContactsResult> UpdateContactsAsync<T>(YulsnUpdateContacts updateContacts) where T : YulsnContact =>
+        public Task<YulsnUpdateContactsResult> UpdateContactsAsync(YulsnUpdateContacts updateContacts) =>
             SendAsync<YulsnUpdateContactsResult>(new HttpMethod("PATCH"), $"api/v1/Contacts", updateContacts);
 
         public Task DeleteContactAsync(int id) =>
