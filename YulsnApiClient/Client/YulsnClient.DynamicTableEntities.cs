@@ -74,7 +74,10 @@ namespace YulsnApiClient.Client
             SendAsync<List<T>>($"api/v1/table/{tableName}?lastId={lastId}&take={take}");
 
         public Task<List<T>> SearchDynamicTableEntitiesAsync<T>(string tableName, YulsnSearchDynamicTableEntitiesDto yulsnSearchDynamicTableEntitiesDto) where T : YulsnReadDynamicTableEntity =>
-            SendAsync<List<T>>(new HttpMethod("SEARCH"), $"api/v1/table/{tableName}", yulsnSearchDynamicTableEntitiesDto);  
+            SendAsync<List<T>>(new HttpMethod("SEARCH"), $"api/v1/table/{tableName}", yulsnSearchDynamicTableEntitiesDto);
+
+        public Task<int> CountDynamicTableEntitiesAsync<T>(string tableName, YulsnSearchDynamicTableEntitiesDto yulsnSearchDynamicTableEntitiesDto) where T : YulsnReadDynamicTableEntity =>
+           SendAsync<int>(new HttpMethod("SEARCH"), $"api/v1/table/{tableName}/Count", yulsnSearchDynamicTableEntitiesDto);
 
         /// <summary>
         /// Will return all {tableName} entity externalIds
@@ -121,7 +124,6 @@ namespace YulsnApiClient.Client
         public Task<T> CreateDynamicTableEntityAsync<T, R>(string tableName, R newEntity) where T : YulsnReadDynamicTableEntity where R : YulsnCreateDynamicTableEntity =>
             SendAsync<T>(HttpMethod.Post, $"api/v1/table/{tableName}", newEntity);
 
-
         /// <summary>
         /// Create {tableName} entities
         /// </summary>
@@ -130,7 +132,6 @@ namespace YulsnApiClient.Client
         /// <returns>The inserted entity added id, secret, created and last modified</returns>
         public Task CreateDynamicTableEntitiesAsync<T>(string tableName, List<T> newEntities) where T : YulsnCreateDynamicTableEntity =>
             SendAsync<object>(HttpMethod.Post, $"api/v1/table/{tableName}/Bulk", newEntities);
-
 
         /// <summary>
         /// Will delete {tableName} entity by id
