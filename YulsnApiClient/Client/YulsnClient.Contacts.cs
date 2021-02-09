@@ -38,6 +38,13 @@ namespace YulsnApiClient.Client
         public Task<T> GetContactByPhoneAsync<T>(string phone) where T : YulsnContact =>
             SendAsync<T>($"/api/v1/Contacts?phone={WebUtility.UrlEncode(phone)}");
 
+        /// <summary>Will return a contact by a field and value</summary>
+        /// <param name="field">Name of the field</param>
+        /// <param name="value">Value of the field</param>
+        /// <returns></returns>
+        public Task<List<T>> GetContactByFieldValueAsync<T>(string field, string value) where T : YulsnContact =>
+            SendAsync<List<T>>($"api/v1/Contacts?field={WebUtility.UrlEncode(field)}&value={WebUtility.UrlEncode(value)}");
+
         public Task<T> UpdateContactAsync<T>(int id, Dictionary<string, object> updateFields) where T : YulsnContact =>
             SendAsync<T>(new HttpMethod("PATCH"), $"api/v1/Contacts/{id}", updateFields);
 
