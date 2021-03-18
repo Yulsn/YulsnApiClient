@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace YulsnApiClient.Client
 {
@@ -42,12 +43,28 @@ namespace YulsnApiClient.Client
                 {
                     return default(T);
                 }
-                response.EnsureSuccessStatusCode();
 
-                return JsonConvert.DeserializeObject<T>(await response.Content.ReadAsStringAsync().ConfigureAwait(false));
+                string json = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    YulsnApiError error = null;
+
+                    try { error = JsonConvert.DeserializeObject<YulsnApiError>(json); }
+                    catch { }
+
+                    throw new HttpRequestException($"Response status code does not indicate success: {(int)response.StatusCode} ({response.ReasonPhrase}). {error?.Message}");
+                }
+
+                return JsonConvert.DeserializeObject<T>(json);
             }
         }
 
         public HttpContent JsonContent<T>(T model) => new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json");
+    }
+
+    class YulsnApiError
+    {
+        public string Message { get; set; }
     }
 }
