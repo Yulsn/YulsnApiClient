@@ -22,6 +22,7 @@ namespace YulsnApiClient.Models
         public int? SegmentId { get; set; }
         public List<string> Fields { get; set; }
         public string SuffixFileName { get; set; }
+        public string TimeZoneId { get; set; }
     }
 
     public class YulsnExportItem
@@ -36,6 +37,7 @@ namespace YulsnApiClient.Models
         public int RowCount { get; set; }
         public int? SegmentId { get; set; }
         public string Right { get; set; }
+        public string TimeZoneId { get; set; }
     }
 
     public enum ExportType
