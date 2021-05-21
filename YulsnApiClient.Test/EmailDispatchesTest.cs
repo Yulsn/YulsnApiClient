@@ -1,10 +1,4 @@
-﻿using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Net.Http;
-using System.Text;
+﻿using Microsoft.Extensions.DependencyInjection;
 using System.Threading.Tasks;
 using Xunit;
 using YulsnApiClient.Client;
@@ -31,7 +25,7 @@ namespace YulsnApiClient.Test
                 IsTest = true
             };
 
-            var emailDispatch = await yulsnClient.CreateEmailDispatch(model);
+            var emailDispatch = await yulsnClient.CreateEmailDispatchAsync(model);
 
             Assert.Equal(model.EmailCampaignId, emailDispatch?.EmailCampaignId ?? 0);
         }

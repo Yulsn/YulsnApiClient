@@ -1,12 +1,8 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
-using YulsnApiClient.Models;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Threading.Tasks;
+using YulsnApiClient.Models;
 
 namespace YulsnApiClient.Client
 {
@@ -42,6 +38,7 @@ namespace YulsnApiClient.Client
         /// <param name="externalId">Dynamic table entity externalId</param>        
         public Task<T> GetDynamicTableEntityByExternalIdAsync<T>(string tableName, int externalId) where T : YulsnReadDynamicTableEntity =>
             GetDynamicTableEntityByExternalIdAsync<T>(tableName, externalId.ToString());
+
         /// <summary>
         /// Will return {tableName} entity by external id or null if not exists
         /// </summary>
@@ -49,6 +46,7 @@ namespace YulsnApiClient.Client
         /// <param name="externalId">Dynamic table entity externalId</param>        
         public Task<T> GetDynamicTableEntityByExternalIdAsync<T>(string tableName, string externalId) where T : YulsnReadDynamicTableEntity =>
             SendAsync<T>($"api/v1/table/{tableName}?externalId={externalId}");
+
         /// <summary>
         /// Will return {tableName} entity by external id or null if not exists
         /// </summary>
@@ -56,6 +54,7 @@ namespace YulsnApiClient.Client
         /// <param name="externalId">Dynamic table entity externalId</param>        
         public Task<Dictionary<string, object>> GetDynamicTableEntityByExternalIdAsDictionaryAsync(string tableName, int externalId) =>
             GetDynamicTableEntityByExternalIdAsDictionaryAsync(tableName, externalId.ToString());
+
         /// <summary>
         /// Will return {tableName} entity by external id or null if not exists
         /// </summary>
@@ -77,7 +76,7 @@ namespace YulsnApiClient.Client
             SendAsync<List<T>>(new HttpMethod("SEARCH"), $"api/v1/table/{tableName}", yulsnSearchDynamicTableEntitiesDto);
 
         public Task<int> CountDynamicTableEntitiesAsync<T>(string tableName, YulsnSearchDynamicTableEntitiesDto yulsnSearchDynamicTableEntitiesDto) where T : YulsnReadDynamicTableEntity =>
-           SendAsync<int>(new HttpMethod("SEARCH"), $"api/v1/table/{tableName}/Count", yulsnSearchDynamicTableEntitiesDto);
+            SendAsync<int>(new HttpMethod("SEARCH"), $"api/v1/table/{tableName}/Count", yulsnSearchDynamicTableEntitiesDto);
 
         /// <summary>
         /// Will return all {tableName} entity externalIds

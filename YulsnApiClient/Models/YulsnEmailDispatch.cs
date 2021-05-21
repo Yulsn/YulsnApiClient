@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace YulsnApiClient.Models
 {
@@ -38,15 +37,15 @@ namespace YulsnApiClient.Models
         public decimal DeliveryRatio { get; set; }
         public decimal OpenedRatio { get; set; }
         public decimal ClickRatio { get; set; }
-        
+
         // soon to be deprecated
         //public List<string> SegmentNames { get; set; }
     }
 
     public enum YulsnEmailDispatchLogLevel : int
     {
-        None = 0,        
-        SmtpNoData = 1,        
+        None = 0,
+        SmtpNoData = 1,
         SmtpWithData = 2
     }
 

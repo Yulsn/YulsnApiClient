@@ -23,6 +23,6 @@ namespace YulsnApiClient.Models
 
     public class YulsnSearchDynamicTableEntitiesDto
     {
-        public List<YulsnSearchFileldDto> Fields { get; set; }
+        public List<YulsnSearchFieldDto> Fields { get; set; }
     }
 }

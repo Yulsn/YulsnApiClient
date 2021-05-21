@@ -1,10 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 using YulsnApiClient.Client;
@@ -43,16 +40,15 @@ namespace YulsnApiClient.Test
             await yulsnClient.DeleteContactAsync(contact.Id);
         }
 
-
         [Fact]
         public async Task SetContactPassword()
         {
             await yulsnClient.SetContactPasswordAsync(1, "testpassword");
         }
 
-
         [Fact]
-        public async Task LoginContact() {
+        public async Task LoginContact()
+        {
             var contact = await yulsnClient.LoginContactAsync<YulsnContact>(1, new YulsnLoginContact { Password = "testpassword", Ip = "1.1.1.1", Source = "UnitTest" });
             try
             {
@@ -62,12 +58,9 @@ namespace YulsnApiClient.Test
             }
             catch (HttpRequestException e)
             {
-                if(!e.Message.Contains("422"))
-                throw;
+                if (!e.Message.Contains("422"))
+                    throw;
             }
         }
-
     }
-
-
 }

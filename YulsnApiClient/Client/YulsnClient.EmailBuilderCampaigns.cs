@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Text;
+﻿using System.Net.Http;
 using System.Threading.Tasks;
 using YulsnApiClient.Models;
 
@@ -9,37 +6,25 @@ namespace YulsnApiClient.Client
 {
     partial class YulsnClient
     {
-        public Task<YulsnReadEmailBuilderCampaign> CreateEmailBuilderCampaign(YulsnCreateEmailBuilderCampaign yulsnCreateEmailBuilderCampaign)
-        {
-            var request = new HttpRequestMessage(HttpMethod.Post, "api/v1/EmailBuilderCampaigns");
+        public Task<YulsnReadEmailBuilderCampaign> CreateEmailBuilderCampaignAsync(YulsnCreateEmailBuilderCampaign yulsnCreateEmailBuilderCampaign) =>
+            SendAsync<YulsnReadEmailBuilderCampaign>(new HttpRequestMessage(HttpMethod.Post, "api/v1/EmailBuilderCampaigns")
+            {
+                Content = JsonContent(yulsnCreateEmailBuilderCampaign)
+            });
 
-            request.Content = JsonContent(yulsnCreateEmailBuilderCampaign);
+        public Task<YulsnReadEmailBuilderCampaignBlock> CreateEmailBuilderCampaignBlockAsync(int emailBuilderCampaignId, YulsnCreateEmailBuilderCampaignBlock yulsnCreateEmailBuilderCampaignBlock) =>
+            SendAsync<YulsnReadEmailBuilderCampaignBlock>(new HttpRequestMessage(HttpMethod.Post, $"api/v1/EmailBuilderCampaigns/{emailBuilderCampaignId}/AddBlock")
+            {
+                Content = JsonContent(yulsnCreateEmailBuilderCampaignBlock)
+            });
 
-            return SendAsync<YulsnReadEmailBuilderCampaign>(request);
-        }
+        public Task ScheduleEmailBuilderCampaignAsync(int emailBuilderCampaignId, YulsnCreateScheduleEmailBuilderCampaign yulsnCreateScheduleEmailBuilder) =>
+            SendAsync<object>(new HttpRequestMessage(HttpMethod.Post, $"api/v1/EmailBuilderCampaigns/{emailBuilderCampaignId}/Schedule")
+            {
+                Content = JsonContent(yulsnCreateScheduleEmailBuilder)
+            });
 
-        public Task<YulsnReadEmailBuilderCampaignBlock> CreateEmailBuilderCampaignBlock(int emailBuilderCampaignId, YulsnCreateEmailBuilderCampaignBlock yulsnCreateEmailBuilderCampaignBlock)
-        {
-            var request = new HttpRequestMessage(HttpMethod.Post, $"api/v1/EmailBuilderCampaigns/{emailBuilderCampaignId}/AddBlock");
-
-            request.Content = JsonContent(yulsnCreateEmailBuilderCampaignBlock);
-
-            return SendAsync<YulsnReadEmailBuilderCampaignBlock>(request);
-        }
-
-        public Task ScheduleEmailBuilderCampaign(int emailBuilderCampaignId, YulsnCreateScheduleEmailBuilderCampaign yulsnCreateScheduleEmailBuilder)
-        {
-            var request = new HttpRequestMessage(HttpMethod.Post, $"api/v1/EmailBuilderCampaigns/{emailBuilderCampaignId}/Schedule");
-
-            request.Content = JsonContent(yulsnCreateScheduleEmailBuilder);
-
-            return SendAsync<object>(request);
-        }
-
-        public Task CancelEmailBuilderCampaign(int emailBuilderCampaignId)
-        {
-            var request = new HttpRequestMessage(HttpMethod.Post, $"api/v1/EmailBuilderCampaigns/{emailBuilderCampaignId}/Cancel");
-            return SendAsync<object>(request);
-        }
+        public Task CancelEmailBuilderCampaignAsync(int emailBuilderCampaignId) =>
+            SendAsync<object>(new HttpRequestMessage(HttpMethod.Post, $"api/v1/EmailBuilderCampaigns/{emailBuilderCampaignId}/Cancel"));
     }
 }

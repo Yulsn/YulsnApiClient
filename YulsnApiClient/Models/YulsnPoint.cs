@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace YulsnApiClient.Models
 {
@@ -25,7 +23,7 @@ namespace YulsnApiClient.Models
         public bool IsCanceller { get; set; }
         public int? CancellerPointId { get; set; }
     }
-    
+
     public class YulsnCreatePointDto
     {
         public int ContactId { get; set; }
@@ -38,7 +36,7 @@ namespace YulsnApiClient.Models
         public int? StoreId { get; set; }
         public decimal? BookValue { get; set; }
         public string SubType { get; set; }
-        public decimal? PointCalculationBase { get; set; }        
+        public decimal? PointCalculationBase { get; set; }
     }
 
     public class YulsnReadPointSumDto

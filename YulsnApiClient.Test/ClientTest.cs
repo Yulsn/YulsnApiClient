@@ -1,8 +1,8 @@
 using System;
+using System.Linq;
+using System.Net.Http;
 using Xunit;
 using YulsnApiClient.Client;
-using System.Net.Http;
-using System.Linq;
 
 namespace YulsnApiClient.Test
 {
@@ -14,7 +14,7 @@ namespace YulsnApiClient.Test
 
         [Fact]
         public void SetYulsnApiHost()
-        {            
+        {
             httpClient.SetYulsnApiHost(apiHost);
             Assert.Equal(new Uri($"https://{apiHost}/"), httpClient.BaseAddress);
         }
@@ -23,12 +23,12 @@ namespace YulsnApiClient.Test
         public void SetYulsnApiKey()
         {
             httpClient.SetYulsnApiKey(apiKey);
-            Assert.Equal(apiKey, httpClient.DefaultRequestHeaders.GetValues("X-ApiKey").FirstOrDefault());            
+            Assert.Equal(apiKey, httpClient.DefaultRequestHeaders.GetValues("X-ApiKey").FirstOrDefault());
         }
 
         [Fact]
         public void DefaultConfig()
-        {            
+        {
             new YulsnClient(httpClient, null);
             Assert.Equal(new Uri($"https://api.loyaltii.com/"), httpClient.BaseAddress);
 

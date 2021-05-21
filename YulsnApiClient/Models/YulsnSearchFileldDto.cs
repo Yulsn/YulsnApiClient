@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace YulsnApiClient.Models
+﻿namespace YulsnApiClient.Models
 {
-    public class YulsnSearchFileldDto
+    public class YulsnSearchFieldDto
     {
         public string Field { get; set; }
         public YulsnFieldFilterOperator Operator { get; set; }

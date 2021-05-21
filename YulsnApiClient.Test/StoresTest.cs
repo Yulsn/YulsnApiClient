@@ -1,10 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 using YulsnApiClient.Client;
@@ -26,7 +21,7 @@ namespace YulsnApiClient.Test
         [Fact]
         public async Task GetStoreById()
         {
-            var store = await yulsnClient.GetStore<YulsnReadStoreDto>(1);
+            var store = await yulsnClient.GetStoreAsync<YulsnReadStoreDto>(1);
 
             Assert.True(store != null);
         }
@@ -34,7 +29,7 @@ namespace YulsnApiClient.Test
         [Fact]
         public async Task GetStoreByNumber()
         {
-            var store = await yulsnClient.GetStore<YulsnReadStoreDto>("abc");
+            var store = await yulsnClient.GetStoreAsync<YulsnReadStoreDto>("abc");
 
             Assert.True(store != null);
         }

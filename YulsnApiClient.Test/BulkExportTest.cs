@@ -1,10 +1,6 @@
-﻿using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 using YulsnApiClient.Client;
@@ -36,18 +32,18 @@ namespace YulsnApiClient.Test
                 SuffixFileName = "Api Test"
             };
 
-            await yulsnClient.CreateBulkExport(model);            
+            await yulsnClient.CreateBulkExportAsync(model);
         }
 
         [Fact]
         public async Task GetBulkExports()
         {
-            var exports = await yulsnClient.GetBulkExports();
-            
+            var exports = await yulsnClient.GetBulkExportsAsync();
+
             Assert.NotNull(exports);
             Assert.True(exports.Count > 0);
 
-            exports = await yulsnClient.GetBulkExports(ExportType.Events);
+            exports = await yulsnClient.GetBulkExportsAsync(ExportType.Events);
 
             Assert.NotNull(exports);
             Assert.True(exports.Count > 0);

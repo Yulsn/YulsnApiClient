@@ -1,23 +1,15 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Net;
-using System.Text;
+﻿using System.Net.Http;
 using System.Threading.Tasks;
 using YulsnApiClient.Models;
-using System.Net.Http;
 
 namespace YulsnApiClient.Client
 {
     partial class YulsnClient
-    {        
-        public Task<YulsnReadEmailDispatchDto> CreateEmailDispatch(YulsnCreateEmailDispatchDto yulsnCreateEmailDispatchDto)
-        {
-            var request = new HttpRequestMessage(HttpMethod.Post, "api/v1/EmailDispatches");
-
-            request.Content = JsonContent(yulsnCreateEmailDispatchDto);
-
-            return SendAsync<YulsnReadEmailDispatchDto>(request);
-        }
+    {
+        public Task<YulsnReadEmailDispatchDto> CreateEmailDispatchAsync(YulsnCreateEmailDispatchDto yulsnCreateEmailDispatchDto) =>
+            SendAsync<YulsnReadEmailDispatchDto>(new HttpRequestMessage(HttpMethod.Post, "api/v1/EmailDispatches")
+            {
+                Content = JsonContent(yulsnCreateEmailDispatchDto)
+            });
     }
 }

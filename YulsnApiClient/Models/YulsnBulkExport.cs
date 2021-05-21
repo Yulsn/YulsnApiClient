@@ -6,13 +6,9 @@ namespace YulsnApiClient.Models
 {
     public class YulsnExportSettings
     {
-        /// <summary>
-        /// If you want to make a BulkExport from a DynamicTable the Type must be NULL
-        /// </summary>
+        /// <summary>If you want to make a BulkExport from a DynamicTable the Type must be NULL</summary>
         public ExportType? Type { get; set; }
-        /// <summary>
-        /// If you want to make a BulkExport which is not from a DynamicTable the DynamicTableId must be NULL
-        /// </summary>
+        /// <summary>If you want to make a BulkExport which is not from a DynamicTable the DynamicTableId must be NULL</summary>
         public int? DynamicTableId { get; set; }
         public string ColumnDelimiter { get; set; }
         public string RowDelimiter { get; set; }

@@ -2,13 +2,10 @@
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Net.Http;
-using System.Text;
+using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
 using YulsnApiClient.Client;
-using System.Linq;
 using YulsnApiClient.Models;
 
 namespace YulsnApiClient.Test

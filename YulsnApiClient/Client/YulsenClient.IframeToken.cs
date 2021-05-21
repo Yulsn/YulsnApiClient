@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using YulsnApiClient.Models;
 
 namespace YulsnApiClient.Client
 {
     partial class YulsnClient
     {
-        public Task<YulsnReadIframeToken> GetIframeTokenAsync(string tokenId)  =>
+        public Task<YulsnReadIframeToken> GetIframeTokenAsync(string tokenId) =>
             SendAsync<YulsnReadIframeToken>($"/api/v1/IframeToken?tokenId={tokenId}");
     }
 }

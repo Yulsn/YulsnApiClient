@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace YulsnApiClient.Models
 {
@@ -17,7 +15,6 @@ namespace YulsnApiClient.Models
         public string Email { get; set; }
         public string JsonString { get; set; }
     }
-
 
     public class YulsnCreateStoreDto
     {

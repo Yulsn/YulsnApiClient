@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace YulsnApiClient.Models
 {
@@ -19,8 +18,6 @@ namespace YulsnApiClient.Models
         public int? StoreId { get; set; }
         public List<YulsnCreateOrderLineDto> OrderLines { get; set; }
     }
-
-
 
     public class YulsnReadOrderDto
     {

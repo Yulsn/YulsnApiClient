@@ -2,9 +2,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 using YulsnApiClient.Client;
@@ -47,17 +44,17 @@ namespace YulsnApiClient.Test
                 }
             };
 
-            await yulsnClient.CreateContactEvent(models, true);
+            await yulsnClient.CreateContactEventAsync(models, true);
         }
 
         [Fact]
         public async Task GetContactEvents()
         {
-            var list = await yulsnClient.GetContactEvents<YulsnReadContactEvent>("test", 0);
+            var list = await yulsnClient.GetContactEventsAsync<YulsnReadContactEvent>("test", 0);
 
             Assert.NotNull(list);
 
-            list = await yulsnClient.GetContactEvents<YulsnReadContactEvent>(
+            list = await yulsnClient.GetContactEventsAsync<YulsnReadContactEvent>(
                 "test",
                 "test",
                 DateTimeOffset.UtcNow.AddMonths(-1),

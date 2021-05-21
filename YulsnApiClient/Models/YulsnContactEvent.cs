@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace YulsnApiClient.Models
-{    
+{
     public class YulsnReadContactEvent
     {
         public int Id { get; set; }
@@ -17,6 +15,7 @@ namespace YulsnApiClient.Models
         public string UniqueExtId { get; set; }
         public object InfoJson { get; set; }
     }
+
     public class YulsnCreateContactEvent
     {
         /// <summary>ContactId or ContactSecret should have a value</summary>

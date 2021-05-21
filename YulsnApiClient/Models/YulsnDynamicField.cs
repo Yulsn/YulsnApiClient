@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace YulsnApiClient.Models
 {
@@ -23,7 +21,6 @@ namespace YulsnApiClient.Models
         /// </summary>
         public List<object> Values { get; set; }
     }
-
 
     public enum YulsnDynamicFieldType
     {
