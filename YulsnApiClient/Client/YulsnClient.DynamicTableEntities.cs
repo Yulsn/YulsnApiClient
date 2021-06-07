@@ -74,7 +74,8 @@ namespace YulsnApiClient.Client
 
         public Task<List<T>> SearchDynamicTableEntitiesAsync<T>(string tableName, YulsnSearchDynamicTableEntitiesDto yulsnSearchDynamicTableEntitiesDto) where T : YulsnReadDynamicTableEntity =>
             SendAsync<List<T>>(new HttpMethod("SEARCH"), $"api/v1/table/{tableName}", yulsnSearchDynamicTableEntitiesDto);
-
+        public Task<List<Dictionary<string, object>>> SearchDynamicTableEntitiesAsDictionaryAsync(string tableName, YulsnSearchDynamicTableEntitiesDto yulsnSearchDynamicTableEntitiesDto) =>
+             SendAsync<List<Dictionary<string, object>>>(new HttpMethod("SEARCH"), $"api/v1/table/{tableName}", yulsnSearchDynamicTableEntitiesDto);
         public Task<int> CountDynamicTableEntitiesAsync<T>(string tableName, YulsnSearchDynamicTableEntitiesDto yulsnSearchDynamicTableEntitiesDto) where T : YulsnReadDynamicTableEntity =>
             SendAsync<int>(new HttpMethod("SEARCH"), $"api/v1/table/{tableName}/Count", yulsnSearchDynamicTableEntitiesDto);
 
