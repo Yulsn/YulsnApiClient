@@ -25,7 +25,7 @@ namespace YulsnApiClient.Models
     {
         public string Name { get; set; }
         public Uri DownloadUrl { get; set; }
-        public int SizeInBytes { get; set; }
+        public long SizeInBytes { get; set; }
         public string Type { get; set; }
         public DateTimeOffset? CreatedDateTimeFrom { get; set; }
         public DateTimeOffset? CreatedDateTimeTo { get; set; }
