@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Text;
@@ -50,12 +51,7 @@ namespace YulsnApiClient.Client
 
                 if (!response.IsSuccessStatusCode)
                 {
-                    YulsnApiError error = null;
-
-                    try { error = JsonConvert.DeserializeObject<YulsnApiError>(json); }
-                    catch { }
-
-                    throw new HttpRequestException($"Response status code does not indicate success: {(int)response.StatusCode} ({response.ReasonPhrase}). {error?.Message}");
+                    throw new HttpRequestException($"Response status code does not indicate success: {(int)response.StatusCode} ({response.ReasonPhrase}). {json}");
                 }
 
                 return JsonConvert.DeserializeObject<T>(json);
@@ -63,10 +59,5 @@ namespace YulsnApiClient.Client
         }
 
         public HttpContent JsonContent<T>(T model) => new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json");
-    }
-
-    class YulsnApiError
-    {
-        public string Message { get; set; }
     }
 }
