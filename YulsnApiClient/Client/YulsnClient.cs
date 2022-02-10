@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using YulsnApiClient.Models;
 
 namespace YulsnApiClient.Client
 {
@@ -51,7 +52,7 @@ namespace YulsnApiClient.Client
 
                 if (!response.IsSuccessStatusCode)
                 {
-                    throw new HttpRequestException($"Response status code does not indicate success: {(int)response.StatusCode} ({response.ReasonPhrase}). {json}");
+                    throw new YulsnRequestException(response, json);
                 }
 
                 return JsonConvert.DeserializeObject<T>(json);
