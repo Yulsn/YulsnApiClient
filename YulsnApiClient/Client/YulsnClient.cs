@@ -52,7 +52,7 @@ namespace YulsnApiClient.Client
 
                 if (!response.IsSuccessStatusCode)
                 {
-                    throw new YulsnRequestException(response, json);
+                    throw new YulsnRequestException(response.StatusCode, response.ReasonPhrase, json);
                 }
 
                 return JsonConvert.DeserializeObject<T>(json);
