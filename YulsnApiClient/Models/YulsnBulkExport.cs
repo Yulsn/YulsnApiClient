@@ -19,6 +19,7 @@ namespace YulsnApiClient.Models
         public List<string> Fields { get; set; }
         public string SuffixFileName { get; set; }
         public string TimeZoneId { get; set; }
+        public bool UseCompression { get; set; }
     }
 
     public class YulsnExportItem
