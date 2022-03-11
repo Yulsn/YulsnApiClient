@@ -72,6 +72,15 @@ namespace YulsnApiClient.Client
         public Task<List<T>> GetDynamicTableEntitiesByLastIdAsync<T>(string tableName, int lastId, int take = 1000) where T : YulsnReadDynamicTableEntity =>
             SendAsync<List<T>>($"api/v1/table/{tableName}?lastId={lastId}&take={take}");
 
+        /// <summary>
+        /// Will return {tableName} entities with id higher than provided lastId up to limit (take)
+        /// </summary>
+        /// <param name="tableName">Dynamic table name</param>
+        /// <param name="lastId">Last {tableName} entity id</param>
+        /// <param name="take">Number of dynamic table entities to return. Max is the default value</param>        
+        public Task<List<Dictionary<string, object>>> GetDynamicTableEntitiesByLastIdAsDictionaryAsync(string tableName, int lastId, int take = 1000) =>
+            SendAsync<List<Dictionary<string, object>>>($"api/v1/table/{tableName}?lastId={lastId}&take={take}");
+
         public Task<List<T>> SearchDynamicTableEntitiesAsync<T>(string tableName, YulsnSearchDynamicTableEntitiesDto yulsnSearchDynamicTableEntitiesDto) where T : YulsnReadDynamicTableEntity =>
             SendAsync<List<T>>(new HttpMethod("SEARCH"), $"api/v1/table/{tableName}", yulsnSearchDynamicTableEntitiesDto);
         public Task<List<Dictionary<string, object>>> SearchDynamicTableEntitiesAsDictionaryAsync(string tableName, YulsnSearchDynamicTableEntitiesDto yulsnSearchDynamicTableEntitiesDto) =>
