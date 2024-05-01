@@ -15,7 +15,7 @@ namespace YulsnApiClient.Models
         public string ErrorBody { get; set; }
 
         public YulsnRequestException(HttpStatusCode statusCode, string reasonPhrase, string json)
-            : base($"Response status code does not indicate success: {(int)statusCode} ({reasonPhrase}). {json}")
+            : base($"Response status code does not indicate success: {(int)statusCode} ({reasonPhrase}).")
         {
             StatusCode = statusCode;
             ReasonPhrase = reasonPhrase;
