@@ -10,7 +10,7 @@ namespace YulsnApiClient.Client
     partial class YulsnClient
     {
         public Task<List<T>> GetContactEventsAsync<T>(string type, int lastId) where T : YulsnReadContactEvent =>
-            SendAsync<List<T>>($"api/v1/ContactEvents?type={type}&lastId={lastId}");
+            SendAsync<List<T>>($"api/v1/ContactEvents?type={type}&lastId={lastId}", nameof(GetContactEventsAsync));
 
         public Task<List<T>> GetContactEventsAsync<T>(string type, string subtype = null, DateTimeOffset? from = null, DateTimeOffset? to = null, int? contactId = null) where T : YulsnReadContactEvent
         {
@@ -28,10 +28,10 @@ namespace YulsnApiClient.Client
             if (contactId != null)
                 url.Append($"&contactId={contactId}");
 
-            return SendAsync<List<T>>(url.ToString());
+            return SendAsync<List<T>>(url.ToString(), nameof(GetContactEventsAsync));
         }
 
         public Task CreateContactEventAsync<T>(List<T> yulsnCreateContactEvents, bool ignoreUnknownContacts = false) where T : YulsnCreateContactEvent =>
-            SendAsync<object>(HttpMethod.Post, $"api/v1/ContactEvents?ignoreUnknownContacts={ignoreUnknownContacts}", yulsnCreateContactEvents);
+            SendAsync<object>(HttpMethod.Post, $"api/v1/ContactEvents?ignoreUnknownContacts={ignoreUnknownContacts}", yulsnCreateContactEvents, nameof(CreateContactEventAsync));
     }
 }
