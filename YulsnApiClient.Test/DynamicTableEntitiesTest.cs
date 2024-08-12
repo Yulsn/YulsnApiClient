@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
 using YulsnApiClient.Client;
-using YulsnApiClient.Models;
+using YulsnApiClient.Models.V1;
 
 namespace YulsnApiClient.Test
 {

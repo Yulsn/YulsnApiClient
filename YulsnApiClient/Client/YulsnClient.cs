@@ -7,11 +7,15 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using YulsnApiClient.Models;
+using YulsnApiClient.Models.V1;
+using YulsnApiClient.Models.V2;
 
 namespace YulsnApiClient.Client
 {
     public partial class YulsnClient
     {
+        public int AccountId { get; set; }
+
         private readonly HttpClient httpClient;
         static readonly ActivitySource activitySource = new ActivitySource("yulsn.api.client");
 
@@ -28,6 +32,9 @@ namespace YulsnApiClient.Client
 
                 if (config["yulsn-api-host"] != null)
                     httpClient.SetYulsnApiHost(config["yulsn-api-host"]);
+
+                if (config["yulsn-api-accountid"] != null && int.TryParse(config["yulsn-api-accountid"], out int accountId))
+                    AccountId = accountId;
             }
         }
 
@@ -60,7 +67,21 @@ namespace YulsnApiClient.Client
 
                     if (!response.IsSuccessStatusCode)
                     {
-                        throw new YulsnRequestException(response.StatusCode, response.ReasonPhrase, json);
+                        if (request.RequestUri.PathAndQuery.StartsWith("/api/v2"))
+                        {
+                            try
+                            {
+                                JsonConvert.DeserializeObject<ProblemDetails>(json);
+                            }
+                            catch
+                            {
+                                throw new ProblemDetails { Status = (int)response.StatusCode, Title = response.ReasonPhrase, Detail = json };
+                            }
+                        }
+                        else // v1 exception
+                        {
+                            throw new YulsnRequestException(response.StatusCode, response.ReasonPhrase, json);
+                        }
                     }
 
                     return JsonConvert.DeserializeObject<T>(json);
