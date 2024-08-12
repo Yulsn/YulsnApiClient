@@ -22,7 +22,7 @@ namespace YulsnApiClient.Client
         public YulsnClient(HttpClient httpClient, IConfiguration config)
         {
             httpClient.DefaultRequestHeaders.Add("Accept", "application/json");
-            httpClient.SetYulsnApiHost("api.loyaltii.com");
+            httpClient.SetYulsnApiHost("api.yulsn.io");
             this.httpClient = httpClient;
 
             if (config != null)
