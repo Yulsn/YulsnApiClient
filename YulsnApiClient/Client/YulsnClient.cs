@@ -63,7 +63,7 @@ namespace YulsnApiClient.Client
                         return default;
                     }
 
-                    string json = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    string content = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
 
                     if (!response.IsSuccessStatusCode)
                     {
@@ -71,20 +71,24 @@ namespace YulsnApiClient.Client
                         {
                             try
                             {
-                                JsonConvert.DeserializeObject<ProblemDetails>(json);
+                                JsonConvert.DeserializeObject<ProblemDetails>(content);
                             }
                             catch
                             {
-                                throw new ProblemDetails { Status = (int)response.StatusCode, Title = response.ReasonPhrase, Detail = json };
+                                throw new ProblemDetails { Status = (int)response.StatusCode, Title = response.ReasonPhrase, Detail = content };
                             }
                         }
                         else // v1 exception
                         {
-                            throw new YulsnRequestException(response.StatusCode, response.ReasonPhrase, json);
+                            throw new YulsnRequestException(response.StatusCode, response.ReasonPhrase, content);
                         }
                     }
 
-                    return JsonConvert.DeserializeObject<T>(json);
+                    if (typeof(T) == typeof(string))
+                    {
+                        return (T)(object)content;
+                    }
+                    return JsonConvert.DeserializeObject<T>(content);
                 }
             }
         }
