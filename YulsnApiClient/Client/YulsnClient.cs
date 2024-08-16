@@ -69,14 +69,17 @@ namespace YulsnApiClient.Client
                     {
                         if (request.RequestUri.PathAndQuery.StartsWith("/api/v2"))
                         {
+                            ProblemDetails pd;
                             try
                             {
-                                JsonConvert.DeserializeObject<ProblemDetails>(content);
+                                pd = JsonConvert.DeserializeObject<ProblemDetails>(content);
                             }
                             catch
                             {
-                                throw new ProblemDetails { Status = (int)response.StatusCode, Title = response.ReasonPhrase, Detail = content };
+                                pd = new ProblemDetails { Status = (int)response.StatusCode, Title = response.ReasonPhrase, Detail = content };
                             }
+
+                            throw pd;
                         }
                         else // v1 exception
                         {
