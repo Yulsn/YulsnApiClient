@@ -12,12 +12,12 @@ namespace YulsnApiClient.Client
         /// Sends a sms message to a single contact
         /// </summary>
         public Task<YulsnSendMessageResponse> SendSingleSmsMessageAsync(YulsnSendSingleMessageRequest body) =>
-            SendAsync<YulsnSendMessageResponse>(HttpMethod.Post, $"api/v2/{AccountId}/Messages/Sms/SendSingle", body, nameof(SendSingleSmsMessageAsync));
+            SendAsync<YulsnSendMessageResponse>(HttpMethod.Post, $"api/v2/{AccountId}/Messages/Sms/SendSingle", body, nameof(SendSingleSmsMessageAsync), YulsnApiVersion.V2);
 
         /// <summary>
         /// Sends a sms message to a bulk of contacts defined by segment(s)
         /// </summary>
         public Task<YulsnSendMessageResponse> SendBulkSmsMessageAsync(YulsnSendBulkMessageRequest body) =>
-            SendAsync<YulsnSendMessageResponse>(HttpMethod.Post, $"api/v2/{AccountId}/Messages/Sms/SendBulk", body, nameof(SendBulkSmsMessageAsync));
+            SendAsync<YulsnSendMessageResponse>(HttpMethod.Post, $"api/v2/{AccountId}/Messages/Sms/SendBulk", body, nameof(SendBulkSmsMessageAsync), YulsnApiVersion.V2);
     }
 }

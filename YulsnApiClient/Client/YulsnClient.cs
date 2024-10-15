@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net;
@@ -12,49 +13,85 @@ using YulsnApiClient.Models.V2;
 
 namespace YulsnApiClient.Client
 {
+    public enum YulsnApiVersion
+    {
+        V1, V2
+    }
     public partial class YulsnClient
     {
         public int AccountId { get; set; }
 
-        private readonly HttpClient httpClient;
-        static readonly ActivitySource activitySource = new ActivitySource("yulsn.api.client");
+        private readonly IHttpClientFactory _httpClientFactory;
+        private readonly static ActivitySource activitySource = new ActivitySource("yulsn.api.client");
+        private string apiKey = null;
+        private string apiHost = null;
+        private string apiV1baseUrl = null;
+        private string apiV2baseUrl = null;
 
-        public YulsnClient(HttpClient httpClient, IConfiguration config)
+        public YulsnClient(IHttpClientFactory httpClientFactory, IConfiguration config)
         {
-            httpClient.DefaultRequestHeaders.Add("Accept", "application/json");
-            httpClient.SetYulsnApiHost("api.yulsn.io");
-            this.httpClient = httpClient;
+            _httpClientFactory = httpClientFactory;
+            apiHost = "api.yulsn.io";
 
             if (config != null)
             {
                 if (config["yulsn-api-key"] != null)
-                    httpClient.SetYulsnApiKey(config["yulsn-api-key"]);
+                    apiKey = config["yulsn-api-key"];
 
                 if (config["yulsn-api-host"] != null)
-                    httpClient.SetYulsnApiHost(config["yulsn-api-host"]);
+                    apiHost = config["yulsn-api-host"];
 
                 if (config["yulsn-api-accountid"] != null && int.TryParse(config["yulsn-api-accountid"], out int accountId))
                     AccountId = accountId;
+
+                if (config["yulsn-api-v1-baseurl"] != null)
+                    apiV1baseUrl = config["yulsn-api-v1-baseurl"];
+
+                if (config["yulsn-api-v2-baseurl"] != null)
+                    apiV2baseUrl = config["yulsn-api-v2-baseurl"];
             }
         }
 
-        public void SetYulsnApiKey(string apiKey) => httpClient.SetYulsnApiKey(apiKey);
+        HttpClient getClient(YulsnApiVersion apiVersion)
+        {
+            var client = _httpClientFactory.CreateClient();
+            client.DefaultRequestHeaders.Add("Accept", "application/json");
+            client.DefaultRequestHeaders.Add("X-ApiKey", apiKey);
+            client.BaseAddress = new Uri("https://" + apiHost, UriKind.Absolute);
 
-        public void SetYulsnApiHost(string apiHost) => httpClient.SetYulsnApiHost(apiHost);
+            switch (apiVersion)
+            {
+                case YulsnApiVersion.V1:
+                    if (apiV1baseUrl != null)
+                        client.BaseAddress = new Uri(apiV1baseUrl, UriKind.Absolute);
+                    break;
+                case YulsnApiVersion.V2:
+                    if (apiV2baseUrl != null)
+                        client.BaseAddress = new Uri(apiV2baseUrl, UriKind.Absolute);
+                    break;
+                default:
+                    break;
+            }
+            return client;
+        }
 
-        public Task<T> SendAsync<T>(string url, string activityName = null) => SendAsync<T>(new HttpRequestMessage(HttpMethod.Get, url), activityName);
+        public void SetYulsnApiKey(string apiKey) => this.apiKey = apiKey;
 
-        public Task<T> SendAsync<T>(HttpMethod method, string url, string activityName = null) => SendAsync<T>(new HttpRequestMessage(method, url), activityName);
+        public void SetYulsnApiHost(string apiHost) => this.apiHost = apiHost;
 
-        public Task<T> SendAsync<T>(HttpMethod method, string url, object body, string activityName = null) => SendAsync<T>(new HttpRequestMessage(method, url) { Content = JsonContent(body) }, activityName);
+        public Task<T> SendAsync<T>(string url, string activityName = null, YulsnApiVersion apiVersion = YulsnApiVersion.V1) => SendAsync<T>(new HttpRequestMessage(HttpMethod.Get, url), activityName, apiVersion);
 
-        public async Task<T> SendAsync<T>(HttpRequestMessage request, string activityName = null)
+        public Task<T> SendAsync<T>(HttpMethod method, string url, string activityName = null, YulsnApiVersion apiVersion = YulsnApiVersion.V1) => SendAsync<T>(new HttpRequestMessage(method, url), activityName, apiVersion);
+
+        public Task<T> SendAsync<T>(HttpMethod method, string url, object body, string activityName = null, YulsnApiVersion apiVersion = YulsnApiVersion.V1) => SendAsync<T>(new HttpRequestMessage(method, url) { Content = JsonContent(body) }, activityName, apiVersion);
+
+        public async Task<T> SendAsync<T>(HttpRequestMessage request, string activityName = null, YulsnApiVersion apiVersion = YulsnApiVersion.V1)
         {
             using (var activity = GetActivity(activityName))
             {
                 activity?.SetTag("http.request.method", request.Method.ToString());
 
-                using (var response = await httpClient.SendAsync(request).ConfigureAwait(false))
+                using (var response = await getClient(apiVersion).SendAsync(request).ConfigureAwait(false))
                 {
                     activity?.SetTag("http.response.status_code", (int)response.StatusCode);
 
@@ -67,7 +104,7 @@ namespace YulsnApiClient.Client
 
                     if (!response.IsSuccessStatusCode)
                     {
-                        if (request.RequestUri.PathAndQuery.StartsWith("/api/v2"))
+                        if (apiVersion == YulsnApiVersion.V2)
                         {
                             ProblemDetails pd;
                             try
