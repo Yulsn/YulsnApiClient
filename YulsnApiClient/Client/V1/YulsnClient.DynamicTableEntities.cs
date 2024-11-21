@@ -24,12 +24,28 @@ namespace YulsnApiClient.Client
             SendAsync<T>($"api/v1/table/{tableName}/{id}");
 
         /// <summary>
+        /// Will return {tableName} entity by id or null if not exists
+        /// </summary>
+        /// <param name="tableName">Dynamic table name</param>
+        /// <param name="id">Dynamic table entity id</param>
+        public Task<Dictionary<string, object>> GetDynamicTableEntityByIdAsDictionaryAsync(string tableName, int id) =>
+            SendAsync<Dictionary<string, object>>($"api/v1/table/{tableName}/{id}");
+
+        /// <summary>
         /// Will return {tableName} entity by secret or null if not exists
         /// </summary>
         /// <param name="tableName">Dynamic table name</param>
         /// <param name="secret">Dynamic table entity secret</param>
         public Task<T> GetDynamicTableEntityBySecretAsync<T>(string tableName, string secret) where T : YulsnReadDynamicTableEntity =>
             SendAsync<T>($"api/v1/table/{tableName}?secret={secret}");
+
+        /// <summary>
+        /// Will return {tableName} entity by secret or null if not exists
+        /// </summary>
+        /// <param name="tableName">Dynamic table name</param>
+        /// <param name="secret">Dynamic table entity secret</param>
+        public Task<Dictionary<string, object>> GetDynamicTableEntityBySecretAsDictionaryAsync(string tableName, string secret) =>
+            SendAsync<Dictionary<string, object>>($"api/v1/table/{tableName}?secret={secret}");
 
         /// <summary>
         /// Will return {tableName} entity by external id or null if not exists
