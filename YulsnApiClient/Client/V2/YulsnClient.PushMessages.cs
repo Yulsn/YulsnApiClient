@@ -11,13 +11,13 @@ namespace YulsnApiClient.Client
         /// <summary>
         /// Sends a push message to a single contact
         /// </summary>
-        public Task<YulsnSendMessageResponse> SendSinglePushMessageAsync(YulsnSendSingleMessageRequest body) =>
-            SendAsync<YulsnSendMessageResponse>(HttpMethod.Post, $"api/v2/{AccountId}/Messages/Push/SendSingle", body, nameof(SendSinglePushMessageAsync), YulsnApiVersion.V2);
+        public Task<YulsnSendMessageResponse> SendSinglePushMessageAsync(YulsnSendMessageToContactRequest body) =>
+            SendAsync<YulsnSendMessageResponse>(HttpMethod.Post, $"api/v2/{AccountId}/Messages/Push/Send/Contact", body, nameof(SendSinglePushMessageAsync), YulsnApiVersion.V2);
 
         /// <summary>
         /// Sends a push message to a bulk of contacts defined by segment(s)
         /// </summary>
-        public Task<YulsnSendMessageResponse> SendBulkPushMessageAsync(YulsnSendBulkMessageRequest body) =>
-            SendAsync<YulsnSendMessageResponse>(HttpMethod.Post, $"api/v2/{AccountId}/Messages/Push/SendBulk", body, nameof(SendBulkPushMessageAsync), YulsnApiVersion.V2);
+        public Task<YulsnSendMessageResponse> SendBulkPushMessageAsync(YulsnSendMessageToSegmentRequest body) =>
+            SendAsync<YulsnSendMessageResponse>(HttpMethod.Post, $"api/v2/{AccountId}/Messages/Push/Send/Segment", body, nameof(SendBulkPushMessageAsync), YulsnApiVersion.V2);
     }
 }

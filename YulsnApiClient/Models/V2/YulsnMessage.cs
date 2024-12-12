@@ -4,7 +4,7 @@ using System.Text;
 
 namespace YulsnApiClient.Models.V2
 {
-    public class YulsnSendSingleMessageRequest
+    public class YulsnSendMessageToContactRequest
     {
         public string TriggerId { get; set; }
         public int ContactId { get; set; }
@@ -13,7 +13,16 @@ namespace YulsnApiClient.Models.V2
         public bool? IsTest { get; set; }
     }
 
-    public class YulsnSendBulkMessageRequest
+    public class YulsnSendMessageToPhoneRequest
+    {
+        public string TriggerId { get; set; }
+        public string Phone { get; set; }
+        public DateTimeOffset? Schedule { get; set; }
+        public Dictionary<string, object> DynamicValues { get; set; }
+        public bool? IsTest { get; set; }
+    }
+
+    public class YulsnSendMessageToSegmentRequest
     {
         public string TriggerId { get; set; }
         public List<int> InSegmentIds { get; set; }
