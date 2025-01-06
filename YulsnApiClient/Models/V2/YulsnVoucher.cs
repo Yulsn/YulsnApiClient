@@ -7,13 +7,16 @@ namespace YulsnApiClient.Models.V2
 {
     public class YulsnVoucherGroup
     {
-        public int? Id { get; set; }
+        public int Id { get; set; }
+        public bool IsActive { get; set; }
         public string Name { get; set; }
         public int? WinnerChance { get; set; }
     }
 
     public class YulsnVoucher
     {
+        public bool IsActive { get; set; }
+        public int VoucherGroupId { get; set; }
         public int VoucherId { get; set; }
         public int? AssignWeight { get; set; }
         public int? AssignLimit { get; set; }
@@ -22,6 +25,8 @@ namespace YulsnApiClient.Models.V2
         public VoucherRedeemTime? RedeemTime { get; set; }
         public int? RedeemHours { get; set; }
         public DateTimeOffset? RedeemCustom { get; set; }
+
+        public int UnassignedVoucherCodeCount { get; set; }
     }
 
     public class YulsnVoucherCodeImportRequest
@@ -75,16 +80,17 @@ namespace YulsnApiClient.Models.V2
         public DateTimeOffset? StatusChanged { get; set; }
     }
 
-    public class YulsnVoucherAssignment<T> where T : YulsnVoucher
+    public class YulsnVoucherAssignment
     {
         public int Id { get; set; }
+        public int VoucherGroupId { get; set; }
+        public int VoucherId { get; set; }
         public int? VoucherCodeId { get; set; }
         public int? ContactId { get; set; }
         public DateTimeOffset Deadline { get; set; }
         public VoucherAssignmentStatus Status { get; set; }
         public DateTimeOffset? StatusChanged { get; set; }
 
-        public T Voucher { get; set; }
         public YulsnVoucherCode VoucherCode { get; set; }
     }
 

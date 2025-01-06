@@ -21,7 +21,7 @@ namespace YulsnApiClient.Client
         /// <param name="voucherGroupId">Id of VoucherGroup</param>
         /// <returns></returns>
         public Task<List<T>> GetActiveVouchersFromVoucherGroupAsync<T>(int voucherGroupId) where T : YulsnVoucher =>
-            SendAsync<List<T>>(HttpMethod.Get, $"api/v2/{AccountId}/VoucherGroups/{voucherGroupId}/ActiveVouchers", nameof(GetActiveVouchersFromVoucherGroupAsync), YulsnApiVersion.V2);
+            SendAsync<List<T>>(HttpMethod.Get, $"api/v2/{AccountId}/VoucherGroups/{voucherGroupId}/Vouchers/Active", nameof(GetActiveVouchersFromVoucherGroupAsync), YulsnApiVersion.V2);
 
         /// <summary>
         /// Assigns a voucher in a group to a contact
@@ -42,16 +42,16 @@ namespace YulsnApiClient.Client
         /// </summary>
         /// <param name="contactId">Id of Contact</param>
         /// <returns></returns>
-        public Task<List<YulsnVoucherAssignment<T>>> GetVoucherAssignmentByContactAsync<T>(int contactId) where T : YulsnVoucher =>
-            SendAsync<List<YulsnVoucherAssignment<T>>>(HttpMethod.Get, $"api/v2/{AccountId}/VoucherAssignments/Contact/{contactId}", nameof(GetVoucherAssignmentByContactAsync), YulsnApiVersion.V2);
+        public Task<List<YulsnVoucherAssignment>> GetVoucherAssignmentByContactAsync<T>(int contactId) =>
+            SendAsync<List<YulsnVoucherAssignment>>(HttpMethod.Get, $"api/v2/{AccountId}/VoucherAssignments/Contact/{contactId}", nameof(GetVoucherAssignmentByContactAsync), YulsnApiVersion.V2);
 
         /// <summary>
         /// Returns voucher assingment of a voucher code
         /// </summary>
         /// <param name="code">VoucherCode</param>
         /// <returns></returns>
-        public Task<YulsnVoucherAssignment<T>> GetVoucherAssignmentByCodeAsync<T>(string code) where T : YulsnVoucher =>
-            SendAsync<YulsnVoucherAssignment<T>>(HttpMethod.Get, $"api/v2/{AccountId}/VoucherAssignments/VoucherCode/{code}", nameof(GetVoucherAssignmentByContactAsync), YulsnApiVersion.V2);
+        public Task<YulsnVoucherAssignment> GetVoucherAssignmentByCodeAsync<T>(string code) =>
+            SendAsync<YulsnVoucherAssignment>(HttpMethod.Get, $"api/v2/{AccountId}/VoucherAssignments/VoucherCode/{code}", nameof(GetVoucherAssignmentByContactAsync), YulsnApiVersion.V2);
 
     }
 }
