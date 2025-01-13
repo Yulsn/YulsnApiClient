@@ -9,7 +9,15 @@ namespace YulsnApiClient.Client
     partial class YulsnClient
     {
         /// <summary>
-        /// Returns all active voucher groups.
+        /// Returns a voucher group
+        /// </summary>
+        /// param name="voucherGroupId">Id of VoucherGroup</param>
+        /// <returns></returns>
+        public Task<T> GetVoucherGroupByIdAsync<T>(int voucherGroupId) where T : YulsnVoucherGroup =>
+            SendAsync<T>(HttpMethod.Get, $"api/v2/{AccountId}/VoucherGroups/{voucherGroupId}", nameof(GetVoucherGroupByIdAsync), YulsnApiVersion.V2);
+
+        /// <summary>
+        /// Returns all active voucher groups
         /// </summary>
         /// <returns></returns>
         public Task<List<T>> GetActiveVoucherGroupsAsync<T>() where T : YulsnVoucherGroup =>
@@ -24,6 +32,15 @@ namespace YulsnApiClient.Client
             SendAsync<List<T>>(HttpMethod.Get, $"api/v2/{AccountId}/VoucherGroups/{voucherGroupId}/Vouchers/Active", nameof(GetActiveVouchersFromVoucherGroupAsync), YulsnApiVersion.V2);
 
         /// <summary>
+        /// Returns a voucher of a voucher group
+        /// </summary>
+        /// <param name="voucherGroupId">Id of VoucherGroup</param>
+        /// <param name="voucherId">Id of Voucher</param>
+        /// <returns></returns>
+        public Task<T> GetVoucherFromVoucherGroupAsync<T>(int voucherGroupId, int voucherId) where T : YulsnVoucher =>
+            SendAsync<T>(HttpMethod.Get, $"api/v2/{AccountId}/VoucherGroups/{voucherGroupId}/Vouchers/{voucherId}", nameof(GetVoucherFromVoucherGroupAsync), YulsnApiVersion.V2);
+
+        /// <summary>
         /// Assigns a voucher in a group to a contact
         /// </summary>
         /// <returns></returns>
@@ -31,7 +48,7 @@ namespace YulsnApiClient.Client
             SendAsync<YulsnPostVoucherAssignmentResponse>(HttpMethod.Post, $"api/v2/{AccountId}/VoucherAssignments", request, nameof(AssignVoucherToContactAsync), YulsnApiVersion.V2);
 
         /// <summary>
-        /// Updates the status on a voucher assignment.
+        /// Updates the status on a voucher assignment
         /// </summary>
         /// <returns></returns>
         public Task UpdateVoucherAssignmentAsync(YulsnPatchVoucherAssignmentRequest request) =>
@@ -42,7 +59,7 @@ namespace YulsnApiClient.Client
         /// </summary>
         /// <param name="contactId">Id of Contact</param>
         /// <returns></returns>
-        public Task<List<YulsnVoucherAssignment>> GetVoucherAssignmentByContactAsync<T>(int contactId) =>
+        public Task<List<YulsnVoucherAssignment>> GetVoucherAssignmentByContactAsync(int contactId) =>
             SendAsync<List<YulsnVoucherAssignment>>(HttpMethod.Get, $"api/v2/{AccountId}/VoucherAssignments/Contact/{contactId}", nameof(GetVoucherAssignmentByContactAsync), YulsnApiVersion.V2);
 
         /// <summary>

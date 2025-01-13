@@ -10,8 +10,8 @@ namespace YulsnApiClient.Client
         public Task<RO> GetOrderAsync<RO, RL>(int orderId) where RO : YulsnReadOrderDto<RL> where RL : YulsnReadOrderLineDto =>
             SendAsync<RO>($"/api/v1/Orders/{orderId}");
 
-        public Task<List<RO>> GetOrdersByContactIdAsync<RO, RL>(int contactId) where RO : YulsnReadOrderDto<RL> where RL : YulsnReadOrderLineDto =>
-            SendAsync<List<RO>>($"/api/v1/Orders?contactid={contactId}");
+        public Task<List<RO>> GetOrdersByContactIdAsync<RO, RL>(int contactId, string orderType = null, bool? withOrderLines = null) where RO : YulsnReadOrderDto<RL> where RL : YulsnReadOrderLineDto =>
+            SendAsync<List<RO>>($"/api/v1/Orders?contactid={contactId}{(orderType != null ? $"&orderType={orderType}" : null)}{(withOrderLines != null ? $"&withOrderLines={withOrderLines}" : null)}");
 
         public Task<List<RO>> GetOrdersByExtOrderIdAsync<RO, RL>(string extOrderId) where RO : YulsnReadOrderDto<RL> where RL : YulsnReadOrderLineDto =>
             SendAsync<List<RO>>($"/api/v1/Orders?extOrderId={extOrderId}");
