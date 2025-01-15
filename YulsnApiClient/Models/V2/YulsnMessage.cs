@@ -22,6 +22,11 @@ namespace YulsnApiClient.Models.V2
         public bool? IsTest { get; set; }
     }
 
+    public class YulsnSendMessageResponse
+    {
+        public int DispatchId { get; set; }
+    }
+
     public class YulsnSendMessageToSegmentRequest
     {
         public string TriggerId { get; set; }
@@ -33,9 +38,20 @@ namespace YulsnApiClient.Models.V2
         public bool? IsTest { get; set; }
     }
 
-    public class YulsnSendMessageResponse
+    public class YulsnPushTokenPostRequest
     {
-        public int DispatchId { get; set; }
+        public int ContactId { get; set; }
+        public string Value { get; set; }
+    }
+
+    public class YulsnPushTokenPostResponse
+    {
+        public int Id { get; set; }
+    }
+
+    public class YulsnPushTokenDeleteRequest
+    {
+        public string Value { get; set; }
     }
 
     public enum YulsnMessageForm { Email, Sms, Push }

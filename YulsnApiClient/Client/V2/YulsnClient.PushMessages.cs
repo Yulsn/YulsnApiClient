@@ -19,5 +19,11 @@ namespace YulsnApiClient.Client
         /// </summary>
         public Task<YulsnSendMessageResponse> SendBulkPushMessageAsync(YulsnSendMessageToSegmentRequest body) =>
             SendAsync<YulsnSendMessageResponse>(HttpMethod.Post, $"api/v2/{AccountId}/Messages/Push/Send/Segment", body, nameof(SendBulkPushMessageAsync), YulsnApiVersion.V2);
+
+        /// <summary>
+        /// Adds a new push token to a contact
+        /// </summary>
+        public Task<YulsnPushTokenPostResponse> AddPushTokenToContactAsync(YulsnPushTokenPostRequest body) =>
+            SendAsync<YulsnPushTokenPostResponse>(HttpMethod.Post, $"api/v2/{AccountId}/Messages/Push/Tokens", body, nameof(AddPushTokenToContactAsync), YulsnApiVersion.V2);
     }
 }
