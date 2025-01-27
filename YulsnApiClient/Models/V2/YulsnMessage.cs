@@ -51,6 +51,7 @@ namespace YulsnApiClient.Models.V2
 
     public class YulsnPushTokenDeleteRequest
     {
+        public int ContactId { get; set; }
         public string Value { get; set; }
     }
 
