@@ -59,8 +59,17 @@ namespace YulsnApiClient.Client
         /// </summary>
         /// <param name="contactId">Id of Contact</param>
         /// <returns></returns>
-        public Task<List<YulsnVoucherAssignment>> GetVoucherAssignmentByContactAsync(int contactId) =>
-            SendAsync<List<YulsnVoucherAssignment>>(HttpMethod.Get, $"api/v2/{AccountId}/VoucherAssignments/Contact/{contactId}", nameof(GetVoucherAssignmentByContactAsync), YulsnApiVersion.V2);
+        public Task<List<YulsnVoucherAssignment>> GetVoucherAssignmentsByContactAsync(int contactId) =>
+            SendAsync<List<YulsnVoucherAssignment>>(HttpMethod.Get, $"api/v2/{AccountId}/VoucherAssignments/Contact/{contactId}", nameof(GetVoucherAssignmentsByContactAsync), YulsnApiVersion.V2);
+
+        /// <summary>
+        /// Returns the voucher and voucher code of the voucher assingment by a contact
+        /// </summary>
+        /// <param name="contactId">Id of Contact</param>
+        /// <param name="voucherAssignmentId">Id of Vouucher assignment</param>
+        /// <returns></returns>
+        public Task<YulsnVoucherAssignment> GetVoucherAssignmentByContactAsync(int contactId, int voucherAssignmentId) =>
+            SendAsync<YulsnVoucherAssignment>(HttpMethod.Get, $"api/v2/{AccountId}/VoucherAssignments/Contact/{contactId}/{voucherAssignmentId}", nameof(GetVoucherAssignmentByContactAsync), YulsnApiVersion.V2);
 
         /// <summary>
         /// Returns voucher assingment of a voucher code
@@ -68,7 +77,14 @@ namespace YulsnApiClient.Client
         /// <param name="code">VoucherCode</param>
         /// <returns></returns>
         public Task<YulsnVoucherAssignment> GetVoucherAssignmentByCodeAsync<T>(string code) =>
-            SendAsync<YulsnVoucherAssignment>(HttpMethod.Get, $"api/v2/{AccountId}/VoucherAssignments/VoucherCode/{code}", nameof(GetVoucherAssignmentByContactAsync), YulsnApiVersion.V2);
+            SendAsync<YulsnVoucherAssignment>(HttpMethod.Get, $"api/v2/{AccountId}/VoucherAssignments/VoucherCode/{code}", nameof(GetVoucherAssignmentsByContactAsync), YulsnApiVersion.V2);
 
+        /// <summary>
+        /// Creates and starts a bulk import of voucher codes.
+        /// Use a link ('FileUrl' as string) or the file directly ('File' as byte[]) for the import file. This file is then kept, respecting the account's delete policy.
+        /// </summary>
+        /// <returns></returns>
+        public Task<YulsnVoucherCodeImportResponse> ImportVoucherCodesAsync(YulsnVoucherCodeImportRequest request) =>
+            SendAsync<YulsnVoucherCodeImportResponse>(HttpMethod.Post, $"api/v2/{AccountId}/VoucherCodes/Import", request, nameof(ImportVoucherCodesAsync), YulsnApiVersion.V2);
     }
 }

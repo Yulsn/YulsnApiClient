@@ -32,6 +32,8 @@ namespace YulsnApiClient.Models.V2
     public class YulsnVoucherCodeImportRequest
     {
         public string FileUrl { get; set; }
+        public byte[] File { get; set; }
+
         public string ColumnDelimiter { get; set; }
         public string Encoding { get; set; }
         public bool FirstLineIsHeader { get; set; }
