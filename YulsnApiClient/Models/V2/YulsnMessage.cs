@@ -38,6 +38,14 @@ namespace YulsnApiClient.Models.V2
         public bool? IsTest { get; set; }
     }
 
+    public class YulsnPushToken
+    {
+        public int Id { get; set; }
+        public string Value { get; set; }
+        public bool IsBounced { get; set; }
+        public DateTimeOffset LastModified { get; set; }
+    }
+
     public class YulsnPushTokenPostRequest
     {
         public int ContactId { get; set; }
