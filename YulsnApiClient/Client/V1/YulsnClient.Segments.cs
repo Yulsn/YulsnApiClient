@@ -15,5 +15,8 @@ namespace YulsnApiClient.Client
 
         public Task<YulsnReadSegmentDto> PostTemplateSegmentAsync(YulsnPostSegmentTemplateDto yulsnPostSegmentTemplateDto) =>
             SendAsync<YulsnReadSegmentDto>(HttpMethod.Post, "api/v1/Segments/Template", yulsnPostSegmentTemplateDto, nameof(PostTemplateSegmentAsync));
+
+        public Task<int> GetContactCountAsync(params int[] segmentIds) =>
+            SendAsync<int>(HttpMethod.Post, "api/v1/Segments/GetContactCount", new { SegmentIds = segmentIds }, nameof(GetContactCountAsync));
     }
 }

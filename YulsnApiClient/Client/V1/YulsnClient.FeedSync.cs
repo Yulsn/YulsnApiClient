@@ -9,7 +9,7 @@ namespace YulsnApiClient.Client
 {
     partial class YulsnClient
     {
-        public Task<ReadYulsnMedia> CreateMediaAsync(CreateYulsnMedia createModel) =>
-            SendAsync<ReadYulsnMedia>(HttpMethod.Post, "api/v1/Media", createModel);
+        public Task FeedSyncNowAsync(int feedSyncId) =>
+            SendAsync<object>(HttpMethod.Post, $"api/v1/FeedSyncs/{feedSyncId}/SyncNow");
     }
 }
