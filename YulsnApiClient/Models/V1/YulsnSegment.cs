@@ -19,7 +19,7 @@ namespace YulsnApiClient.Models.V1
         public string Description { get; set; }
     }
 
-    public class YulsnPostSegmentTemplateDto
+    public class YulsnCreateSegmentTemplate
     {
         public int FolderId { get; set; }
         public string Name { get; set; }
