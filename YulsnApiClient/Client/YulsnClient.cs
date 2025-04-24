@@ -22,7 +22,6 @@ namespace YulsnApiClient.Client
         public int AccountId { get; set; }
 
         private readonly IHttpClientFactory _httpClientFactory;
-        private readonly static ActivitySource activitySource = new ActivitySource("yulsn.api.client");
         private string apiKey = null;
         private string apiHost = null;
         private string apiV1baseUrl = null;
@@ -79,71 +78,53 @@ namespace YulsnApiClient.Client
 
         public void SetYulsnApiHost(string apiHost) => this.apiHost = apiHost;
 
-        public Task<T> SendAsync<T>(string url, string activityName = null, YulsnApiVersion apiVersion = YulsnApiVersion.V1) => SendAsync<T>(new HttpRequestMessage(HttpMethod.Get, url), activityName, apiVersion);
+        public Task<T> SendAsync<T>(string url, YulsnApiVersion apiVersion = YulsnApiVersion.V1) => SendAsync<T>(new HttpRequestMessage(HttpMethod.Get, url), apiVersion);
 
-        public Task<T> SendAsync<T>(HttpMethod method, string url, string activityName = null, YulsnApiVersion apiVersion = YulsnApiVersion.V1) => SendAsync<T>(new HttpRequestMessage(method, url), activityName, apiVersion);
+        public Task<T> SendAsync<T>(HttpMethod method, string url, YulsnApiVersion apiVersion = YulsnApiVersion.V1) => SendAsync<T>(new HttpRequestMessage(method, url), apiVersion);
 
-        public Task<T> SendAsync<T>(HttpMethod method, string url, object body, string activityName = null, YulsnApiVersion apiVersion = YulsnApiVersion.V1) => SendAsync<T>(new HttpRequestMessage(method, url) { Content = JsonContent(body) }, activityName, apiVersion);
+        public Task<T> SendAsync<T>(HttpMethod method, string url, object body, YulsnApiVersion apiVersion = YulsnApiVersion.V1) => SendAsync<T>(new HttpRequestMessage(method, url) { Content = JsonContent(body) }, apiVersion);
 
-        public async Task<T> SendAsync<T>(HttpRequestMessage request, string activityName = null, YulsnApiVersion apiVersion = YulsnApiVersion.V1)
+        public async Task<T> SendAsync<T>(HttpRequestMessage request, YulsnApiVersion apiVersion = YulsnApiVersion.V1)
         {
-            using (var activity = GetActivity(activityName))
+            using (var response = await getClient(apiVersion).SendAsync(request).ConfigureAwait(false))
             {
-                activity?.SetTag("http.request.method", request.Method.ToString());
-
-                using (var response = await getClient(apiVersion).SendAsync(request).ConfigureAwait(false))
+                if (response.StatusCode == HttpStatusCode.NotFound)
                 {
-                    activity?.SetTag("http.response.status_code", (int)response.StatusCode);
-
-                    if (response.StatusCode == HttpStatusCode.NotFound)
-                    {
-                        return default;
-                    }
-
-                    string content = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-
-                    if (!response.IsSuccessStatusCode)
-                    {
-                        if (apiVersion == YulsnApiVersion.V2)
-                        {
-                            ProblemDetails pd;
-                            try
-                            {
-                                pd = JsonConvert.DeserializeObject<ProblemDetails>(content);
-                            }
-                            catch
-                            {
-                                pd = new ProblemDetails { Status = (int)response.StatusCode, Title = response.ReasonPhrase, Detail = content };
-                            }
-
-                            throw pd;
-                        }
-                        else // v1 exception
-                        {
-                            throw new YulsnRequestException(response.StatusCode, response.ReasonPhrase, content);
-                        }
-                    }
-
-                    if (typeof(T) == typeof(string))
-                    {
-                        return (T)(object)content;
-                    }
-                    return JsonConvert.DeserializeObject<T>(content);
+                    return default;
                 }
+
+                string content = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    if (apiVersion == YulsnApiVersion.V2)
+                    {
+                        ProblemDetails pd;
+                        try
+                        {
+                            pd = JsonConvert.DeserializeObject<ProblemDetails>(content);
+                        }
+                        catch
+                        {
+                            pd = new ProblemDetails { Status = (int)response.StatusCode, Title = response.ReasonPhrase, Detail = content };
+                        }
+
+                        throw pd;
+                    }
+                    else // v1 exception
+                    {
+                        throw new YulsnRequestException(response.StatusCode, response.ReasonPhrase, content);
+                    }
+                }
+
+                if (typeof(T) == typeof(string))
+                {
+                    return (T)(object)content;
+                }
+                return JsonConvert.DeserializeObject<T>(content);
             }
         }
 
         public HttpContent JsonContent<T>(T model) => new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json");
-
-        private Activity GetActivity(string activityName)
-        {
-            if (string.IsNullOrWhiteSpace(activityName))
-                return null;
-
-            if (activityName.EndsWith("Async"))
-                activityName = activityName.Remove(activityName.Length - 5);
-
-            return activitySource.StartActivity($"Yulsn.ApiClient.{activityName}", ActivityKind.Client);
-        }
     }
 }

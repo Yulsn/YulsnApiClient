@@ -15,6 +15,6 @@ namespace YulsnApiClient.Client
         /// <param name="targetId">Id of target contact</param>
         /// <returns></returns>
         public Task<YulsnContactMergeResult> MergeContactsAsync(int sourceId, int targetId, YulsnContactMergeRequest body) =>
-            SendAsync<YulsnContactMergeResult>(HttpMethod.Post, $"api/v2/{AccountId}/Contacts/{sourceId}/Merge/{targetId}", body, nameof(MergeContactsAsync), YulsnApiVersion.V2);
+            SendAsync<YulsnContactMergeResult>(HttpMethod.Post, $"api/v2/{AccountId}/Contacts/{sourceId}/Merge/{targetId}", body, YulsnApiVersion.V2);
     }
 }
