@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web;
@@ -26,13 +28,14 @@ namespace YulsnApiClient.Client
         }
 
         public Task<List<YulsnPoint>> GetPointsAsync(
-            int? contactId,
-            string sourceId,
-            string type,
-            DateTimeOffset? datetimeFrom,
-            DateTimeOffset? datetimeTo,
-            int? contactCompanyId,
-            int? storeId)
+            int? contactId = null,
+            string sourceId = null,
+            string type = null,
+            DateTimeOffset? dateTimeFrom = null,
+            DateTimeOffset? dateTimeTo = null,
+            int? contactCompanyId = null,
+            int? storeId = null,
+            bool? includeCancelPoints = null)
         {
             Dictionary<string, string> parameters = new Dictionary<string, string>();
 
@@ -45,11 +48,11 @@ namespace YulsnApiClient.Client
             if (!string.IsNullOrEmpty(type))
                 parameters["type"] = type;
 
-            if (datetimeFrom.HasValue)
-                parameters["datetimeFrom"] = HttpUtility.UrlEncode(((DateTimeOffset)datetimeFrom).ToString("O"));
+            if (dateTimeFrom.HasValue)
+                parameters["datetimeFrom"] = dateTimeFrom.Value.ToString("O");
 
-            if (datetimeTo.HasValue)
-                parameters["datetimeTo"] = HttpUtility.UrlEncode(((DateTimeOffset)datetimeTo).ToString("O"));
+            if (dateTimeTo.HasValue)
+                parameters["datetimeTo"] = dateTimeTo.Value.ToString("O");
 
             if (contactCompanyId.HasValue)
                 parameters["contactCompanyId"] = contactCompanyId.Value.ToString();
@@ -57,20 +60,19 @@ namespace YulsnApiClient.Client
             if (storeId.HasValue)
                 parameters["storeId"] = storeId.Value.ToString();
 
-            string url = null;
-
-            foreach (var parameter in parameters)
-            {
-                if (url is null)
-                    url = $"api/v2/{AccountId}/Points?{parameter.Key}={parameter.Value}";
-                else
-                    url += $"&{parameter.Key}={parameter.Value}";
-            }
-
-            if (url is null)
+            if (parameters.Count == 0)
                 throw new ArgumentException("At least one parameter must be provided.");
 
-            return SendAsync<List<YulsnPoint>>(HttpMethod.Get, url, YulsnApiVersion.V2);
+            if (includeCancelPoints.HasValue)
+                parameters["includeCancelPoints"] = includeCancelPoints.Value.ToString().ToLowerInvariant();
+
+            UriBuilder uriBuilder = new UriBuilder
+            {
+                Path = $"api/v2/{AccountId}/Points",
+                Query = string.Join("&", parameters.Select(p => $"{p.Key}={HttpUtility.UrlEncode(p.Value)}"))
+            };
+
+            return SendAsync<List<YulsnPoint>>(HttpMethod.Get, uriBuilder.ToString(), YulsnApiVersion.V2);
         }
     }
 }

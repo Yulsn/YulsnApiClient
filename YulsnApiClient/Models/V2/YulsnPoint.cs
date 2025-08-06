@@ -12,7 +12,7 @@ namespace YulsnApiClient.Models.V2
         public decimal Amount { get; set; }
         public string Description { get; set; }
         public string SourceId { get; set; }
-        public string SourceDescriptionId { get; set; }
+        public string SourceDescription { get; set; }
         public int? StoreId { get; set; }
 
         public decimal Sum { get; set; }
