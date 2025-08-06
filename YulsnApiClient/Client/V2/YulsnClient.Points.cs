@@ -66,13 +66,9 @@ namespace YulsnApiClient.Client
             if (includeCancelPoints.HasValue)
                 parameters["includeCancelPoints"] = includeCancelPoints.Value.ToString().ToLowerInvariant();
 
-            UriBuilder uriBuilder = new UriBuilder
-            {
-                Path = $"api/v2/{AccountId}/Points",
-                Query = string.Join("&", parameters.Select(p => $"{p.Key}={HttpUtility.UrlEncode(p.Value)}"))
-            };
+            string url = $"api/v2/{AccountId}/Points?" + string.Join("&", parameters.Select(p => $"{p.Key}={HttpUtility.UrlEncode(p.Value)}"));
 
-            return SendAsync<List<YulsnPoint>>(HttpMethod.Get, uriBuilder.ToString(), YulsnApiVersion.V2);
+            return SendAsync<List<YulsnPoint>>(HttpMethod.Get, url, YulsnApiVersion.V2);
         }
     }
 }
