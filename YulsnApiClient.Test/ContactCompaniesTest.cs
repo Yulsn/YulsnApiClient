@@ -7,12 +7,12 @@ using YulsnApiClient.Models.V1;
 
 namespace YulsnApiClient.Test
 {
-    public class ContactCompatniesTest : IClassFixture<Setup>
+    public class ContactCompaniesTest : IClassFixture<Setup>
     {
         private readonly IConfiguration config;
         private readonly YulsnClient yulsnClient;
 
-        public ContactCompatniesTest(Setup setup)
+        public ContactCompaniesTest(Setup setup)
         {
             config = setup.ServiceProvider.GetService<IConfiguration>();
             yulsnClient = setup.ServiceProvider.GetService<YulsnClient>();

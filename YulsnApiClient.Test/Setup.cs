@@ -1,26 +1,35 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.IO;
 using YulsnApiClient.Client;
+using YulsnApiClient.Test.Abstractions;
 
 namespace YulsnApiClient.Test
 {
     public class Setup
     {
+        internal TestRepository Repository;
+        public ServiceProvider ServiceProvider { get; private set; }
+
         public Setup()
         {
-            var serviceCollection = new ServiceCollection();
-            var configuration = new ConfigurationBuilder()
+            IConfiguration configuration = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("local.settings.json", true)
                 .Build();
 
-            serviceCollection.AddSingleton<IConfiguration>(configuration);
-            serviceCollection.AddHttpClient<YulsnClient>();
+            string env = configuration["yulsn-test-environment"] ?? throw new Exception("Environment is not set in settings!");
+
+            Repository = new TestRepository(Enum.Parse<TestEnvironment>(env));
+
+            var serviceCollection = new ServiceCollection();
+
+            serviceCollection.AddTransient<YulsnClient>();
+            serviceCollection.AddSingleton(configuration);
+            serviceCollection.AddHttpClient(YulsnClient.HttpClientName);
 
             ServiceProvider = serviceCollection.BuildServiceProvider();
         }
-
-        public ServiceProvider ServiceProvider { get; private set; }
     }
 }

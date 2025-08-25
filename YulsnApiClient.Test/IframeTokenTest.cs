@@ -22,6 +22,8 @@ namespace YulsnApiClient.Test
         {
             //var iframeToken = await yulsnClient.GetIframeTokenAsync("4145dde6-81a5-49dc-8b44-b0530291e8cd");
             //Assert.NotNull(iframeToken);
+            await Task.CompletedTask;
+            Assert.True(true);
         }
     }
 }

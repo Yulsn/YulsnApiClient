@@ -9,11 +9,11 @@ using YulsnApiClient.Models.V1;
 
 namespace YulsnApiClient.Test
 {
-    public class Contacts : IClassFixture<Setup>
+    public class ContactsTest : IClassFixture<Setup>
     {
         private readonly IConfiguration config;
         private readonly YulsnClient yulsnClient;
-        public Contacts(Setup setup)
+        public ContactsTest(Setup setup)
         {
             config = setup.ServiceProvider.GetService<IConfiguration>();
             yulsnClient = setup.ServiceProvider.GetService<YulsnClient>();
