@@ -59,6 +59,12 @@ namespace YulsnApiClient.Test.Abstractions
 
         public required int ValidStoreId { get; set; }
         public required string ValidStoreNumber { get; set; }
+
+        /// <summary>Must have contacts</summary>
+        public required int ValidContactCompanyId { get; set; }
+        public required string ValidContactCompanyPrimaryContactEmail { get; set; }
+        /// <summary>A contact id that is not on linked to the valid contact company</summary>
+        public required int UnlinkedContactCompanyContactId { get; set; }
     }
 
     internal class TestRepository
@@ -106,6 +112,10 @@ namespace YulsnApiClient.Test.Abstractions
 
             ValidStoreId = 2,
             ValidStoreNumber = "454",
+
+            ValidContactCompanyId = 1,
+            ValidContactCompanyPrimaryContactEmail = "cta+001@juhlsen.com",
+            UnlinkedContactCompanyContactId = 8,
         };
 
         public static TestModel Qa1 => new()
@@ -139,6 +149,10 @@ namespace YulsnApiClient.Test.Abstractions
 
             ValidStoreId = 1,
             ValidStoreNumber = "001",
+
+            ValidContactCompanyId = 1,
+            ValidContactCompanyPrimaryContactEmail = "",
+            UnlinkedContactCompanyContactId = 8,
         };
     }
 }
