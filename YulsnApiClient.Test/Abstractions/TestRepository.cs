@@ -65,6 +65,8 @@ namespace YulsnApiClient.Test.Abstractions
         public required string ValidContactCompanyPrimaryContactEmail { get; set; }
         /// <summary>A contact id that is not on linked to the valid contact company</summary>
         public required int UnlinkedContactCompanyContactId { get; set; }
+
+        public required string ValidPointType { get; set; }
     }
 
     internal class TestRepository
@@ -116,6 +118,8 @@ namespace YulsnApiClient.Test.Abstractions
             ValidContactCompanyId = 1,
             ValidContactCompanyPrimaryContactEmail = "cta+001@juhlsen.com",
             UnlinkedContactCompanyContactId = 8,
+
+            ValidPointType = "testing",
         };
 
         public static TestModel Qa1 => new()
@@ -153,6 +157,8 @@ namespace YulsnApiClient.Test.Abstractions
             ValidContactCompanyId = 1,
             ValidContactCompanyPrimaryContactEmail = "",
             UnlinkedContactCompanyContactId = 8,
+            
+            ValidPointType = "test",
         };
     }
 }
