@@ -3,9 +3,8 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.IO;
 using YulsnApiClient.Client;
-using YulsnApiClient.Test.Abstractions;
 
-namespace YulsnApiClient.Test
+namespace YulsnApiClient.Test.Abstractions
 {
     public class Setup
     {

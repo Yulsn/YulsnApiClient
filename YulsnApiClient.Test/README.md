@@ -18,7 +18,12 @@ The following settings are used by the YulsnClient:
 Here is an example of what the `local.settings.json` file might look like:
 ```json
 {
-  "yulsn-api-key": "your-api"
+  "yulsn-api-key": "e72c3cd67a8c...27f63bfdfa",
+  //"yulsn-api-host": "",
+  "yulsn-api-accountid": "1",
+  "yulsn-api-v1-baseurl": "https://localhost:44355",
+  "yulsn-api-v2-baseurl": "https://localhost:44356",
+  "yulsn-test-environment": "Qa1"
 }
 ```
 
@@ -28,12 +33,12 @@ Here is an example of what the `local.settings.json` file might look like:
 
 Run all the test:
 
-```
+```powershell
 dotnet test
 ```
 
 Or run a specific test:
 
-```
-dotnet test --filter "FullyQualifiedName~YulsnApiClient.Test.StoresTest.GetStoreById"
+```powershell
+dotnet test --filter "FullyQualifiedName~YulsnApiClient.Test.Tests.StoresTest.GetStoreById"
 ```

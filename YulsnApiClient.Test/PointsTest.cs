@@ -1,11 +1,11 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xunit;
 using YulsnApiClient.Client;
 using YulsnApiClient.Models.V1;
+using YulsnApiClient.Test.Abstractions;
 
 namespace YulsnApiClient.Test
 {

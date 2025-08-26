@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Xunit;
 using YulsnApiClient.Client;
 using YulsnApiClient.Models.V1;
+using YulsnApiClient.Test.Abstractions;
 
 namespace YulsnApiClient.Test
 {
