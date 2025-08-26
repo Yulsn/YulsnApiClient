@@ -11,7 +11,7 @@ namespace YulsnApiClient.Test.Tests
 {
     public class ContactEventTests(Setup setup) : IClassFixture<Setup>
     {
-        private readonly YulsnClient yulsnClient = setup.ServiceProvider.GetService<YulsnClient>();
+        private readonly YulsnClient _yulsnClient = setup.ServiceProvider.GetService<YulsnClient>();
         private readonly TestModel _model = setup.Repository.Model;
 
         [Fact]
@@ -28,20 +28,20 @@ namespace YulsnApiClient.Test.Tests
             };
 
             {
-                await yulsnClient.CreateContactEventAsync(
+                await _yulsnClient.CreateContactEventAsync(
                     yulsnCreateContactEvents: [yulsnEvent],
                     ignoreUnknownContacts: true);
             }
 
             {
-                List<YulsnReadContactEvent> list = await yulsnClient.GetContactEventsAsync<YulsnReadContactEvent>(type: yulsnEvent.Type, lastId: 0);
+                List<YulsnReadContactEvent> list = await _yulsnClient.GetContactEventsAsync<YulsnReadContactEvent>(type: yulsnEvent.Type, lastId: 0);
 
                 Assert.NotNull(list);
                 Assert.NotEmpty(list);
             }
 
             {
-                List<YulsnReadContactEvent> list = await yulsnClient.GetContactEventsAsync<YulsnReadContactEvent>(
+                List<YulsnReadContactEvent> list = await _yulsnClient.GetContactEventsAsync<YulsnReadContactEvent>(
                     type: yulsnEvent.Type,
                     subtype: yulsnEvent.SubType,
                     from: DateTimeOffset.UtcNow.AddDays(-1),
