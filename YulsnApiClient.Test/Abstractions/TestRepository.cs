@@ -67,6 +67,9 @@ namespace YulsnApiClient.Test.Abstractions
         public required int UnlinkedContactCompanyContactId { get; set; }
 
         public required string ValidPointType { get; set; }
+
+        /// <summary>For sending an email1 dispatch to the valid contact id</summary>
+        public required int ValidEmailCampaignId { get; set; }
     }
 
     internal class TestRepository
@@ -120,6 +123,8 @@ namespace YulsnApiClient.Test.Abstractions
             UnlinkedContactCompanyContactId = 8,
 
             ValidPointType = "testing",
+
+            ValidEmailCampaignId = 262,
         };
 
         public static TestModel Qa1 => new()
@@ -159,6 +164,8 @@ namespace YulsnApiClient.Test.Abstractions
             UnlinkedContactCompanyContactId = 8,
             
             ValidPointType = "test",
+
+            ValidEmailCampaignId = 1,
         };
     }
 }
