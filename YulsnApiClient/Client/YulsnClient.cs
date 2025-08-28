@@ -126,6 +126,7 @@ namespace YulsnApiClient.Client
                 {
                     return (T)(object)content;
                 }
+
                 return JsonConvert.DeserializeObject<T>(content);
             }
         }

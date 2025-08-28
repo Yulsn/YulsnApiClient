@@ -20,6 +20,15 @@ namespace YulsnApiClient.Client
         public Task<Dictionary<string, T>> GetContactAsDictionaryByIdAsync<T>(int id) =>
             SendAsync<Dictionary<string, T>>($"/api/v1/Contacts/{id}");
 
+        public Task<Dictionary<string, T>> GetContactAsDictionaryBySecretAsync<T>(string secret, string ip = null) =>
+            SendAsync<Dictionary<string, T>>($"/api/v1/Contacts?secret={WebUtility.UrlEncode(secret) + (ip != null ? $"&ip={WebUtility.UrlEncode(ip)}" : "")}");
+
+        public Task<Dictionary<string, T>> GetContactAsDictionaryByEmailAsync<T>(string email) =>
+            SendAsync<Dictionary<string, T>>($"/api/v1/Contacts?email={WebUtility.UrlEncode(email)}");
+
+        public Task<Dictionary<string, T>> GetContactAsDictionaryByPhoneAsync<T>(string phone) =>
+            SendAsync<Dictionary<string, T>>($"/api/v1/Contacts?phone={WebUtility.UrlEncode(phone)}");
+
         /// <summary>
         /// Will return contact by its secret or null if the contact was not found.
         /// </summary>
