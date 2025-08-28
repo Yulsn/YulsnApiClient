@@ -294,8 +294,8 @@ namespace YulsnApiClient.Test.Tests
                     expectedEmail: email,
                     expectedFirstName: requestContent[nameof(YulsnTestContact.FirstName)]);
 
-                Assert.False(fields.TryGetValueAsString(nameof(YulsnTestContact.LastName), out string? _));
-                Assert.False(fields.TryGetValueAsString(_model.ValidContactDynamicStringFieldName, out string? _));
+                Assert.False(fields.TryGetValueAsString(nameof(YulsnTestContact.LastName), out string _));
+                Assert.False(fields.TryGetValueAsString(_model.ValidContactDynamicStringFieldName, out string _));
             }
 
             Dictionary<string, object> patchContent = new()

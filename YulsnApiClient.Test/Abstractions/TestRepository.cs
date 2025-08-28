@@ -19,10 +19,6 @@ namespace YulsnApiClient.Test.Abstractions
         public static string InvalidEmail => "invalid-email";
         public static string InvalidPhone => "invalid-phone";
         public static string InvalidExternalId => "invalid-externalId";
-        public JsonSerializerOptions JsonSerializerOptions = new()
-        {
-            PropertyNamingPolicy = null // do not change the property names
-        };
 
         // Contact (must be the same contact)
         public required int ValidContactId { get; set; }
@@ -162,7 +158,7 @@ namespace YulsnApiClient.Test.Abstractions
             ValidContactCompanyId = 1,
             ValidContactCompanyPrimaryContactEmail = "",
             UnlinkedContactCompanyContactId = 8,
-            
+
             ValidPointType = "test",
 
             ValidEmailCampaignId = 1,
