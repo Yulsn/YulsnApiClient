@@ -329,6 +329,8 @@ namespace YulsnApiClient.Test.Tests
                     ExternalId = externalId,
                     Name = "Test Integration"
                 });
+
+                Assert.Fail("Expected YulsnRequestException was not thrown.");
             }
             catch (YulsnRequestException ex)
             {
@@ -374,6 +376,8 @@ namespace YulsnApiClient.Test.Tests
                 {
                     { "Invalid_Field_Name_That_Should_Not_Exist", string.Empty }
                 });
+
+                Assert.Fail("Expected YulsnRequestException was not thrown.");
             }
             catch (YulsnRequestException ex)
             {
