@@ -534,82 +534,119 @@ namespace YulsnApiClient.Test.Tests
             }
         }
 
-        //[Fact]
-        //public async Task Post_BadRequest_WhenInvalidOrderLinePriceByOrder()
-        //{
-        //    HttpResponseMessage response = await _client.PostAsync($"api/v1/Orders/{_model.ValidOrderId}/Lines", JsonContent.Create(new
-        //    {
-        //        Type = _model.ValidOrderType,
-        //        FirstName = "Test",
-        //        LastName = "Integration",
-        //        OrderLines = new List<object>
-        //        {
-        //            new
-        //            {
-        //                Quantity = 1,
-        //                Description = "Integration Test"
-        //            }
-        //        }
-        //    }, options: _model.JsonSerializerOptions));
+        [Fact]
+        public async Task Post_BadRequest_WhenInvalidOrderLinePriceByOrder()
+        {
+            int orderId = _model.ValidOrderId;
 
-        //    Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
-        //}
+            Dictionary<string, object> requestContent = new()
+            {
+                { nameof(YulsnTestOrder.Type), _model.ValidOrderType },
+                { nameof(YulsnTestOrder.FirstName), "Test" },
+                { nameof(YulsnTestOrder.LastName), "Integration" },
+                { nameof(YulsnTestOrder.OrderLines), new List<Dictionary<string, object>>
+                    {
+                        new()
+                        {
+                            { nameof(YulsnTestOrderLine.Quantity), 1 },
+                            { nameof(YulsnTestOrderLine.Description), "Integration Test" },
+                        }
+                    }
+                },
+            };
 
-        //[Fact]
-        //public async Task Patch_NotFound_WhenOrderLineByInvalidOrder()
-        //{
-        //    int orderId = _model.InvalidId;
-        //    int orderLineId = _model.ValidOrderIdAndSingleOrderLineId.Value;
+            try
+            {
+                await _yulsnClient.CreateOrderLineAsDictionaryAsync(orderId, requestContent);
 
-        //    HttpResponseMessage response = await _client.PatchAsync($"api/v1/Orders/{orderId}/Lines/{orderLineId}", JsonContent.Create(new
-        //    {
-        //        Name = "Integration Test"
-        //    }, options: _model.JsonSerializerOptions));
+                Assert.Fail("Expected YulsnRequestException was not thrown.");
+            }
+            catch (YulsnRequestException ex)
+            {
+                Assert.Equal(HttpStatusCode.BadRequest, ex.StatusCode);
 
-        //    Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
-        //}
+                ContentModel content = JsonConvert.DeserializeObject<ContentModel>(ex.ErrorBody);
 
-        //[Fact]
-        //public async Task Patch_NotFound_WhenInvalidOrderLineByOrder()
-        //{
-        //    int orderId = _model.ValidOrderIdAndSingleOrderLineId.Key;
-        //    int orderLineId = _model.InvalidId;
+                Assert.Equal("Invalid order line!", content.Message);
+            }
+        }
 
-        //    HttpResponseMessage response = await _client.PatchAsync($"api/v1/Orders/{orderId}/Lines/{orderLineId}", JsonContent.Create(new
-        //    {
-        //        Name = "Integration Test"
-        //    }, options: _model.JsonSerializerOptions));
+        [Fact]
+        public async Task Patch_NotFound_WhenOrderLineByInvalidOrder()
+        {
+            int orderId = TestModel.InvalidId;
+            int orderLineId = _model.ValidOrderIdAndSingleOrderLineId.Value;
 
-        //    Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
-        //}
+            Dictionary<string, object> requestContent = new()
+            {
+                { nameof(YulsnTestOrderLine.Name), "Integration Test" },
+            };
 
-        //[Fact]
-        //public async Task Delete_NotFound_WhenOrderLineByInvalidOrder()
-        //{
-        //    HttpResponseMessage response = await _client.DeleteAsync($"api/v1/Orders/{_model.InvalidId}/Lines/{_model.InvalidId}");
+            Dictionary<string, object> response = await _yulsnClient.UpdateOrderLineAsDictionaryAsync(orderId, orderLineId, requestContent);
 
-        //    Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
-        //}
+            Assert.Equal(default, response); // 404 returns default by the client implementation
+        }
 
-        ///// <summary>Orderline cannot be deleted if it's the last one on the order</summary>
-        //[Fact]
-        //public async Task Delete_BadRequest_WhenValidOrderAndSingleOrderLine()
-        //{
-        //    int orderId = _model.ValidOrderIdAndSingleOrderLineId.Key;
-        //    int orderLineId = _model.ValidOrderIdAndSingleOrderLineId.Value;
+        [Fact]
+        public async Task Patch_NotFound_WhenInvalidOrderLineByOrder()
+        {
+            int orderId = _model.ValidOrderIdAndSingleOrderLineId.Key;
+            int orderLineId = TestModel.InvalidId;
 
-        //    HttpResponseMessage response = await _client.DeleteAsync($"api/v1/Orders/{orderId}/Lines/{orderLineId}");
+            Dictionary<string, object> requestContent = new()
+            {
+                { nameof(YulsnTestOrderLine.Name), "Integration Test" },
+            };
 
-        //    Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
-        //}
+            Dictionary<string, object> response = await _yulsnClient.UpdateOrderLineAsDictionaryAsync(orderId, orderLineId, requestContent);
 
-        //[Fact]
-        //public async Task Delete_NotFound_WhenValidOrderAndInvalidOrderLine()
-        //{
-        //    HttpResponseMessage response = await _client.DeleteAsync($"api/v1/Orders/{_model.ValidOrderIdWithMultipleOrderLines}/Lines/{_model.InvalidId}");
+            Assert.Equal(default, response); // 404 returns default by the client implementation
+        }
 
-        //    Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
-        //}
+        [Fact]
+        public async Task Delete_NotFound_WhenOrderLineByInvalidOrder()
+        {
+            int orderId = TestModel.InvalidId;
+            int orderLineId = TestModel.InvalidId;
+
+            Dictionary<string, object> response = await _yulsnClient.DeleteOrderLineAsDictionaryAsync(orderId, orderLineId);
+
+            Assert.Equal(default, response); // 404 returns default by the client implementation
+        }
+
+        /// <summary>Orderline cannot be deleted if it's the last one on the order</summary>
+        [Fact]
+        public async Task Delete_BadRequest_WhenValidOrderAndSingleOrderLine()
+        {
+            int orderId = _model.ValidOrderIdAndSingleOrderLineId.Key;
+            int orderLineId = _model.ValidOrderIdAndSingleOrderLineId.Value;
+
+            try
+            {
+                await _yulsnClient.DeleteOrderLineAsDictionaryAsync(orderId, orderLineId);
+
+                Assert.Fail("Expected YulsnRequestException was not thrown.");
+            }
+            catch (YulsnRequestException ex)
+            {
+                Assert.Equal(HttpStatusCode.BadRequest, ex.StatusCode);
+
+                ContentModel content = JsonConvert.DeserializeObject<ContentModel>(ex.ErrorBody);
+
+                Assert.Equal("Invalid operation on order!", content.Message);
+            }
+        }
+
+        [Fact]
+        public async Task Delete_NotFound_WhenValidOrderAndInvalidOrderLine()
+        {
+            int orderId = _model.ValidOrderIdWithMultipleOrderLines;
+            int orderLineId = TestModel.InvalidId;
+
+            Dictionary<string, object> response = await _yulsnClient.DeleteOrderLineAsDictionaryAsync(orderId, orderLineId);
+
+            Assert.Equal(default, response); // 404 returns default by the client implementation
+        }
 
         private void ValidateOrders(
             List<Dictionary<string, object>> response,
@@ -617,49 +654,12 @@ namespace YulsnApiClient.Test.Tests
             string expectedType = null,
             int? expectedContactId = null)
         {
-            //List<Dictionary<string, object>?>? responseContent = await response.Content.ReadFromJsonAsync<List<Dictionary<string, object>?>>();
-
             Assert.NotNull(response);
             Assert.All(response, order => ValidateOrder(order,
                 expectedExtOrderId: expectedExtOrderId,
                 expectedType: expectedType,
                 expectedContactId: expectedContactId));
         }
-
-        //private async Task<(int id, string extOrderId, IDictionary<string, object> fields)> ValidateOrderAsync(HttpResponseMessage response,
-        //   int? expectedId = null,
-        //   string? expectedExtOrderId = null,
-        //   string? expectedType = null,
-        //   int? expectedContactId = null,
-        //   object? expectedDynamicField = null,
-        //   int? expectedOrderLineId = null,
-        //   Action<Dictionary<string, object>, string?>? onOrderLine = null)
-        //{
-        //    Dictionary<string, object>? responseContent = await response.Content.ReadFromJsonAsync<Dictionary<string, object>>();
-
-        //    return ValidateOrder(responseContent,
-        //        expectedId: expectedId,
-        //        expectedExtOrderId: expectedExtOrderId,
-        //        expectedType: expectedType,
-        //        expectedContactId: expectedContactId,
-        //        expectedDynamicField: expectedDynamicField,
-        //        expectedOrderLineId: expectedOrderLineId,
-        //        onOrderLine: onOrderLine);
-        //}
-
-        //private async Task<Dictionary<string, object>> ValidateOrderLineAsync(HttpResponseMessage response,
-        //    int? expectedOrderId = null,
-        //    int? expectedOrderLineId = null,
-        //    Action<Dictionary<string, object>, string?>? onOrderLine = null)
-        //{
-        //    Dictionary<string, object>? responseContent = await response.Content.ReadFromJsonAsync<Dictionary<string, object>>();
-
-        //    Assert.NotNull(responseContent);
-
-        //    IDictionary<string, object> fields = responseContent.ConvertJsonElements();
-
-        //    return ValidateOrderLine(fields, expectedOrderId: expectedOrderId, expectedOrderLineId: expectedOrderLineId, onOrderLine: onOrderLine);
-        //}
 
         private (int id, string extOrderId, IDictionary<string, object> fields) ValidateOrder(
             IDictionary<string, object> responseContent,
