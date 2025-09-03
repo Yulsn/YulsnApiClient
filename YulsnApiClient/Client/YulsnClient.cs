@@ -133,5 +133,14 @@ namespace YulsnApiClient.Client
 
         public HttpContent JsonContent<T>(T model) =>
             new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json");
+
+        //public Task<HttpResponseMessage> SendAsync(string url, YulsnApiVersion apiVersion = YulsnApiVersion.V1) =>
+        //   SendAsync(new HttpRequestMessage(HttpMethod.Get, url), apiVersion);
+
+        //public async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, YulsnApiVersion apiVersion = YulsnApiVersion.V1)
+        //{
+        //    HttpClient client = GetClient(apiVersion);
+        //    return await client.SendAsync(request).ConfigureAwait(false);
+        //}
     }
 }
