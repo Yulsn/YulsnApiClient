@@ -71,6 +71,12 @@ namespace YulsnApiClient.Test.Abstractions
 
         /// <summary>There must always be at least 1 contact in this segment</summary>
         public required int ValidSegmentId { get; set; }
+
+        /// <summary>For sending an push dispatch to the valid contact id</summary>
+        public required string ValidPushMessageTriggerId { get; set; }
+
+        /// <summary>For sending an sms dispatch to the valid contact id</summary>
+        public required string ValidSmsMessageTriggerId { get; set; }
     }
 
     internal class TestRepository
@@ -130,6 +136,10 @@ namespace YulsnApiClient.Test.Abstractions
             ValidEmail2MessageTriggerId = "liquid-test",
 
             ValidSegmentId = 45,
+
+            ValidPushMessageTriggerId = "trigger-demo",
+
+            ValidSmsMessageTriggerId = "b-day",
         };
 
         public static TestModel Qa1 => new()
@@ -172,9 +182,13 @@ namespace YulsnApiClient.Test.Abstractions
 
             ValidEmailCampaignId = 1,
 
-            ValidEmail2MessageTriggerId = "",
+            ValidEmail2MessageTriggerId = "test-email2",
 
             ValidSegmentId = 0,
+
+            ValidPushMessageTriggerId = "test-push",
+
+            ValidSmsMessageTriggerId = "test-sms",
         };
     }
 }
