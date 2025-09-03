@@ -11,12 +11,12 @@ namespace YulsnApiClient.Test.Tests
 {
     public class DynamicFieldTests(Setup setup) : IClassFixture<Setup>
     {
-        private readonly YulsnClient yulsnClient = setup.ServiceProvider.GetService<YulsnClient>();
+        private readonly YulsnClient _yulsnClient = setup.ServiceProvider.GetService<YulsnClient>();
 
         [Fact]
         public async Task Get_OK_WhenFoundByOwner_v1()
         {
-            List<YulsnReadDynamicField> response = await yulsnClient.GetDynamicFieldsAsync<YulsnReadDynamicField>(YulsnTableOwner.Contacts, id: null);
+            List<YulsnReadDynamicField> response = await _yulsnClient.GetDynamicFieldsAsync<YulsnReadDynamicField>(YulsnTableOwner.Contacts, id: null);
 
             Assert.NotNull(response);
             Assert.True(response.Count > 0);
@@ -25,7 +25,7 @@ namespace YulsnApiClient.Test.Tests
         [Fact]
         public async Task Get_OK_WhenFoundByOwner_v2()
         {
-            List<YulsnDynamicField> response = await yulsnClient.GetDynamicFieldsAsync(TableOwner.Contacts);
+            List<YulsnDynamicField> response = await _yulsnClient.GetDynamicFieldsAsync(TableOwner.Contacts);
 
             Assert.NotNull(response);
             Assert.True(response.Count > 0);

@@ -10,7 +10,7 @@ namespace YulsnApiClient.Test.Tests
 {
     public class BulkExportTests(Setup setup) : IClassFixture<Setup>
     {
-        private readonly YulsnClient yulsnClient = setup.ServiceProvider.GetService<YulsnClient>();
+        private readonly YulsnClient _yulsnClient = setup.ServiceProvider.GetService<YulsnClient>();
 
         [Fact]
         public async Task CreateBulkExport()
@@ -27,19 +27,19 @@ namespace YulsnApiClient.Test.Tests
                 SuffixFileName = "Api Test"
             };
 
-            await yulsnClient.CreateBulkExportAsync(model);
+            await _yulsnClient.CreateBulkExportAsync(model);
         }
 
         [Fact]
         public async Task GetBulkExports()
         {
-            var exports = await yulsnClient.GetBulkExportsAsync();
+            var exports = await _yulsnClient.GetBulkExportsAsync();
 
             Assert.NotNull(exports);
             Assert.True(exports.Count > 0);
 
             // NOTE: this can fail if there are no exports of this type yet. not sure how to handle that in a test.
-            exports = await yulsnClient.GetBulkExportsAsync(ExportType.Events);
+            exports = await _yulsnClient.GetBulkExportsAsync(ExportType.Events);
 
             Assert.NotNull(exports);
             Assert.True(exports.Count > 0);

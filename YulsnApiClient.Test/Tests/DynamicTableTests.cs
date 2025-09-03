@@ -10,12 +10,12 @@ namespace YulsnApiClient.Test.Tests
 {
     public class DynamicTableTests(Setup setup) : IClassFixture<Setup>
     {
-        private readonly YulsnClient yulsnClient = setup.ServiceProvider.GetService<YulsnClient>();
+        private readonly YulsnClient _yulsnClient = setup.ServiceProvider.GetService<YulsnClient>();
 
         [Fact]
         public async Task GetDynamicTables()
         {
-            List<YulsnDynamicTable> response = await yulsnClient.GetDynamicTablesAsync();
+            List<YulsnDynamicTable> response = await _yulsnClient.GetDynamicTablesAsync();
 
             Assert.NotNull(response);
             Assert.True(response.Count > 0);
