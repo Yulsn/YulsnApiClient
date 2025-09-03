@@ -65,6 +65,9 @@ namespace YulsnApiClient.Test.Abstractions
 
         /// <summary>For sending an email1 dispatch to the valid contact id</summary>
         public required int ValidEmailCampaignId { get; set; }
+
+        /// <summary>For sending an email2 dispatch to the valid contact id</summary>
+        public required string ValidEmail2MessageTriggerId { get; set; }
     }
 
     internal class TestRepository
@@ -120,6 +123,8 @@ namespace YulsnApiClient.Test.Abstractions
             ValidPointType = "testing",
 
             ValidEmailCampaignId = 262,
+
+            ValidEmail2MessageTriggerId = "liquid-test",
         };
 
         public static TestModel Qa1 => new()
@@ -161,6 +166,8 @@ namespace YulsnApiClient.Test.Abstractions
             ValidPointType = "test",
 
             ValidEmailCampaignId = 1,
+
+            ValidEmail2MessageTriggerId = ""
         };
     }
 }
