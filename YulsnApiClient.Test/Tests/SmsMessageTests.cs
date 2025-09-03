@@ -7,7 +7,7 @@ using YulsnApiClient.Test.Abstractions;
 
 namespace YulsnApiClient.Test.Tests
 {
-    public class PushMessageTests(Setup setup) : IClassFixture<Setup>
+    public class SmsMessageTests(Setup setup) : IClassFixture<Setup>
     {
         private readonly YulsnClient _yulsnClient = setup.ServiceProvider.GetService<YulsnClient>();
         private readonly TestModel _model = setup.Repository.Model;
@@ -18,10 +18,10 @@ namespace YulsnApiClient.Test.Tests
             YulsnSendMessageToContactRequest request = new()
             {
                 ContactId = _model.ValidContactId,
-                TriggerId = _model.ValidPushMessageTriggerId,
+                TriggerId = _model.ValidSmsMessageTriggerId,
             };
 
-            YulsnSendMessageResponse response = await _yulsnClient.SendSinglePushMessageAsync(request);
+            YulsnSendMessageResponse response = await _yulsnClient.SendSingleSmsMessageAsync(request);
 
             Assert.NotNull(response);
             Assert.NotEqual(default, response.DispatchId);
