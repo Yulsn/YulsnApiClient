@@ -7,6 +7,6 @@ namespace YulsnApiClient.Client
     partial class YulsnClient
     {
         public Task<List<YulsnReadAction>> GetActionsAsync() =>
-            SendAsync<List<YulsnReadAction>>($"/api/v1/Actions");
+            SendAsync<List<YulsnReadAction>>($"api/v1/Actions");
     }
 }

@@ -9,7 +9,7 @@ namespace YulsnApiClient.Client
     partial class YulsnClient
     {
         public Task<T> GetContactByIdAsync<T>(int id) where T : YulsnContact =>
-            SendAsync<T>($"/api/v1/Contacts/{id}");
+            SendAsync<T>($"api/v1/Contacts/{id}");
 
         /// <summary>
         /// Get contact as Dictionary
@@ -18,16 +18,16 @@ namespace YulsnApiClient.Client
         /// <param name="id">Id of the contact</param>
         /// <returns></returns>
         public Task<Dictionary<string, T>> GetContactAsDictionaryByIdAsync<T>(int id) =>
-            SendAsync<Dictionary<string, T>>($"/api/v1/Contacts/{id}");
+            SendAsync<Dictionary<string, T>>($"api/v1/Contacts/{id}");
 
         public Task<Dictionary<string, T>> GetContactAsDictionaryBySecretAsync<T>(string secret, string ip = null) =>
-            SendAsync<Dictionary<string, T>>($"/api/v1/Contacts?secret={WebUtility.UrlEncode(secret) + (ip != null ? $"&ip={WebUtility.UrlEncode(ip)}" : "")}");
+            SendAsync<Dictionary<string, T>>($"api/v1/Contacts?secret={WebUtility.UrlEncode(secret) + (ip != null ? $"&ip={WebUtility.UrlEncode(ip)}" : "")}");
 
         public Task<Dictionary<string, T>> GetContactAsDictionaryByEmailAsync<T>(string email) =>
-            SendAsync<Dictionary<string, T>>($"/api/v1/Contacts?email={WebUtility.UrlEncode(email)}");
+            SendAsync<Dictionary<string, T>>($"api/v1/Contacts?email={WebUtility.UrlEncode(email)}");
 
         public Task<Dictionary<string, T>> GetContactAsDictionaryByPhoneAsync<T>(string phone) =>
-            SendAsync<Dictionary<string, T>>($"/api/v1/Contacts?phone={WebUtility.UrlEncode(phone)}");
+            SendAsync<Dictionary<string, T>>($"api/v1/Contacts?phone={WebUtility.UrlEncode(phone)}");
 
         /// <summary>
         /// Will return contact by its secret or null if the contact was not found.
@@ -36,13 +36,13 @@ namespace YulsnApiClient.Client
         /// <param name="ip">If provided - it will be used for brute force protection</param>
         /// <returns></returns>
         public Task<T> GetContactBySecretAsync<T>(string secret, string ip = null) where T : YulsnContact =>
-            SendAsync<T>($"/api/v1/Contacts?secret={WebUtility.UrlEncode(secret) + (ip != null ? $"&ip={WebUtility.UrlEncode(ip)}" : "")}");
+            SendAsync<T>($"api/v1/Contacts?secret={WebUtility.UrlEncode(secret) + (ip != null ? $"&ip={WebUtility.UrlEncode(ip)}" : "")}");
 
         public Task<T> GetContactByEmailAsync<T>(string email) where T : YulsnContact =>
-            SendAsync<T>($"/api/v1/Contacts?email={WebUtility.UrlEncode(email)}");
+            SendAsync<T>($"api/v1/Contacts?email={WebUtility.UrlEncode(email)}");
 
         public Task<T> GetContactByPhoneAsync<T>(string phone) where T : YulsnContact =>
-            SendAsync<T>($"/api/v1/Contacts?phone={WebUtility.UrlEncode(phone)}");
+            SendAsync<T>($"api/v1/Contacts?phone={WebUtility.UrlEncode(phone)}");
 
         /// <summary>Will return a contact by a field and value</summary>
         /// <param name="field">Name of the field</param>
@@ -58,15 +58,15 @@ namespace YulsnApiClient.Client
             SendAsync<YulsnUpdateContactsResult>(new HttpMethod("PATCH"), $"api/v1/Contacts", updateContacts);
 
         public Task DeleteContactAsync(int id) =>
-            SendAsync<object>(HttpMethod.Delete, $"/api/v1/Contacts/{id}");
+            SendAsync<object>(HttpMethod.Delete, $"api/v1/Contacts/{id}");
 
         public Task<R> CreateContactAsync<T, R>(T contact) where T : YulsnCreateContact where R : YulsnContact =>
-            SendAsync<R>(HttpMethod.Post, $"/api/v1/Contacts", contact);
+            SendAsync<R>(HttpMethod.Post, $"api/v1/Contacts", contact);
 
         public Task<T> LoginContactAsync<T>(int id, YulsnLoginContact loginContact) where T : YulsnContact =>
-            SendAsync<T>(HttpMethod.Post, $"/api/v1/Contacts/{id}/login", loginContact);
+            SendAsync<T>(HttpMethod.Post, $"api/v1/Contacts/{id}/login", loginContact);
 
         public Task SetContactPasswordAsync(int id, string newPassword) =>
-            SendAsync<object>(HttpMethod.Post, $"/api/v1/Contacts/{id}/SetPassword", new { NewPassword = newPassword });
+            SendAsync<object>(HttpMethod.Post, $"api/v1/Contacts/{id}/SetPassword", new { NewPassword = newPassword });
     }
 }
