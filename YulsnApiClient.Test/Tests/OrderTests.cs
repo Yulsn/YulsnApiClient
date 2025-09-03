@@ -218,7 +218,7 @@ namespace YulsnApiClient.Test.Tests
                         Assert.True(fields.TryGetValueAsLong(nameof(YulsnTestOrderLine.Id), out long? _id));
                         Assert.NotNull(_id);
 
-                        Assert.True(fields.TryGetValueAsString(nameof(YulsnTestOrderLine.ExtProductId), out string? _extProductId));
+                        Assert.True(fields.TryGetValueAsString(nameof(YulsnTestOrderLine.ExtProductId), out string _extProductId));
                         Assert.NotNull(_extProductId);
                         Assert.Equal(_extProductId, extProductId);
 
@@ -262,7 +262,7 @@ namespace YulsnApiClient.Test.Tests
 
                         Assert.NotNull(extProductId);
 
-                        Assert.True(fields.TryGetValueAsString(nameof(YulsnTestOrderLine.ExtProductId), out string? _extProductId));
+                        Assert.True(fields.TryGetValueAsString(nameof(YulsnTestOrderLine.ExtProductId), out string _extProductId));
                         Assert.NotNull(_extProductId);
                         Assert.Equal(_extProductId, extProductId);
 
@@ -315,7 +315,7 @@ namespace YulsnApiClient.Test.Tests
                         Assert.NotNull(_priceTotal);
                         Assert.Equal((decimal?)_priceTotal, newOrderLinePriceTotal);
 
-                        Assert.True(fields.TryGetValueAsString(nameof(YulsnTestOrderLine.Description), out string? _description));
+                        Assert.True(fields.TryGetValueAsString(nameof(YulsnTestOrderLine.Description), out string _description));
                         Assert.NotNull(_description);
                         Assert.Equal(_description, requestContent[nameof(YulsnTestOrderLine.Description)]);
 
