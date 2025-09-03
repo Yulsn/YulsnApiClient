@@ -27,6 +27,13 @@ Here is an example of what the `local.settings.json` file might look like:
 }
 ```
 
+## Yulsn Test Environments
+
+Each environment has its own set of values stored in the `TestRepository` class. 
+These values are used to create and retrieve test data. 
+
+Setting these values for each environment is essential for the tests to run successfully.
+
 ## Running the Tests
 - When the api is running, run the tests from the console
 - Navigate to the `YulsnApiClient.Test` directory and run the following command:
