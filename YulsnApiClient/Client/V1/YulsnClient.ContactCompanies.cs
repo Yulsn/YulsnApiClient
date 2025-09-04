@@ -28,6 +28,7 @@ namespace YulsnApiClient.Client
 
         public Task<List<T>> GetContactCompaniesAsync<T>(string primaryContactEmail) where T : YulsnReadContactCompany =>
             SendAsync<List<T>>($"api/v1/ContactCompanies?primaryContactEmail={Uri.EscapeDataString(primaryContactEmail)}");
+
         /// <summary>
         /// Associates a Contact with a ContactCompany
         /// </summary>

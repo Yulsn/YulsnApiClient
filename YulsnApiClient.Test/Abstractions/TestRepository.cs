@@ -57,8 +57,9 @@ namespace YulsnApiClient.Test.Abstractions
 
         /// <summary>Must have contacts</summary>
         public required int ValidContactCompanyId { get; set; }
+        /// summary>Must belong to a contact that is the primary contact on a company</summary>
         public required string ValidContactCompanyPrimaryContactEmail { get; set; }
-        /// <summary>A contact id that is not on linked to the valid contact company</summary>
+        /// <summary>A contact id that is not linked to the valid contact company</summary>
         public required int UnlinkedContactCompanyContactId { get; set; }
 
         public required string ValidPointType { get; set; }
@@ -172,23 +173,23 @@ namespace YulsnApiClient.Test.Abstractions
             ValidDynamicEntityDynamicStringFieldValue = "865kr8SShdMy8xSD",
 
             ValidStoreId = 1,
-            ValidStoreNumber = "001",
+            ValidStoreNumber = "BC001",
 
             ValidContactCompanyId = 1,
-            ValidContactCompanyPrimaryContactEmail = "",
-            UnlinkedContactCompanyContactId = 8,
+            ValidContactCompanyPrimaryContactEmail = "0000+503@test.com",
+            UnlinkedContactCompanyContactId = 47250,
 
             ValidPointType = "test",
 
-            ValidEmailCampaignId = 1,
+            ValidEmailCampaignId = 114,
 
-            ValidEmail2MessageTriggerId = "test-email2",
+            ValidEmail2MessageTriggerId = "xunit---yulsnclient",
 
-            ValidSegmentId = 0,
+            ValidSegmentId = 40,
 
-            ValidPushMessageTriggerId = "test-push",
+            ValidPushMessageTriggerId = "xunit---yulsnclient",
 
-            ValidSmsMessageTriggerId = "test-sms",
+            ValidSmsMessageTriggerId = "xunit---yulsnclient",
         };
     }
 }
