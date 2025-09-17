@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
-using System.Web;
 using YulsnApiClient.Models.V1;
 
 namespace YulsnApiClient.Client
@@ -10,7 +8,7 @@ namespace YulsnApiClient.Client
     partial class YulsnClient
     {
         public Task<YulsnReadPointDto> GetPointAsync(int pointId) =>
-            SendAsync<YulsnReadPointDto>($"/api/v1/Points/{pointId}");
+            SendAsync<YulsnReadPointDto>($"api/v1/Points/{pointId}");
 
         public Task<List<YulsnReadPointSumDto>> GetPointSumsAsync(int contactId, string type = null) =>
             SendAsync<List<YulsnReadPointSumDto>>($"api/v1/Points/Sums?contactId={contactId + (type != null ? $"&type={type}" : "")}");

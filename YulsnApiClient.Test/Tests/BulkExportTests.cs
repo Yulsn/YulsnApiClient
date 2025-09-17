@@ -1,26 +1,21 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xunit;
 using YulsnApiClient.Client;
 using YulsnApiClient.Models.V1;
+using YulsnApiClient.Test.Abstractions;
 
-namespace YulsnApiClient.Test
+namespace YulsnApiClient.Test.Tests
 {
-    public class BulkExportTest : IClassFixture<Setup>
+    public class BulkExportTests(Setup setup) : IClassFixture<Setup>
     {
-        private readonly YulsnClient yulsnClient;
-
-        public BulkExportTest(Setup setup)
-        {
-            yulsnClient = setup.ServiceProvider.GetService<YulsnClient>();
-        }
+        private readonly YulsnClient _yulsnClient = setup.ServiceProvider.GetService<YulsnClient>();
 
         [Fact]
         public async Task CreateBulkExport()
         {
-            YulsnExportSettings model = new YulsnExportSettings
+            YulsnExportSettings model = new()
             {
                 ColumnDelimiter = ",",
                 CreatedDateTimeFrom = DateTimeOffset.UtcNow.AddDays(-7),
@@ -28,22 +23,23 @@ namespace YulsnApiClient.Test
                 Type = ExportType.Events,
                 ItemType = "test",
                 RowDelimiter = Environment.NewLine,
-                Fields = new List<string> { "Id", "Type", "SubType" },
+                Fields = ["Id", "Type", "SubType"],
                 SuffixFileName = "Api Test"
             };
 
-            await yulsnClient.CreateBulkExportAsync(model);
+            await _yulsnClient.CreateBulkExportAsync(model);
         }
 
         [Fact]
         public async Task GetBulkExports()
         {
-            var exports = await yulsnClient.GetBulkExportsAsync();
+            var exports = await _yulsnClient.GetBulkExportsAsync();
 
             Assert.NotNull(exports);
             Assert.True(exports.Count > 0);
 
-            exports = await yulsnClient.GetBulkExportsAsync(ExportType.Events);
+            // NOTE: this can fail if there are no exports of this type yet. not sure how to handle that in a test.
+            exports = await _yulsnClient.GetBulkExportsAsync(ExportType.Events);
 
             Assert.NotNull(exports);
             Assert.True(exports.Count > 0);

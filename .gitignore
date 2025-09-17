@@ -330,3 +330,4 @@ ASALocalRun/
 .mfractor/
 
 local.settings.json
+/YulsnApiClient.Test/local.settings.json

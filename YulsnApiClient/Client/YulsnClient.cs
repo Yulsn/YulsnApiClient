@@ -1,13 +1,10 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using YulsnApiClient.Models;
 using YulsnApiClient.Models.V1;
 using YulsnApiClient.Models.V2;
 
@@ -17,8 +14,11 @@ namespace YulsnApiClient.Client
     {
         V1, V2
     }
+
     public partial class YulsnClient
     {
+        public const string HttpClientName = "YulsnHttpClient";
+
         public int AccountId { get; set; }
 
         private readonly IHttpClientFactory _httpClientFactory;
@@ -51,9 +51,9 @@ namespace YulsnApiClient.Client
             }
         }
 
-        HttpClient getClient(YulsnApiVersion apiVersion)
+        HttpClient GetClient(YulsnApiVersion apiVersion)
         {
-            var client = _httpClientFactory.CreateClient();
+            HttpClient client = _httpClientFactory.CreateClient(HttpClientName);
             client.DefaultRequestHeaders.Add("Accept", "application/json");
             client.DefaultRequestHeaders.Add("X-ApiKey", apiKey);
             client.BaseAddress = new Uri("https://" + apiHost, UriKind.Absolute);
@@ -74,19 +74,24 @@ namespace YulsnApiClient.Client
             return client;
         }
 
-        public void SetYulsnApiKey(string apiKey) => this.apiKey = apiKey;
+        public void SetYulsnApiKey(string apiKey) =>
+            this.apiKey = apiKey;
 
-        public void SetYulsnApiHost(string apiHost) => this.apiHost = apiHost;
+        public void SetYulsnApiHost(string apiHost) =>
+            this.apiHost = apiHost;
 
-        public Task<T> SendAsync<T>(string url, YulsnApiVersion apiVersion = YulsnApiVersion.V1) => SendAsync<T>(new HttpRequestMessage(HttpMethod.Get, url), apiVersion);
+        public Task<T> SendAsync<T>(string url, YulsnApiVersion apiVersion = YulsnApiVersion.V1) =>
+            SendAsync<T>(new HttpRequestMessage(HttpMethod.Get, url), apiVersion);
 
-        public Task<T> SendAsync<T>(HttpMethod method, string url, YulsnApiVersion apiVersion = YulsnApiVersion.V1) => SendAsync<T>(new HttpRequestMessage(method, url), apiVersion);
+        public Task<T> SendAsync<T>(HttpMethod method, string url, YulsnApiVersion apiVersion = YulsnApiVersion.V1) =>
+            SendAsync<T>(new HttpRequestMessage(method, url), apiVersion);
 
-        public Task<T> SendAsync<T>(HttpMethod method, string url, object body, YulsnApiVersion apiVersion = YulsnApiVersion.V1) => SendAsync<T>(new HttpRequestMessage(method, url) { Content = JsonContent(body) }, apiVersion);
+        public Task<T> SendAsync<T>(HttpMethod method, string url, object body, YulsnApiVersion apiVersion = YulsnApiVersion.V1) =>
+            SendAsync<T>(new HttpRequestMessage(method, url) { Content = JsonContent(body) }, apiVersion);
 
         public async Task<T> SendAsync<T>(HttpRequestMessage request, YulsnApiVersion apiVersion = YulsnApiVersion.V1)
         {
-            using (var response = await getClient(apiVersion).SendAsync(request).ConfigureAwait(false))
+            using (var response = await GetClient(apiVersion).SendAsync(request).ConfigureAwait(false))
             {
                 if (response.StatusCode == HttpStatusCode.NotFound)
                 {
@@ -121,10 +126,21 @@ namespace YulsnApiClient.Client
                 {
                     return (T)(object)content;
                 }
+
                 return JsonConvert.DeserializeObject<T>(content);
             }
         }
 
-        public HttpContent JsonContent<T>(T model) => new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json");
+        public HttpContent JsonContent<T>(T model) =>
+            new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json");
+
+        //public Task<HttpResponseMessage> SendAsync(string url, YulsnApiVersion apiVersion = YulsnApiVersion.V1) =>
+        //   SendAsync(new HttpRequestMessage(HttpMethod.Get, url), apiVersion);
+
+        //public async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, YulsnApiVersion apiVersion = YulsnApiVersion.V1)
+        //{
+        //    HttpClient client = GetClient(apiVersion);
+        //    return await client.SendAsync(request).ConfigureAwait(false);
+        //}
     }
 }

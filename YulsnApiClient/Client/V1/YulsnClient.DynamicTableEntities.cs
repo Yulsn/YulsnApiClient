@@ -99,9 +99,11 @@ namespace YulsnApiClient.Client
 
         public Task<List<T>> SearchDynamicTableEntitiesAsync<T>(string tableName, YulsnSearchDynamicTableEntitiesDto yulsnSearchDynamicTableEntitiesDto) where T : YulsnReadDynamicTableEntity =>
             SendAsync<List<T>>(new HttpMethod("SEARCH"), $"api/v1/table/{tableName}", yulsnSearchDynamicTableEntitiesDto);
+
         public Task<List<Dictionary<string, object>>> SearchDynamicTableEntitiesAsDictionaryAsync(string tableName, YulsnSearchDynamicTableEntitiesDto yulsnSearchDynamicTableEntitiesDto) =>
-             SendAsync<List<Dictionary<string, object>>>(new HttpMethod("SEARCH"), $"api/v1/table/{tableName}", yulsnSearchDynamicTableEntitiesDto);
-        public Task<int> CountDynamicTableEntitiesAsync<T>(string tableName, YulsnSearchDynamicTableEntitiesDto yulsnSearchDynamicTableEntitiesDto) where T : YulsnReadDynamicTableEntity =>
+            SendAsync<List<Dictionary<string, object>>>(new HttpMethod("SEARCH"), $"api/v1/table/{tableName}", yulsnSearchDynamicTableEntitiesDto);
+
+        public Task<int> CountDynamicTableEntitiesAsync(string tableName, YulsnSearchDynamicTableEntitiesDto yulsnSearchDynamicTableEntitiesDto) =>
             SendAsync<int>(new HttpMethod("SEARCH"), $"api/v1/table/{tableName}/Count", yulsnSearchDynamicTableEntitiesDto);
 
         /// <summary>
@@ -156,6 +158,9 @@ namespace YulsnApiClient.Client
         /// <param name="newEntities">Dynamic table entites to be inserted</param>
         /// <returns>The inserted entity added id, secret, created and last modified</returns>
         public Task CreateDynamicTableEntitiesAsync<T>(string tableName, List<T> newEntities) where T : YulsnCreateDynamicTableEntity =>
+            SendAsync<object>(HttpMethod.Post, $"api/v1/table/{tableName}/Bulk", newEntities);
+
+        public Task CreateDynamicTableEntitiesAsync(string tableName, List<Dictionary<string, object>> newEntities) =>
             SendAsync<object>(HttpMethod.Post, $"api/v1/table/{tableName}/Bulk", newEntities);
 
         /// <summary>
