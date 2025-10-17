@@ -43,6 +43,8 @@ namespace YulsnApiClient.Models.V2
         public int Id { get; set; }
         public string Value { get; set; }
         public bool IsBounced { get; set; }
+        public string DeviceId { get; set; }
+        public string Description { get; set; }
         public DateTimeOffset LastModified { get; set; }
     }
 
@@ -50,6 +52,8 @@ namespace YulsnApiClient.Models.V2
     {
         public int ContactId { get; set; }
         public string Value { get; set; }
+        public string DeviceId { get; set; }
+        public string Description { get; set; }
     }
 
     public class YulsnPushTokenPostResponse
