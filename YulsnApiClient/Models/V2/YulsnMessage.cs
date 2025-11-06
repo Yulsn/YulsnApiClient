@@ -38,6 +38,15 @@ namespace YulsnApiClient.Models.V2
         public bool? IsTest { get; set; }
     }
 
+    public class YulsnTriggerMessageResponse
+    {
+        public string Name { get; set; }
+        public string TriggerId { get; set; }
+        public Dictionary<string, object> DynamicDictionary { get; set; }
+        /// <summary>Only for Sms</summary>
+        public string Content { get; set; }
+    }
+
     public class YulsnPushToken
     {
         public int Id { get; set; }

@@ -17,10 +17,10 @@ namespace YulsnApiClient.Test.Tests
         {
             foreach (var form in Enum.GetValues<YulsnMessageForm>())
             {
-                var response = await _yulsnClient.GetActiveTriggerIdsAsync(form);
+                var response = await _yulsnClient.GetActiveTriggersAsync(form);
 
                 Assert.NotNull(response);
-                Assert.True(response.Length > 0);
+                Assert.True(response.Count > 0);
             }
         }
     }
