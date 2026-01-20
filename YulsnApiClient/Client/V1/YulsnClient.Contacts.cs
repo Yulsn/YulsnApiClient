@@ -68,5 +68,8 @@ namespace YulsnApiClient.Client
 
         public Task SetContactPasswordAsync(int id, string newPassword) =>
             SendAsync<object>(HttpMethod.Post, $"api/v1/Contacts/{id}/SetPassword", new { NewPassword = newPassword });
+
+        public Task UnblockEmailAsync(int id) =>
+            SendAsync<object>(HttpMethod.Post, $"api/v1/Contacts/{id}/UnblockEmail");
     }
 }
