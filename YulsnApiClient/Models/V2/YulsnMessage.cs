@@ -11,6 +11,7 @@ namespace YulsnApiClient.Models.V2
         public DateTimeOffset? Schedule { get; set; }
         public Dictionary<string, object> DynamicValues { get; set; }
         public bool? IsTest { get; set; }
+        public bool? TrackUrls { get; set; }
     }
 
     public class YulsnSendMessageToPhoneRequest
@@ -20,6 +21,7 @@ namespace YulsnApiClient.Models.V2
         public DateTimeOffset? Schedule { get; set; }
         public Dictionary<string, object> DynamicValues { get; set; }
         public bool? IsTest { get; set; }
+        public bool? TrackUrls { get; set; }
     }
 
     public class YulsnSendMessageResponse
@@ -36,6 +38,7 @@ namespace YulsnApiClient.Models.V2
         public YulsnDispatchBatchDelaySec? BatchDelay { get; set; }
         public DateTimeOffset? Schedule { get; set; }
         public bool? IsTest { get; set; }
+        public bool? TrackUrls { get; set; }
     }
 
     public class YulsnTriggerMessageResponse
