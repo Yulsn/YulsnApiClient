@@ -27,6 +27,52 @@ namespace YulsnApiClient.Models.V2
         public int UnassignedVoucherCodeCount { get; set; }
     }
 
+    public class YulsnVoucherDetail
+    {
+        public int Id { get; set; }
+        public bool IsActive { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public VoucherRedeemTime? RedeemTime { get; set; }
+        public int? RedeemHours { get; set; }
+        public DateTimeOffset? RedeemCustom { get; set; }
+        public string NotifyEmails { get; set; }
+        public int? NotifyMinCodeCount { get; set; }
+        public DateTimeOffset Created { get; set; }
+        public string CreatedBy { get; set; }
+        public DateTimeOffset? Modified { get; set; }
+        public string ModifiedBy { get; set; }
+    }
+
+    public class YulsnCreateVoucherRequest
+    {
+        public bool IsActive { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public VoucherRedeemTime? RedeemTime { get; set; }
+        public int? RedeemHours { get; set; }
+        public DateTimeOffset? RedeemCustom { get; set; }
+        public string NotifyEmails { get; set; }
+        public int? NotifyMinCodeCount { get; set; }
+    }
+
+    public class YulsnUpdateVoucherRequest
+    {
+        public bool IsActive { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public VoucherRedeemTime? RedeemTime { get; set; }
+        public int? RedeemHours { get; set; }
+        public DateTimeOffset? RedeemCustom { get; set; }
+        public string NotifyEmails { get; set; }
+        public int? NotifyMinCodeCount { get; set; }
+    }
+
+    public class YulsnCreateVoucherResponse
+    {
+        public int VoucherId { get; set; }
+    }
+
     public class YulsnVoucherCodeImportRequest
     {
         public string FileUrl { get; set; }

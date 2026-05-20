@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -107,9 +108,61 @@ namespace YulsnApiClient.Client
             SendAsync<int>(new HttpMethod("SEARCH"), $"api/v1/table/{tableName}/Count", yulsnSearchDynamicTableEntitiesDto);
 
         /// <summary>
+        /// Will return all {tableName} entities, paging through with lastId until exhausted
+        /// </summary>
+        /// <param name="tableName">Dynamic table name</param>
+        public async Task<List<T>> GetAllDynamicTableEntitiesAsync<T>(string tableName) where T : YulsnReadDynamicTableEntity
+        {
+            int lastId = 0;
+            int take = 1000;
+
+            List<T> retVal = new List<T>();
+            List<T> result;
+
+            do
+            {
+                result = await GetDynamicTableEntitiesByLastIdAsync<T>(tableName, lastId, take).ConfigureAwait(false);
+
+                retVal.AddRange(result);
+
+                if (result.Count > 0)
+                    lastId = result.Max(o => o.Id);
+
+            } while (result.Count == take);
+
+            return retVal;
+        }
+
+        /// <summary>
+        /// Will return all {tableName} entities as dictionaries, paging through with lastId until exhausted
+        /// </summary>
+        /// <param name="tableName">Dynamic table name</param>
+        public async Task<List<Dictionary<string, object>>> GetAllDynamicTableEntitiesAsDictionaryAsync(string tableName)
+        {
+            int lastId = 0;
+            int take = 1000;
+
+            List<Dictionary<string, object>> retVal = new List<Dictionary<string, object>>();
+            List<Dictionary<string, object>> result;
+
+            do
+            {
+                result = await GetDynamicTableEntitiesByLastIdAsDictionaryAsync(tableName, lastId, take).ConfigureAwait(false);
+
+                retVal.AddRange(result);
+
+                if (result.Count > 0)
+                    lastId = result.Max(o => Convert.ToInt32(o["Id"]));
+
+            } while (result.Count == take);
+
+            return retVal;
+        }
+
+        /// <summary>
         /// Will return all {tableName} entity externalIds
         /// </summary>
-        /// <param name="tableName">Dynamic table name</param>        
+        /// <param name="tableName">Dynamic table name</param>
         public async Task<List<string>> GetAllDynamicTableEntityExternalIdsAsync(string tableName)
         {
             int lastId = 0;

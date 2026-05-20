@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 using YulsnApiClient.Models.V2;
@@ -8,6 +9,28 @@ namespace YulsnApiClient.Client
     partial class YulsnClient
     {
         /// <summary>
+        /// Returns all vouchers (active and inactive)
+        /// </summary>
+        /// <returns></returns>
+        public Task<List<T>> GetVouchersAsync<T>() where T : YulsnVoucherDetail =>
+            SendAsync<List<T>>(HttpMethod.Get, $"api/v2/{AccountId}/Vouchers", YulsnApiVersion.V2);
+
+        /// <summary>
+        /// Creates a new voucher
+        /// </summary>
+        /// <returns></returns>
+        public Task<YulsnCreateVoucherResponse> CreateVoucherAsync(YulsnCreateVoucherRequest request) =>
+            SendAsync<YulsnCreateVoucherResponse>(HttpMethod.Post, $"api/v2/{AccountId}/Vouchers", request, YulsnApiVersion.V2);
+
+        /// <summary>
+        /// Updates an existing voucher
+        /// </summary>
+        /// <param name="voucherId">Id of Voucher</param>
+        /// <returns></returns>
+        public Task UpdateVoucherAsync(int voucherId, YulsnUpdateVoucherRequest request) =>
+            SendAsync<object>(HttpMethod.Put, $"api/v2/{AccountId}/Vouchers/{voucherId}", request, YulsnApiVersion.V2);
+
+        /// <summary>
         /// Returns a voucher group
         /// </summary>
         /// param name="voucherGroupId">Id of VoucherGroup</param>
@@ -16,11 +39,32 @@ namespace YulsnApiClient.Client
             SendAsync<T>(HttpMethod.Get, $"api/v2/{AccountId}/VoucherGroups/{voucherGroupId}", YulsnApiVersion.V2);
 
         /// <summary>
+        /// Returns all voucher groups (active and inactive)
+        /// </summary>
+        /// <returns></returns>
+        public Task<List<T>> GetAllVoucherGroupsAsync<T>() where T : YulsnVoucherGroup =>
+            SendAsync<List<T>>(HttpMethod.Get, $"api/v2/{AccountId}/VoucherGroups", YulsnApiVersion.V2);
+
+        /// <summary>
         /// Returns all active voucher groups
         /// </summary>
         /// <returns></returns>
         public Task<List<T>> GetActiveVoucherGroupsAsync<T>() where T : YulsnVoucherGroup =>
             SendAsync<List<T>>(HttpMethod.Get, $"api/v2/{AccountId}/VoucherGroups/Active", YulsnApiVersion.V2);
+
+        /// <summary>
+        /// Returns all vouchers (active and inactive) of a voucher group
+        /// </summary>
+        /// <param name="voucherGroupId">Id of VoucherGroup</param>
+        /// <param name="validTo">Optional validTo filter</param>
+        /// <returns></returns>
+        public Task<List<T>> GetAllVouchersFromVoucherGroupAsync<T>(int voucherGroupId, DateTime? validTo = null) where T : YulsnVoucher
+        {
+            string url = $"api/v2/{AccountId}/VoucherGroups/{voucherGroupId}/Vouchers";
+            if (validTo.HasValue)
+                url += $"?validTo={validTo.Value:yyyy-MM-dd}";
+            return SendAsync<List<T>>(HttpMethod.Get, url, YulsnApiVersion.V2);
+        }
 
         /// <summary>
         /// Returns all active vouchers of a voucher group
