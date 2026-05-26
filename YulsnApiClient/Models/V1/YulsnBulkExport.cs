@@ -82,8 +82,6 @@ namespace YulsnApiClient.Models.V1
         PushReceivers,
         PushTokens,
         ContactPermissionSources,
-        VoucherGroups,
-        Vouchers,
         VoucherAssignments
     }
 
