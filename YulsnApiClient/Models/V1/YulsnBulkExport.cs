@@ -38,7 +38,8 @@ namespace YulsnApiClient.Models.V1
         public bool UseCompression { get; set; }
 
         /// <summary>
-        /// Output format. Defaults to Csv. Parquet is not supported for ContactExport-scoped exports.
+        /// Output format. If omitted or <c>null</c>, the server defaults to Csv.
+        /// Parquet is not supported for ContactExport-scoped exports.
         /// </summary>
         public ExportFormat? Format { get; set; }
     }
