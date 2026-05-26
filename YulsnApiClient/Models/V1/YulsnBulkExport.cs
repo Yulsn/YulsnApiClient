@@ -25,7 +25,7 @@ namespace YulsnApiClient.Models.V1
 
         /// <summary>
         /// Optional integer-id watermark for insert-only exports. Exporters that honor it add
-        /// <c>AND Id &gt; @LastId</c>. Use this for tables like ContactEvents / Email2Interactions
+        /// <c>AND Id &gt; @LastId</c>. Use this for export types like Events / Email2Interactions
         /// where a strict per-row cursor is preferable to a date window.
         /// </summary>
         public int? LastId { get; set; }
