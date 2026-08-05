@@ -27,14 +27,15 @@ namespace YulsnApiClient.Models.V2
     public class YulsnContactPatchRequest
     {
         /// <summary>
-        /// Optional. The Version of the contact being patched, as returned by the last read of it.
+        /// Optional. The Version of the contact being patched, exactly as returned by the last read
+        /// of it - an opaque token, not something to parse or compare.
         /// When given it is checked as part of the update itself, so a patch built on an outdated
         /// version is rejected with 409 rather than silently overwriting the other change.
         /// When left out the patch is applied unconditionally and can never return 409 - send it if
         /// you read the contact first, or if the Actions triggered by a contact update assign points
         /// or vouchers, since without it two concurrent patches both apply and both trigger them.
         /// </summary>
-        public byte[] Version { get; set; }
+        public string Version { get; set; }
 
         /// <summary>
         /// Field name to new value. Both static contact fields and the account's dynamic fields
