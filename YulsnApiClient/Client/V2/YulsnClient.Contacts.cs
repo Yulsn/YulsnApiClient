@@ -74,7 +74,7 @@ namespace YulsnApiClient.Client
         /// request was rejected - an unknown field name, a field that cannot be cleared, or a store or
         /// company that does not exist.
         /// </exception>
-        public Task<bool> UpdateContactBySecretAsync(string secret, Dictionary<string, object> fields, string version) =>
+        public Task<bool> UpdateContactAsync(string secret, Dictionary<string, object> fields, string version) =>
             updateContactAsync($"api/v2/{AccountId}/Contacts/Secret/{Uri.EscapeDataString(secret ?? string.Empty)}", fields, version);
 
         /// <summary>
@@ -88,7 +88,7 @@ namespace YulsnApiClient.Client
         /// The new Email or Phone is already used by another contact, or the request was rejected - an
         /// unknown field name, a field that cannot be cleared, or a store or company that does not exist.
         /// </exception>
-        public Task<bool> UpdateContactBySecretAsync(string secret, Dictionary<string, object> fields) =>
+        public Task<bool> UpdateContactAsync(string secret, Dictionary<string, object> fields) =>
             updateContactAsync($"api/v2/{AccountId}/Contacts/Secret/{Uri.EscapeDataString(secret ?? string.Empty)}", fields, null);
 
         /// <summary>
