@@ -66,12 +66,12 @@ jobs:
           name: nupkg
           path: ./artifacts
 
-      # NUGET_USER is the nuget.org profile name that owns the Trusted Publishing policy.
+      # user: the nuget.org profile that owns the Trusted Publishing policy (not a secret).
       - name: NuGet login (OIDC to a temporary API key)
         id: nuget-login
         uses: NuGet/login@v1
         with:
-          user: ${{ secrets.NUGET_USER }}
+          user: michaelTBF
 
       - name: Push to nuget.org
         run: dotnet nuget push "./artifacts/*.nupkg" --api-key "${{ steps.nuget-login.outputs.NUGET_API_KEY }}" --source https://api.nuget.org/v3/index.json --skip-duplicate
