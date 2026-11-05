@@ -82,7 +82,8 @@ namespace YulsnApiClient.Models.V1
         PushReceivers,
         PushTokens,
         ContactPermissionSources,
-        VoucherAssignments
+        VoucherAssignments,
+        DeletedContacts
     }
 
     public enum ExportFormat
