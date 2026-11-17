@@ -9,6 +9,18 @@ namespace YulsnApiClient.Client
     partial class YulsnClient
     {
         /// <summary>
+        /// Returns the segments by name, with what says what they are and not how they are defined.
+        /// </summary>
+        /// <param name="messageForm">Only the segments offered on that kind of message, like
+        /// <see cref="YulsnMessageForm.Email"/> for the segments an email campaign can be scheduled to. All segments
+        /// when null.</param>
+        public Task<List<YulsnSegment>> GetSegmentsAsync(YulsnMessageForm? messageForm = null) =>
+            SendAsync<List<YulsnSegment>>(
+                HttpMethod.Get,
+                $"api/v2/{AccountId}/Segments{(messageForm != null ? $"?{nameof(messageForm)}={messageForm}" : null)}",
+                YulsnApiVersion.V2);
+
+        /// <summary>
         /// Will get contact status for each segment.
         /// </summary>
         /// <param name="contactId">Id of the contact</param>
