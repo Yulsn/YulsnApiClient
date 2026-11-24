@@ -16,19 +16,41 @@ namespace YulsnApiClient.Client
             SendAsync<List<T>>(HttpMethod.Get, $"api/v2/{AccountId}/Vouchers", YulsnApiVersion.V2);
 
         /// <summary>
-        /// Creates a new voucher
+        /// Creates a new voucher.
+        /// Dynamic fields (e.g. Image, Price) are set by passing a subclass of <see cref="YulsnCreateVoucherRequest"/> with
+        /// properties named like the fields, or by adding them to <see cref="YulsnCreateVoucherRequest.DynamicFields"/>.
         /// </summary>
         /// <returns></returns>
         public Task<YulsnCreateVoucherResponse> CreateVoucherAsync(YulsnCreateVoucherRequest request) =>
             SendAsync<YulsnCreateVoucherResponse>(HttpMethod.Post, $"api/v2/{AccountId}/Vouchers", request, YulsnApiVersion.V2);
 
         /// <summary>
-        /// Updates an existing voucher
+        /// Updates an existing voucher.
+        /// Dynamic fields are set the same way as in <see cref="CreateVoucherAsync"/>; dynamic fields left out are not changed.
         /// </summary>
         /// <param name="voucherId">Id of Voucher</param>
         /// <returns></returns>
         public Task UpdateVoucherAsync(int voucherId, YulsnUpdateVoucherRequest request) =>
             SendAsync<object>(HttpMethod.Put, $"api/v2/{AccountId}/Vouchers/{voucherId}", request, YulsnApiVersion.V2);
+
+        /// <summary>
+        /// Adds an existing voucher to a voucher group. IsActive (active in the group) defaults to false.
+        /// Returns the voucher as it is in the group, or null if the group or the voucher does not exist.
+        /// Throws a <see cref="ProblemDetails"/> with status 409 if the voucher is already in the group.
+        /// </summary>
+        /// <param name="voucherGroupId">Id of VoucherGroup</param>
+        public Task<T> AddVoucherToVoucherGroupAsync<T>(int voucherGroupId, YulsnAddVoucherGroupVoucherRequest request) where T : YulsnVoucher =>
+            SendAsync<T>(HttpMethod.Post, $"api/v2/{AccountId}/VoucherGroups/{voucherGroupId}/Vouchers", request, YulsnApiVersion.V2);
+
+        /// <summary>
+        /// Sets IsActive (active in the group), AssignWeight and AssignLimit of a voucher in a voucher group. All three are
+        /// replaced; null clears AssignWeight/AssignLimit.
+        /// Returns the voucher as it is in the group, or null if the voucher is not in the group.
+        /// </summary>
+        /// <param name="voucherGroupId">Id of VoucherGroup</param>
+        /// <param name="voucherId">Id of Voucher</param>
+        public Task<T> UpdateVoucherInVoucherGroupAsync<T>(int voucherGroupId, int voucherId, YulsnUpdateVoucherGroupVoucherRequest request) where T : YulsnVoucher =>
+            SendAsync<T>(HttpMethod.Put, $"api/v2/{AccountId}/VoucherGroups/{voucherGroupId}/Vouchers/{voucherId}", request, YulsnApiVersion.V2);
 
         /// <summary>
         /// Returns a voucher group

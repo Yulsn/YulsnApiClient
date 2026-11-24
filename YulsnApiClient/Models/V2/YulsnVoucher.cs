@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 
 namespace YulsnApiClient.Models.V2
@@ -54,6 +55,10 @@ namespace YulsnApiClient.Models.V2
         public DateTimeOffset? RedeemCustom { get; set; }
         public string NotifyEmails { get; set; }
         public int? NotifyMinCodeCount { get; set; }
+
+        /// <summary>Dynamic fields of the voucher (e.g. Image, Price), sent as top-level properties next to the fields above.</summary>
+        [JsonExtensionData]
+        public IDictionary<string, object> DynamicFields { get; set; }
     }
 
     public class YulsnUpdateVoucherRequest
@@ -66,11 +71,33 @@ namespace YulsnApiClient.Models.V2
         public DateTimeOffset? RedeemCustom { get; set; }
         public string NotifyEmails { get; set; }
         public int? NotifyMinCodeCount { get; set; }
+
+        /// <summary>Dynamic fields of the voucher (e.g. Image, Price), sent as top-level properties next to the fields above.</summary>
+        [JsonExtensionData]
+        public IDictionary<string, object> DynamicFields { get; set; }
     }
 
     public class YulsnCreateVoucherResponse
     {
         public int VoucherId { get; set; }
+    }
+
+    /// <summary>Adds an existing voucher to a voucher group</summary>
+    public class YulsnAddVoucherGroupVoucherRequest
+    {
+        public int VoucherId { get; set; }
+        /// <summary>Active in the group. Defaults to false, so the voucher is not shown until it is activated</summary>
+        public bool IsActive { get; set; }
+        public int? AssignWeight { get; set; }
+        public int? AssignLimit { get; set; }
+    }
+
+    /// <summary>Sets the fields of a voucher in a voucher group. All three are replaced; null clears AssignWeight/AssignLimit</summary>
+    public class YulsnUpdateVoucherGroupVoucherRequest
+    {
+        public bool IsActive { get; set; }
+        public int? AssignWeight { get; set; }
+        public int? AssignLimit { get; set; }
     }
 
     public class YulsnVoucherCodeImportRequest
