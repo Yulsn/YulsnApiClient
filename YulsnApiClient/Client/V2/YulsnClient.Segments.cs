@@ -46,5 +46,54 @@ namespace YulsnApiClient.Client
             return (await GetSegmentContactStatusAsync(contactId, new int[] { segmentId }, timeoutSec).ConfigureAwait(false)).FirstOrDefault();
         }
 
+        /// <summary>
+        /// Creates an external segment: its members are pushed with <see cref="ReplaceExternalSegmentMembersAsync"/>
+        /// and <see cref="PatchExternalSegmentMembersAsync"/>, Yulsn never evaluates it. It starts empty.
+        /// Permission: WriteSegments.
+        /// </summary>
+        public Task<YulsnSegment> CreateExternalSegmentAsync(YulsnExternalSegmentCreate model) =>
+            SendAsync<YulsnSegment>(
+                HttpMethod.Post,
+                $"api/v2/{AccountId}/Segments/External",
+                model,
+                YulsnApiVersion.V2);
+
+        /// <summary>
+        /// Replaces every member of an external segment. Accepted at once and loaded in the background: the members
+        /// change when the returned refresh is Completed, see <see cref="GetExternalSegmentRefreshAsync"/>. One replace
+        /// runs per segment at a time, and patches are rejected while it runs (409). Max 100 MB.
+        /// Permission: WriteSegments.
+        /// </summary>
+        public Task<YulsnSegmentRefresh> ReplaceExternalSegmentMembersAsync(int segmentId, YulsnSegmentMembersReplace model) =>
+            SendAsync<YulsnSegmentRefresh>(
+                HttpMethod.Put,
+                $"api/v2/{AccountId}/Segments/External/{segmentId}/Members",
+                model,
+                YulsnApiVersion.V2);
+
+        /// <summary>
+        /// Adds and removes members of an external segment, applied together when the request returns. The returned
+        /// refresh is Failed when a replace completed in between; nothing is changed then. Rejected while a replace
+        /// runs (409). Max 100 MB.
+        /// Permission: WriteSegments.
+        /// </summary>
+        public Task<YulsnSegmentRefresh> PatchExternalSegmentMembersAsync(int segmentId, YulsnSegmentMembersPatch model) =>
+            SendAsync<YulsnSegmentRefresh>(
+                new HttpMethod("PATCH"), // HttpMethod.Patch is not in netstandard2.0
+                $"api/v2/{AccountId}/Segments/External/{segmentId}/Members",
+                model,
+                YulsnApiVersion.V2);
+
+        /// <summary>
+        /// Returns a replace or a patch of an external segment's members, with its status and row counts. Null when
+        /// the refresh is not in the account.
+        /// Permission: ReadSegments.
+        /// </summary>
+        public Task<YulsnSegmentRefresh> GetExternalSegmentRefreshAsync(int refreshId) =>
+            SendAsync<YulsnSegmentRefresh>(
+                HttpMethod.Get,
+                $"api/v2/{AccountId}/Segments/External/Refreshes/{refreshId}",
+                YulsnApiVersion.V2);
+
     }
 }
